@@ -20,5 +20,10 @@
     "@teqfw/core-app": "github:teqfw/core-app"
   },
   "devDependencies": {},
-  "teqfw": {}
+  "teqfw": {
+    "autoload": {
+      "ns": "Fl32_Teq_User",
+      "path": "./src"
+    }
+  }
 }
