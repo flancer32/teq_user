@@ -1,0 +1,24 @@
+{
+  "name": "@flancer32/teq_user",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Base module to add user registration and authentication into Tequila based projects.",
+  "homepage": "https://github.com/flancer32/teq_user/",
+  "bugs": {
+    "url": "https://github.com/flancer32/teq_user/issues",
+    "email": "alex@flancer32.com"
+  },
+  "license": "GPL-3.0",
+  "author": {
+    "name": "Alex Gusev",
+    "email": "alex@flancer64.com",
+    "url": "https://github.com/flancer64"
+  },
+  "repository": "github:flancer32/teq_user",
+  "scripts": {},
+  "dependencies": {
+    "@teqfw/core-app": "github:teqfw/core-app"
+  },
+  "devDependencies": {},
+  "teqfw": {}
+}
