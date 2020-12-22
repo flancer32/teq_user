@@ -1,0 +1,14 @@
+
+###
+POST https://{{host}}/api/user/register
+Accept: application/json
+Content-Type: application/json
+
+{
+  "data": {
+    "email": "alex@flancer64.com", "login": "alex", "name": "Alex Gusev",
+    "password": "LetMeIn", "phone": "29181801"
+  }
+}
+
+###

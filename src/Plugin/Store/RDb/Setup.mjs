@@ -75,6 +75,7 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                     table.integer(eAuthPassword.A_USER_REF).unsigned().notNullable();
                     table.string(eAuthPassword.A_PASSWORD).notNullable()
                         .comment('Password to authenticate user.');
+                    table.unique(eAuthPassword.A_USER_REF, utilUKName(eAuthPassword.ENTITY, eAuthPassword.A_USER_REF));
                     table.foreign(eAuthPassword.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
                         .withKeyName(utilFKName(eAuthPassword.ENTITY, eAuthPassword.A_USER_REF, eUser.ENTITY, eUser.A_ID));
