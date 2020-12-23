@@ -131,31 +131,77 @@ export default class Fl32_Teq_User_Back_Service_Register {
                  * @return {Promise<Fl32_Teq_User_Shared_Service_Data_User>}
                  */
                 async function selectUser(trx, userId) {
-                    const query = trx.from({u: eUser.ENTITY});
-                    query.select([{[User.A_ID]: `u.${eUser.A_ID}`}]);
-                    query.leftOuterJoin(
-                        {p: eProfile.ENTITY},
-                        `p.${eProfile.A_USER_REF}`,
-                        `u.${eUser.A_ID}`);
-                    query.select([{[User.A_NAME]: `p.${eProfile.A_NAME}`}]);
-                    query.leftOuterJoin(
-                        {a: eAuthPass.ENTITY},
-                        `a.${eAuthPass.A_USER_REF}`,
-                        `u.${eUser.A_ID}`);
-                    query.select([{[User.A_LOGIN]: `a.${eAuthPass.A_LOGIN}`}]);
-                    query.leftOuterJoin(
-                        {t: eRefTree.ENTITY},
-                        `t.${eRefTree.A_USER_REF}`,
-                        `u.${eUser.A_ID}`);
-                    query.select([{[User.A_PARENT_ID]: `t.${eRefTree.A_PARENT_REF}`}]);
-                    query.leftOuterJoin(
-                        {l: eRefLink.ENTITY},
-                        `l.${eRefLink.A_USER_REF}`,
-                        `u.${eUser.A_ID}`);
-                    query.select([{[User.A_REF_CODE]: `l.${eRefLink.A_CODE}`}]);
-                    query.where(`u.${eUser.A_ID}`, userId);
-                    const rows = await query;
-                    return Object.assign(new User(), rows[0]);
+
+                    // DEFINE INNER FUNCTIONS
+
+                    async function getEmails(trx, userId) {
+                        let result = null;
+                        const query = trx.from(eIdEmail.ENTITY);
+                        query.select([eIdEmail.A_EMAIL]);
+                        query.where(eIdEmail.A_USER_REF, userId);
+                        const rs = await query;
+                        if (rs.length > 0) {
+                            result = [];
+                            for (const one of rs) result.push(one[eIdEmail.A_EMAIL]);
+                        }
+                        return result;
+                    }
+
+                    async function getPhones(trx, userId) {
+                        let result = null;
+                        const query = trx.from(eIdPhone.ENTITY);
+                        query.select([eIdPhone.A_PHONE]);
+                        query.where(eIdPhone.A_USER_REF, userId);
+                        const rs = await query;
+                        if (rs.length > 0) {
+                            result = [];
+                            for (const one of rs) result.push(one[eIdPhone.A_PHONE]);
+                        }
+                        return result;
+                    }
+
+                    /**
+                     * @param trx
+                     * @param {Number} userId
+                     * @return {Promise<Fl32_Teq_User_Shared_Service_Data_User>}
+                     */
+                    async function getUser(trx, userId) {
+                        const query = trx.from({u: eUser.ENTITY});
+                        query.select([
+                            {[User.A_ID]: `u.${eUser.A_ID}`},
+                            {[User.A_DATE_CREATED]: `u.${eUser.A_DATE_CREATED}`},
+                        ]);
+                        query.leftOuterJoin(
+                            {p: eProfile.ENTITY},
+                            `p.${eProfile.A_USER_REF}`,
+                            `u.${eUser.A_ID}`);
+                        query.select([{[User.A_NAME]: `p.${eProfile.A_NAME}`}]);
+                        query.leftOuterJoin(
+                            {a: eAuthPass.ENTITY},
+                            `a.${eAuthPass.A_USER_REF}`,
+                            `u.${eUser.A_ID}`);
+                        query.select([{[User.A_LOGIN]: `a.${eAuthPass.A_LOGIN}`}]);
+                        query.leftOuterJoin(
+                            {t: eRefTree.ENTITY},
+                            `t.${eRefTree.A_USER_REF}`,
+                            `u.${eUser.A_ID}`);
+                        query.select([{[User.A_PARENT_ID]: `t.${eRefTree.A_PARENT_REF}`}]);
+                        query.leftOuterJoin(
+                            {l: eRefLink.ENTITY},
+                            `l.${eRefLink.A_USER_REF}`,
+                            `u.${eUser.A_ID}`);
+                        query.select([{[User.A_REF_CODE]: `l.${eRefLink.A_CODE}`}]);
+                        query.where(`u.${eUser.A_ID}`, userId);
+                        const rows = await query;
+                        return Object.assign(new User(), rows[0]);
+                    }
+
+                    // MAIN FUNCTIONALITY
+                    const result = await getUser(trx, userId);
+                    // get single/multiple attributes (email(s) & phone(s))
+                    result.email = await getEmails(trx, userId);
+                    result.phone = await getPhones(trx, userId);
+                    return result;
                 }
 
                 // MAIN FUNCTIONALITY
