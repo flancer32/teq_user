@@ -28,7 +28,7 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
         const User = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
 
         this.getRoute = function () {
-            return '/register';
+            return '/signUp';
         };
 
         /**
@@ -43,7 +43,7 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
              */
             function Fl32_Teq_User_Back_Service_SignUp$parse(httpReq) {
                 const body = httpReq.body;
-                // clone HTTP body into API request obect
+                // clone HTTP body into API request object
                 return Object.assign(new Request(), body.data);
             }
 

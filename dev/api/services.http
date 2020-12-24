@@ -1,6 +1,13 @@
 
 ###
-POST https://{{host}}/api/user/register
+POST https://{{host}}/api/user/list
+Accept: application/json
+Content-Type: application/json
+
+{"data": {}}
+
+###
+POST https://{{host}}/api/user/signUp
 Accept: application/json
 Content-Type: application/json
 
