@@ -36,7 +36,7 @@ export default function (spec) {
                 /** @type {Fl32_Teq_User_Shared_Service_Route_List_Response} */
                 result = new Response();
                 result.items = {};
-                for (const one of json.data.items) {
+                for (const one of Object.values(json.data.items)) {
                     /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
                     const item = Object.assign(new User, one);
                     result.items[item.id] = item;
