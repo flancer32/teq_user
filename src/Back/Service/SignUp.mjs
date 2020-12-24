@@ -1,9 +1,9 @@
 import $crypto from 'crypto';
 
 /**
- * Service to register new user ("/api/${mod}/register").
+ * Service to register new user ("/api/${mod}/sign_up").
  */
-export default class Fl32_Teq_User_Back_Service_Register {
+export default class Fl32_Teq_User_Back_Service_SignUp {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */
@@ -22,14 +22,14 @@ export default class Fl32_Teq_User_Back_Service_Register {
         const eRefTree = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$;         // singleton object
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
         const eUser = spec.Fl32_Teq_User_Store_RDb_Schema_User$;                // singleton object
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_Register#Request'];   // class constructor
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_Register#Response'];   // class constructor
+        const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Request'];   // class constructor
+        const Response = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Response'];   // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
         const User = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
 
         this.getRoute = function () {
             return '/register';
-        }
+        };
 
         /**
          * Create function to validate and structure incoming data.
@@ -38,17 +38,17 @@ export default class Fl32_Teq_User_Back_Service_Register {
         this.getParser = function () {
             /**
              * @param {IncomingMessage} httpReq
-             * @return {Fl32_Teq_User_Shared_Service_Route_Register_Request}
-             * @exports Fl32_Teq_User_Back_Service_Register$parse
+             * @return {Fl32_Teq_User_Shared_Service_Route_SignUp_Request}
+             * @exports Fl32_Teq_User_Back_Service_SignUp$parse
              */
-            function Fl32_Teq_User_Back_Service_Register$parse(httpReq) {
+            function Fl32_Teq_User_Back_Service_SignUp$parse(httpReq) {
                 const body = httpReq.body;
                 // clone HTTP body into API request obect
                 return Object.assign(new Request(), body.data);
             }
 
-            return Fl32_Teq_User_Back_Service_Register$parse;
-        }
+            return Fl32_Teq_User_Back_Service_SignUp$parse;
+        };
 
         /**
          * Create function to perform requested operation.
@@ -56,16 +56,16 @@ export default class Fl32_Teq_User_Back_Service_Register {
          */
         this.getProcessor = function () {
             /**
-             * @param {Fl32_Teq_User_Shared_Service_Route_Register_Request} apiReq
-             * @return {Promise<Fl32_Teq_User_Shared_Service_Route_Register_Response>}
-             * @exports Fl32_Teq_User_Back_Service_Register$process
+             * @param {Fl32_Teq_User_Shared_Service_Route_SignUp_Request} apiReq
+             * @return {Promise<Fl32_Teq_User_Shared_Service_Route_SignUp_Response>}
+             * @exports Fl32_Teq_User_Back_Service_SignUp$process
              */
-            async function Fl32_Teq_User_Back_Service_Register$process(apiReq) {
+            async function Fl32_Teq_User_Back_Service_SignUp$process(apiReq) {
                 // DEFINE INNER FUNCTIONS
                 /**
                  * Register new user and return ID.
                  * @param trx
-                 * @param {Fl32_Teq_User_Shared_Service_Route_Register_Request} req
+                 * @param {Fl32_Teq_User_Shared_Service_Route_SignUp_Request} req
                  * @return {Promise<Number>}
                  */
                 async function addUser(trx, req) {
@@ -205,10 +205,8 @@ export default class Fl32_Teq_User_Back_Service_Register {
                 }
 
                 // MAIN FUNCTIONALITY
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Register_Response} */
+                /** @type {Fl32_Teq_User_Shared_Service_Route_SignUp_Response} */
                 const result = new Response();
-                /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
-                const user = new User();
                 const trx = await rdb.startTransaction();
 
                 try {
@@ -224,8 +222,8 @@ export default class Fl32_Teq_User_Back_Service_Register {
                 return result;
             }
 
-            return Fl32_Teq_User_Back_Service_Register$process;
-        }
+            return Fl32_Teq_User_Back_Service_SignUp$process;
+        };
     }
 
 }

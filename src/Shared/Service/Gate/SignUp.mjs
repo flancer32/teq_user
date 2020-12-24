@@ -5,8 +5,8 @@ export default function (spec) {
     const config = spec.config;
     /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
     const User = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Register_Response} */
-    const Response = spec['Fl32_Teq_User_Shared_Service_Route_Register#Response']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignUp_Response} */
+    const Response = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Response']; // class constructor
     /** @type {typeof TeqFw_Core_Front_Gate_Response_Error} */
     const GateError = spec['TeqFw_Core_Front_Gate_Response_Error#'];    // class constructor
 
@@ -16,11 +16,11 @@ export default function (spec) {
     /**
      * We should place function separately to allow JSDoc & IDEA hints & navigation.
      *
-     * @param {Fl32_Teq_User_Shared_Service_Route_Register_Request} data
-     * @return {Promise<Fl32_Teq_User_Shared_Service_Route_Register_Response|TeqFw_Core_Front_Gate_Response_Error>}
-     * @exports Fl32_Teq_User_Shared_Service_Gate_Register
+     * @param {Fl32_Teq_User_Shared_Service_Route_SignUp_Request} data
+     * @return {Promise<Fl32_Teq_User_Shared_Service_Route_SignUp_Response|TeqFw_Core_Front_Gate_Response_Error>}
+     * @exports Fl32_Teq_User_Shared_Service_Gate_SignUp
      */
-    async function Fl32_Teq_User_Shared_Service_Gate_Register(data) {
+    async function Fl32_Teq_User_Shared_Service_Gate_SignUp(data) {
         try {
             const res = await fetch(URL, {
                 method: 'POST',
@@ -33,7 +33,7 @@ export default function (spec) {
             let result;
             if (json.data) {
                 // normal result
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Register_Response} */
+                /** @type {Fl32_Teq_User_Shared_Service_Route_SignUp_Response} */
                 result = new Response();
                 result.user = Object.assign(new User, json.data.user);
             } else {
@@ -56,5 +56,5 @@ export default function (spec) {
         }
     }
 
-    return Fl32_Teq_User_Shared_Service_Gate_Register;
+    return Fl32_Teq_User_Shared_Service_Gate_SignUp;
 }

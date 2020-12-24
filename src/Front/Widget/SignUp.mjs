@@ -56,10 +56,10 @@ export {
 };
 
 export default function Fl32_Teq_User_Front_Widget_SignUp(spec) {
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Register_Request} */
-    const Request = spec['Fl32_Teq_User_Shared_Service_Route_Register#Request'];
-    /** @type {Fl32_Teq_User_Shared_Service_Gate_Register} */
-    const gate = spec.Fl32_Teq_User_Shared_Service_Gate_Register$; // singleton, function
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignUp_Request} */
+    const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Request'];
+    /** @type {Fl32_Teq_User_Shared_Service_Gate_SignUp} */
+    const gate = spec.Fl32_Teq_User_Shared_Service_Gate_SignUp$; // singleton, function
     return {
         name: 'UserSignUp',
         template,

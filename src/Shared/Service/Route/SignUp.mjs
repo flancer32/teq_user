@@ -7,7 +7,7 @@
  *  - name
  *
  */
-class Fl32_Teq_User_Shared_Service_Route_Register_Request {
+class Fl32_Teq_User_Shared_Service_Route_SignUp_Request {
     /** @type {String} */
     email
     /** @type {String} */
@@ -20,12 +20,12 @@ class Fl32_Teq_User_Shared_Service_Route_Register_Request {
     phone
 }
 
-class Fl32_Teq_User_Shared_Service_Route_Register_Response {
+class Fl32_Teq_User_Shared_Service_Route_SignUp_Response {
     /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
     user
 }
 
 export {
-    Fl32_Teq_User_Shared_Service_Route_Register_Request as Request,
-    Fl32_Teq_User_Shared_Service_Route_Register_Response as Response,
+    Fl32_Teq_User_Shared_Service_Route_SignUp_Request as Request,
+    Fl32_Teq_User_Shared_Service_Route_SignUp_Response as Response,
 };
