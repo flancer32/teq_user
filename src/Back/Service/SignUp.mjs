@@ -1,13 +1,16 @@
+import $bcrypt from 'bcrypt';
 import $crypto from 'crypto';
 
 /**
- * Service to register new user ("/api/${mod}/sign_up").
+ * Service to register new user ("/api/${mod}/signUp").
  */
 export default class Fl32_Teq_User_Back_Service_SignUp {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec.TeqFw_Core_App_Db_Connector$;  // singleton object
+        /** @type {Fl32_Teq_User_Defaults} */
+        const DEF = spec.Fl32_Teq_User_Defaults$;
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const eAuthPass = spec.Fl32_Teq_User_Store_RDb_Schema_Auth_Password$;   // singleton object
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
@@ -86,10 +89,11 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
                     const rs = await trx(eUser.ENTITY).insert({});
                     const userId = rs[0];
                     // register login & password
+                    const hash = await $bcrypt.hash(req.password, DEF.BCRYPT_HASH_ROUNDS);
                     await trx(eAuthPass.ENTITY).insert({
                         [eAuthPass.A_USER_REF]: userId,
                         [eAuthPass.A_LOGIN]: req.login.trim().toLowerCase(),
-                        [eAuthPass.A_PASSWORD]: req.password,
+                        [eAuthPass.A_PASSWORD_HASH]: hash,
                     });
                     // register profile
                     await trx(eProfile.ENTITY).insert({

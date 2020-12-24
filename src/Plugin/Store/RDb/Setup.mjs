@@ -1,11 +1,13 @@
+import $bcrypt from 'bcrypt';
+
 export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
     constructor(spec) {
-        /** @type {TeqFw_Core_App_Util_Store_RDb_NameForForeignKey} */
+        /** @type {Fl32_Teq_User_Defaults} */
+        const DEF = spec.Fl32_Teq_User_Defaults$;
         const utilFKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForForeignKey'];
-        /** @type {TeqFw_Core_App_Util_Store_RDb_NameForUniqueKey} */
         const utilUKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForUniqueKey'];
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const eAuthPassword = spec.Fl32_Teq_User_Store_RDb_Schema_Auth_Password$;
+        const eAuthPassword = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
         const eAuthSession = spec.Fl32_Teq_User_Store_RDb_Schema_Auth_Session$;
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
@@ -30,10 +32,11 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                     [eProfile.A_USER_REF]: 1,
                     [eProfile.A_NAME]: 'User Test',
                 });
+                const hash = await $bcrypt.hash('test', DEF.BCRYPT_HASH_ROUNDS);
                 await trx(eAuthPassword.ENTITY).insert({
                     [eAuthPassword.A_USER_REF]: 1,
                     [eAuthPassword.A_LOGIN]: 'user',
-                    [eAuthPassword.A_PASSWORD]: 'test',
+                    [eAuthPassword.A_PASSWORD_HASH]: hash,
                 });
                 await trx(eIdEmail.ENTITY).insert({
                     [eIdEmail.A_EMAIL]: 'user@test.com',
@@ -56,7 +59,7 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
             // MAIN FUNCTIONALITY
             // compose queries to drop existing tables
             await insertTestUsers(trx);
-        }
+        };
 
         /**
          * Upgrade database structure (drop/create tables).
@@ -73,8 +76,8 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                     table.string(eAuthPassword.A_LOGIN).notNullable().primary()
                         .comment('Login name as user identity.');
                     table.integer(eAuthPassword.A_USER_REF).unsigned().notNullable();
-                    table.string(eAuthPassword.A_PASSWORD).notNullable()
-                        .comment('Password to authenticate user.');
+                    table.string(eAuthPassword.A_PASSWORD_HASH).notNullable()
+                        .comment('Password\'s hash to authenticate user.');
                     table.unique(eAuthPassword.A_USER_REF, utilUKName(eAuthPassword.ENTITY, eAuthPassword.A_USER_REF));
                     table.foreign(eAuthPassword.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
@@ -88,6 +91,8 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                     table.string(eAuthSession.A_SESSION_ID).notNullable().primary()
                         .comment('Unique ID for user session.');
                     table.integer(eAuthSession.A_USER_REF).unsigned().notNullable();
+                    table.dateTime(eAuthSession.A_DATE_CREATED).notNullable().defaultTo(knex.fn.now())
+                        .comment('Date-time for session registration.');
                     table.foreign(eAuthSession.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
                         .withKeyName(utilFKName(eAuthSession.ENTITY, eAuthSession.A_USER_REF, eUser.ENTITY, eUser.A_ID));
@@ -196,6 +201,6 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
             createTblProfile(schema, knex);
             createTblRefLink(schema, knex);
             createTblRefTree(schema, knex);
-        }
+        };
     }
 }

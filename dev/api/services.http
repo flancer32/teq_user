@@ -7,6 +7,14 @@ Content-Type: application/json
 {"data": {}}
 
 ###
+POST https://{{host}}/api/user/signIn
+Accept: application/json
+Content-Type: application/json
+
+{"data": {"user": "alex", "password": "LetMeIn"}}
+
+
+###
 POST https://{{host}}/api/user/signUp
 Accept: application/json
 Content-Type: application/json
