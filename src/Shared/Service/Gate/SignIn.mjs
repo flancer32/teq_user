@@ -32,7 +32,7 @@ export default function (spec) {
             if (json.data) {
                 // normal result
                 /** @type {Fl32_Teq_User_Shared_Service_Route_SignIn_Response} */
-                result = Object.assign(new Response(), json.data.user);
+                result = Object.assign(new Response(), json.data);
             } else {
                 // business error
                 result = new GateError();

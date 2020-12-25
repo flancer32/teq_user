@@ -38,7 +38,7 @@ const template = `
         <div><input name="passwordAgain" v-model="passwordAgain"></div>
     </div>
     <div>
-        <button v-on:click="actRegister()">{{$t('teqUser:submit')}}</button>
+        <button v-on:click="actSubmit()">{{$t('teqUser:submit')}}</button>
     </div>
 </div>
 `;
@@ -58,7 +58,6 @@ export {
 export default function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignUp_Request} */
     const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Request'];
-    /** @type {Fl32_Teq_User_Shared_Service_Gate_SignUp} */
     const gate = spec.Fl32_Teq_User_Shared_Service_Gate_SignUp$; // singleton, function
     return {
         name: 'UserSignUp',
@@ -74,7 +73,8 @@ export default function Fl32_Teq_User_Front_Widget_SignUp(spec) {
         },
         computed: {},
         methods: {
-            actRegister() {
+            actSubmit() {
+                /** @type {Fl32_Teq_User_Shared_Service_Route_SignUp_Request} */
                 const req = new Request();
                 req.email = this.data.email;
                 req.login = this.data.login;
