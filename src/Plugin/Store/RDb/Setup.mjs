@@ -1,9 +1,5 @@
-import $bcrypt from 'bcrypt';
-
 export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
     constructor(spec) {
-        /** @type {Fl32_Teq_User_Defaults} */
-        const DEF = spec.Fl32_Teq_User_Defaults$;
         const utilFKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForForeignKey'];
         const utilUKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForUniqueKey'];
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
@@ -45,53 +41,6 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
         };
 
         this.initData = async function (knex, trx) {
-            // DEFINE INNER FUNCTIONS
-            async function insertTestUsers(trx) {
-                await trx(eUser.ENTITY).insert([{[eUser.A_ID]: 1}, {[eUser.A_ID]: 2}, {[eUser.A_ID]: 3}]);
-                await trx(eProfile.ENTITY).insert([
-                    {[eProfile.A_USER_REF]: 1, [eProfile.A_NAME]: 'Customer'},
-                    {[eProfile.A_USER_REF]: 2, [eProfile.A_NAME]: 'Manager'},
-                    {[eProfile.A_USER_REF]: 3, [eProfile.A_NAME]: 'Developer'},
-                ]);
-                const hash1 = await $bcrypt.hash('test', DEF.BCRYPT_HASH_ROUNDS);
-                const hash2 = await $bcrypt.hash('test', DEF.BCRYPT_HASH_ROUNDS);
-                const hash3 = await $bcrypt.hash('test', DEF.BCRYPT_HASH_ROUNDS);
-                await trx(eAuthPassword.ENTITY).insert([
-                    {
-                        [eAuthPassword.A_USER_REF]: 1,
-                        [eAuthPassword.A_LOGIN]: 'cust',
-                        [eAuthPassword.A_PASSWORD_HASH]: hash1,
-                    }, {
-                        [eAuthPassword.A_USER_REF]: 2,
-                        [eAuthPassword.A_LOGIN]: 'mgr',
-                        [eAuthPassword.A_PASSWORD_HASH]: hash2,
-                    }, {
-                        [eAuthPassword.A_USER_REF]: 3,
-                        [eAuthPassword.A_LOGIN]: 'dev',
-                        [eAuthPassword.A_PASSWORD_HASH]: hash3,
-                    }
-                ]);
-                await trx(eIdEmail.ENTITY).insert({
-                    [eIdEmail.A_EMAIL]: 'user@test.com',
-                    [eIdEmail.A_USER_REF]: 1,
-                });
-                await trx(eIdPhone.ENTITY).insert({
-                    [eIdPhone.A_PHONE]: '(371)29181801',
-                    [eIdPhone.A_USER_REF]: 1,
-                });
-                await trx(eRefLink.ENTITY).insert({
-                    [eRefLink.A_USER_REF]: 1,
-                    [eRefLink.A_CODE]: 'addMeHere',
-                });
-                await trx(eRefTree.ENTITY).insert({
-                    [eRefTree.A_USER_REF]: 1,
-                    [eRefTree.A_PARENT_REF]: 1,
-                });
-            }
-
-            // MAIN FUNCTIONALITY
-            // compose queries to drop existing tables
-            await insertTestUsers(trx);
         };
 
         /**
