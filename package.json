@@ -2,7 +2,7 @@
   "name": "@flancer32/teq_user",
   "version": "0.0.1",
   "private": true,
-  "description": "Base module to add user registration and authentication into Tequila based projects.",
+  "description": "User base plugin for Tequila based projects.",
   "homepage": "https://github.com/flancer32/teq_user/",
   "bugs": {
     "url": "https://github.com/flancer32/teq_user/issues",
