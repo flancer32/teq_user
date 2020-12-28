@@ -23,21 +23,54 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
         const eUser = spec.Fl32_Teq_User_Store_RDb_Schema_User$;
 
+        /**
+         * TODO: tables drop should be ordered according to relations between tables (DEM).
+         * For the moment I use levels for drop: N, ..., 2, 1, 0.
+         *
+         * @param schema
+         * @return {Promise<void>}
+         */
+        this.dropTables0 = async function (schema) {
+            schema.dropTableIfExists(eUser.ENTITY);
+        };
+        this.dropTables1 = async function (schema) {
+            /* drop related tables (foreign keys) */
+            schema.dropTableIfExists(eAuthPassword.ENTITY);
+            schema.dropTableIfExists(eAuthSession.ENTITY);
+            schema.dropTableIfExists(eIdEmail.ENTITY);
+            schema.dropTableIfExists(eIdPhone.ENTITY);
+            schema.dropTableIfExists(eRefLink.ENTITY);
+            schema.dropTableIfExists(eRefTree.ENTITY);
+            schema.dropTableIfExists(eProfile.ENTITY);
+        };
 
-        this.upgradeData = async function (knex, trx) {
+        this.initData = async function (knex, trx) {
             // DEFINE INNER FUNCTIONS
             async function insertTestUsers(trx) {
-                await trx(eUser.ENTITY).insert({[eUser.A_ID]: 1});
-                await trx(eProfile.ENTITY).insert({
-                    [eProfile.A_USER_REF]: 1,
-                    [eProfile.A_NAME]: 'User Test',
-                });
-                const hash = await $bcrypt.hash('test', DEF.BCRYPT_HASH_ROUNDS);
-                await trx(eAuthPassword.ENTITY).insert({
-                    [eAuthPassword.A_USER_REF]: 1,
-                    [eAuthPassword.A_LOGIN]: 'user',
-                    [eAuthPassword.A_PASSWORD_HASH]: hash,
-                });
+                await trx(eUser.ENTITY).insert([{[eUser.A_ID]: 1}, {[eUser.A_ID]: 2}, {[eUser.A_ID]: 3}]);
+                await trx(eProfile.ENTITY).insert([
+                    {[eProfile.A_USER_REF]: 1, [eProfile.A_NAME]: 'Customer'},
+                    {[eProfile.A_USER_REF]: 2, [eProfile.A_NAME]: 'Manager'},
+                    {[eProfile.A_USER_REF]: 3, [eProfile.A_NAME]: 'Developer'},
+                ]);
+                const hash1 = await $bcrypt.hash('test', DEF.BCRYPT_HASH_ROUNDS);
+                const hash2 = await $bcrypt.hash('test', DEF.BCRYPT_HASH_ROUNDS);
+                const hash3 = await $bcrypt.hash('test', DEF.BCRYPT_HASH_ROUNDS);
+                await trx(eAuthPassword.ENTITY).insert([
+                    {
+                        [eAuthPassword.A_USER_REF]: 1,
+                        [eAuthPassword.A_LOGIN]: 'cust',
+                        [eAuthPassword.A_PASSWORD_HASH]: hash1,
+                    }, {
+                        [eAuthPassword.A_USER_REF]: 2,
+                        [eAuthPassword.A_LOGIN]: 'mgr',
+                        [eAuthPassword.A_PASSWORD_HASH]: hash2,
+                    }, {
+                        [eAuthPassword.A_USER_REF]: 3,
+                        [eAuthPassword.A_LOGIN]: 'dev',
+                        [eAuthPassword.A_PASSWORD_HASH]: hash3,
+                    }
+                ]);
                 await trx(eIdEmail.ENTITY).insert({
                     [eIdEmail.A_EMAIL]: 'user@test.com',
                     [eIdEmail.A_USER_REF]: 1,
@@ -68,7 +101,7 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
          * @param {SchemaBuilder} schema
          * @return {Promise<void>}
          */
-        this.upgradeStructure = async function (knex, schema) {
+        this.createStructure = async function (knex, schema) {
 
             // DEFINE INNER FUNCTIONS
             function createTblAuthPassword(schema, knex) {
@@ -174,23 +207,8 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                 });
             }
 
-            function dropTables(schema) {
-                /* drop related tables (foreign keys) */
-                schema.dropTableIfExists(eAuthPassword.ENTITY);
-                schema.dropTableIfExists(eAuthSession.ENTITY);
-                schema.dropTableIfExists(eIdEmail.ENTITY);
-                schema.dropTableIfExists(eIdPhone.ENTITY);
-                schema.dropTableIfExists(eRefLink.ENTITY);
-                schema.dropTableIfExists(eRefTree.ENTITY);
-                schema.dropTableIfExists(eProfile.ENTITY);
-
-                /* drop registries */
-                schema.dropTableIfExists(eUser.ENTITY);
-            }
 
             // MAIN FUNCTIONALITY
-            // compose queries to drop existing tables
-            dropTables(schema);
             // compose queries to create main tables (registries)
             createTblUser(schema, knex);
             // compose queries to create additional tables (relations and details)

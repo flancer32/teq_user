@@ -21,4 +21,8 @@ export default class Fl32_Teq_User_Defaults {
      * @type {number}
      */
     SESSION_ID_BYTES = 20;
+
+    constructor() {
+        Object.freeze(this);
+    }
 }
