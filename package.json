@@ -17,7 +17,6 @@
   "repository": "github:flancer32/teq_user",
   "scripts": {},
   "dependencies": {
-    "@teqfw/core-app": "github:teqfw/core-app",
     "bcrypt": "*",
     "cookie-parser": "*"
   },
@@ -26,6 +25,9 @@
     "autoload": {
       "ns": "Fl32_Teq_User",
       "path": "./src"
+    },
+    "dependencies": {
+      "@teqfw/core-app": "github:teqfw/core-app"
     }
   }
 }
