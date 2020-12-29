@@ -15,7 +15,12 @@ function Fl32_Teq_User_Store_RDb_Query_GetUsers_Factory(spec) {
     /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
     const eUser = spec.Fl32_Teq_User_Store_RDb_Schema_User$;                // singleton object
 
-    return function Fl32_Teq_User_Store_RDb_Query_GetUsers(trx) {
+    /**
+     * @param trx
+     * @return {*}
+     * @exports Fl32_Teq_User_Store_RDb_Query_GetUsers
+     */
+    function Fl32_Teq_User_Store_RDb_Query_GetUsers(trx) {
         const query = trx.from({u: eUser.ENTITY});
         query.select([
             {[User.A_ID]: `u.${eUser.A_ID}`},
@@ -42,7 +47,9 @@ function Fl32_Teq_User_Store_RDb_Query_GetUsers_Factory(spec) {
             `u.${eUser.A_ID}`);
         query.select([{[User.A_REF_CODE]: `l.${eRefLink.A_CODE}`}]);
         return query;
-    };
+    }
+
+    return Fl32_Teq_User_Store_RDb_Query_GetUsers;
 }
 
 export default Fl32_Teq_User_Store_RDb_Query_GetUsers_Factory;

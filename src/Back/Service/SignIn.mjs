@@ -48,10 +48,12 @@ export default class Fl32_Teq_User_Back_Service_SignIn {
         this.getProcessor = function () {
             /**
              * @param {Fl32_Teq_User_Shared_Service_Route_SignIn_Request} apiReq
+             * @param {IncomingMessage} httpReq
+             * @param httpRes
              * @return {Promise<Fl32_Teq_User_Shared_Service_Route_SignIn_Response>}
              * @exports Fl32_Teq_User_Back_Service_SignIn$process
              */
-            async function Fl32_Teq_User_Back_Service_SignIn$process(apiReq, res) {
+            async function Fl32_Teq_User_Back_Service_SignIn$process(apiReq, httpReq, httpRes) {
                 // DEFINE INNER FUNCTIONS
                 /**
                  * Get user id & password hash by login name.
@@ -115,7 +117,7 @@ export default class Fl32_Teq_User_Back_Service_SignIn {
                             // generate user session
                             result.sessionId = await openSession(trx, userId);
                             // set session cookie
-                            res.cookie(DEF.SESSION_COOKIE_NAME, result.sessionId, {
+                            httpRes.cookie(DEF.SESSION_COOKIE_NAME, result.sessionId, {
                                 maxAge: DEF.SESSION_COOKIE_LIFETIME,
                                 httpOnly: true,
                                 secure: true,
