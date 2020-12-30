@@ -218,9 +218,9 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
                     const userId = await addUser(trx, apiReq);
                     // select user data to compose API response
                     result.user = await selectUser(trx, userId);
-                    trx.commit();
+                    await trx.commit();
                 } catch (error) {
-                    trx.rollback();
+                    await trx.rollback();
                     throw error;
                 }
                 return result;

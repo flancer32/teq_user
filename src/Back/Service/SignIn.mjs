@@ -125,9 +125,9 @@ export default class Fl32_Teq_User_Back_Service_SignIn {
                             });
                         }
                     }
-                    trx.commit();
+                    await trx.commit();
                 } catch (error) {
-                    trx.rollback();
+                    await trx.rollback();
                     throw error;
                 }
                 return result;
