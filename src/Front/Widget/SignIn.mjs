@@ -8,19 +8,19 @@ const I18N_BUNDLE = {
 i18next.addResourceBundle('en', 'teqUserSignIn', I18N_BUNDLE, true);
 
 const template = `
-<div class="teq-user-sign-up">
+<form class="teq-user-sign-up">
     <div>
         <div>{{$t('teqUserSignIn:user')}}:</div>
-        <div><input name="login" v-model="data.user"></div>
+        <div><input name="username" v-model="data.user" autocomplete="on"></div>
     </div>
     <div>
         <div>{{$t('teqUserSignIn:password')}}:</div>
-        <div><input name="password" v-model="data.password"></div>
+        <div><input name="password" v-model="data.password" type="password" autocomplete="current-password"></div>
     </div>
     <div>
         <button v-on:click="actSubmit()">{{$t('teqUserSignIn:submit')}}</button>
     </div>
-</div>
+</form>
 `;
 
 class Fl32_Teq_User_Front_Widget_SignIn_Props {

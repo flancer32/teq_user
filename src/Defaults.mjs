@@ -15,7 +15,7 @@ export default class Fl32_Teq_User_Defaults {
     /**
      * @type {number}
      */
-    SESSION_COOKIE_LIFETIME = 900000;
+    SESSION_COOKIE_LIFETIME = 31536000000;  // 3600 * 24 * 365 * 1000
     /**
      * Number of bytes for generated session ID.
      * @type {number}
