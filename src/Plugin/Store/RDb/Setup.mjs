@@ -24,12 +24,11 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
          * For the moment I use levels for drop: N, ..., 2, 1, 0.
          *
          * @param schema
-         * @return {Promise<void>}
          */
-        this.dropTables0 = async function (schema) {
+        this.dropTables0 = function (schema) {
             schema.dropTableIfExists(eUser.ENTITY);
         };
-        this.dropTables1 = async function (schema) {
+        this.dropTables1 = function (schema) {
             /* drop related tables (foreign keys) */
             schema.dropTableIfExists(eAuthPassword.ENTITY);
             schema.dropTableIfExists(eAuthSession.ENTITY);
@@ -48,9 +47,8 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
          *
          * @param knex
          * @param {SchemaBuilder} schema
-         * @return {Promise<void>}
          */
-        this.createStructure = async function (knex, schema) {
+        this.createStructure = function (knex, schema) {
 
             // DEFINE INNER FUNCTIONS
             function createTblAuthPassword(schema, knex) {
