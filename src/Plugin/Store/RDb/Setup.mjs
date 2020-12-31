@@ -39,9 +39,6 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
             schema.dropTableIfExists(eProfile.ENTITY);
         };
 
-        this.initData = async function (knex, trx) {
-        };
-
         /**
          * Upgrade database structure (drop/create tables).
          *
