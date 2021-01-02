@@ -9,6 +9,16 @@ export default class Fl32_Teq_User_Defaults {
      */
     BCRYPT_HASH_ROUNDS = 10;
     /**
+     * Attribute of the HTTP request to store session ID.
+     * @type {string}
+     */
+    HTTP_REQ_SESSION_ID = 'sessionId';
+    /**
+     * Attribute of the HTTP request to store authenticated user data.
+     * @type {string}
+     */
+    HTTP_REQ_USER = 'user';
+    /**
      * @type {string}
      */
     SESSION_COOKIE_NAME = 'TEQ_SESSION_ID';

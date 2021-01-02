@@ -1,3 +1,10 @@
+###
+POST https://{{host}}/api/user/current
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{sessionId}}
+
+{"data": {}}
 
 ###
 POST https://{{host}}/api/user/list
@@ -12,6 +19,14 @@ Accept: application/json
 Content-Type: application/json
 
 {"data": {"user": "mgr", "password": "test"}}
+
+###
+POST https://{{host}}/api/user/signOut
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{sessionId}}
+
+{"data": {}}
 
 
 ###

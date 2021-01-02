@@ -4,6 +4,7 @@
 export default class Fl32_Teq_User_Shared_Service_Data_User {
     // attributes names to use in queries to RDb
     static A_DATE_CREATED = 'dateCreated';
+    static A_DATE_LOGGED_IN = 'dateLoggedIn';
     static A_EMAIL = 'email';
     static A_ID = 'id';
     static A_LOGIN = 'login';
@@ -14,6 +15,8 @@ export default class Fl32_Teq_User_Shared_Service_Data_User {
 
     /** @type {Date} */
     dateCreated
+    /** @type {Date} */
+    dateLoggedIn
     /**
      * Identity email or emails.
      * @type {String|String[]}
