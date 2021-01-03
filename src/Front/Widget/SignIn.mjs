@@ -33,6 +33,10 @@ export {
 };
 
 export default function Fl32_Teq_User_Front_Widget_SignIn(spec) {
+    /** @type {Fl32_Teq_User_Defaults} */
+    const DEF = spec.Fl32_Teq_User_Defaults$;
+    /** @type {Fl32_Teq_User_Front_App_Session} */
+    const session = spec[DEF.DI_SESSION];
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignIn_Request} */
     const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignIn#Request'];
     const gate = spec.Fl32_Teq_User_Shared_Service_Gate_SignIn$; // singleton, function
@@ -50,22 +54,22 @@ export default function Fl32_Teq_User_Front_Widget_SignIn(spec) {
         },
         computed: {},
         methods: {
-            actSubmit() {
+            async actSubmit() {
                 /** @type {Fl32_Teq_User_Shared_Service_Route_SignIn_Request} */
                 const req = new Request();
                 req.user = this.data.user;
                 req.password = this.data.password;
-                gate(req).then((res) => {
-                    if (res.constructor.name === 'TeqFw_Core_Front_Gate_Response_Error') {
-                        // registration failed
-                        this.$emit('onFailure', res.message);
-                    } else {
-                        /** @type {Fl32_Teq_User_Shared_Service_Route_SignIn_Response} */
-                        const data = res; // use IDE type hints
-                        // registration succeed
-                        this.$emit('onSuccess', data.sessionId);
-                    }
-                });
+                const res = await gate(req);
+                if (res.constructor.name === 'TeqFw_Core_App_Front_Gate_Response_Error') {
+                    // registration failed
+                    this.$emit('onFailure', res.message);
+                } else {
+                    /** @type {Fl32_Teq_User_Shared_Service_Route_SignIn_Response} */
+                    const data = res; // use IDE type hints
+                    await session.init();
+                    // registration succeed
+                    this.$emit('onSuccess', data.sessionId);
+                }
             }
         }
     };

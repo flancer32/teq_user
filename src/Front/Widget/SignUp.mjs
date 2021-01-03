@@ -82,7 +82,7 @@ export default function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                 req.password = this.data.password;
                 req.phone = this.data.phone;
                 gate(req).then((res) => {
-                    if (res.constructor.name === 'TeqFw_Core_Front_Gate_Response_Error') {
+                    if (res.constructor.name === 'TeqFw_Core_App_Front_Gate_Response_Error') {
                         // registration failed
                         this.$emit('onFailure', res.message);
                     } else {

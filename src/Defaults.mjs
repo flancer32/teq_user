@@ -9,6 +9,10 @@ export default class Fl32_Teq_User_Defaults {
      */
     BCRYPT_HASH_ROUNDS = 10;
     /**
+     * ID of the session singleton in DI-container.
+     */
+    DI_SESSION = 'session';
+    /**
      * Attribute of the HTTP request to store session ID.
      * @type {string}
      */

@@ -7,8 +7,8 @@ export default function (spec) {
     const User = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Response} */
     const Response = spec['Fl32_Teq_User_Shared_Service_Route_List#Response']; // class constructor
-    /** @type {typeof TeqFw_Core_Front_Gate_Response_Error} */
-    const GateError = spec['TeqFw_Core_Front_Gate_Response_Error#'];    // class constructor
+    /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
+    const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
 
     // TODO: we need to map gate to APU URI
     const URL = `https://${config.web.urlBase}/api/user/list`;
@@ -17,7 +17,7 @@ export default function (spec) {
      * We should place function separately to allow JSDoc & IDEA hints & navigation.
      *
      * @param {Fl32_Teq_User_Shared_Service_Route_List_Request} data
-     * @return {Promise<Fl32_Teq_User_Shared_Service_Route_List_Response|TeqFw_Core_Front_Gate_Response_Error>}
+     * @return {Promise<Fl32_Teq_User_Shared_Service_Route_List_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
      * @exports Fl32_Teq_User_Shared_Service_Gate_List
      */
     async function Fl32_Teq_User_Shared_Service_Gate_List(data) {
