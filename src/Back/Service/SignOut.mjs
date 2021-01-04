@@ -5,11 +5,11 @@ export default class Fl32_Teq_User_Back_Service_SignOut {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec.TeqFw_Core_App_Db_Connector$;  // singleton object
+        const rdb = spec.TeqFw_Core_App_Db_Connector$;  // singleton instance
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF = spec.Fl32_Teq_User_Defaults$;
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const eAuthSess = spec.Fl32_Teq_User_Store_RDb_Schema_Auth_Session$;   // singleton object
+        const eAuthSess = spec.Fl32_Teq_User_Store_RDb_Schema_Auth_Session$;   // singleton instance
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignOut#Request'];   // class constructor
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_SignOut#Response'];   // class constructor
 
