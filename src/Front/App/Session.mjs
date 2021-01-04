@@ -3,8 +3,8 @@
  */
 export default class Fl32_Teq_User_Front_App_Session {
     constructor(spec) {
-        const gateCurrent = spec.Fl32_Teq_User_Shared_Service_Gate_Current$;
-        const gateSignOut = spec.Fl32_Teq_User_Shared_Service_Gate_SignOut$;
+        const gateCurrent = spec.Fl32_Teq_User_Front_Gate_Current$;
+        const gateSignOut = spec.Fl32_Teq_User_Front_Gate_SignOut$;
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Request} */
         const CurrentRequest = spec['Fl32_Teq_User_Shared_Service_Route_Current#Request'];
         const SignOutRequest = spec['Fl32_Teq_User_Shared_Service_Route_SignOut#Request'];

@@ -1,24 +1,24 @@
 /**
- * Frontend gate to 'current' service (get info about currently authenticated user).
+ * Frontend gate to 'signOut' service.
  */
 export default function (spec) {
     const config = spec.config;
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Response} */
-    const Response = spec['Fl32_Teq_User_Shared_Service_Route_Current#Response']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignOut_Response} */
+    const Response = spec['Fl32_Teq_User_Shared_Service_Route_SignOut#Response']; // class constructor
     /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
     const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
 
     // TODO: we need to map gate to API URI
-    const URL = `https://${config.web.urlBase}/api/user/current`;
+    const URL = `https://${config.web.urlBase}/api/user/signOut`;
 
     /**
      * We should place function separately to allow JSDoc & IDEA hints & navigation.
      *
-     * @param {Fl32_Teq_User_Shared_Service_Route_Current_Request} data
-     * @return {Promise<Fl32_Teq_User_Shared_Service_Route_Current_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
-     * @exports Fl32_Teq_User_Shared_Service_Gate_Current
+     * @param {Fl32_Teq_User_Shared_Service_Route_SignOut_Request} data
+     * @return {Promise<Fl32_Teq_User_Shared_Service_Route_SignOut_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
+     * @exports Fl32_Teq_User_Front_Gate_SignOut
      */
-    async function Fl32_Teq_User_Shared_Service_Gate_Current(data) {
+    async function Fl32_Teq_User_Front_Gate_SignOut(data) {
         try {
             const res = await fetch(URL, {
                 method: 'POST',
@@ -31,7 +31,7 @@ export default function (spec) {
             let result;
             if (json.data) {
                 // normal result
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Current_Response} */
+                /** @type {Fl32_Teq_User_Shared_Service_Route_SignOut_Response} */
                 result = Object.assign(new Response(), json.data);
             } else {
                 // business error
@@ -53,5 +53,5 @@ export default function (spec) {
         }
     }
 
-    return Fl32_Teq_User_Shared_Service_Gate_Current;
+    return Fl32_Teq_User_Front_Gate_SignOut;
 }

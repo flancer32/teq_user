@@ -18,9 +18,9 @@ export default function (spec) {
      *
      * @param {Fl32_Teq_User_Shared_Service_Route_SignUp_Request} data
      * @return {Promise<Fl32_Teq_User_Shared_Service_Route_SignUp_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
-     * @exports Fl32_Teq_User_Shared_Service_Gate_SignUp
+     * @exports Fl32_Teq_User_Front_Gate_SignUp
      */
-    async function Fl32_Teq_User_Shared_Service_Gate_SignUp(data) {
+    async function Fl32_Teq_User_Front_Gate_SignUp(data) {
         try {
             const res = await fetch(URL, {
                 method: 'POST',
@@ -56,5 +56,5 @@ export default function (spec) {
         }
     }
 
-    return Fl32_Teq_User_Shared_Service_Gate_SignUp;
+    return Fl32_Teq_User_Front_Gate_SignUp;
 }

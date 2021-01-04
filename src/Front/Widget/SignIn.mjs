@@ -39,7 +39,7 @@ export default function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     const session = spec[DEF.DI_SESSION];
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignIn_Request} */
     const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignIn#Request'];
-    const gate = spec.Fl32_Teq_User_Shared_Service_Gate_SignIn$; // singleton, function
+    const gate = spec.Fl32_Teq_User_Front_Gate_SignIn$; // singleton, function
     return {
         name: 'UserSignIn',
         template,
