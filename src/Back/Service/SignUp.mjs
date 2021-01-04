@@ -38,7 +38,7 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
          * Create function to validate and structure incoming data.
          * @return {Function}
          */
-        this.getParser = function () {
+        this.createParser = function () {
             /**
              * @param {IncomingMessage} httpReq
              * @return {Fl32_Teq_User_Shared_Service_Route_SignUp_Request}
@@ -57,7 +57,7 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
          * Create function to perform requested operation.
          * @return {Function}
          */
-        this.getProcessor = function () {
+        this.createProcessor = function () {
             /**
              * @param {Fl32_Teq_User_Shared_Service_Route_SignUp_Request} apiReq
              * @return {Promise<Fl32_Teq_User_Shared_Service_Route_SignUp_Response>}
