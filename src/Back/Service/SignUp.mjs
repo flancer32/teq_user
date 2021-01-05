@@ -8,23 +8,23 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec.TeqFw_Core_App_Db_Connector$;  // singleton instance
+        const rdb = spec.TeqFw_Core_App_Db_Connector$;  // singleton class instance
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF = spec.Fl32_Teq_User_Defaults$;
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const eAuthPass = spec.Fl32_Teq_User_Store_RDb_Schema_Auth_Password$;   // singleton instance
+        const eAuthPass = spec.Fl32_Teq_User_Store_RDb_Schema_Auth_Password$;   // singleton class instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const eIdEmail = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Email$;         // singleton instance
+        const eIdEmail = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Email$;         // singleton class instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const eIdPhone = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Phone$;         // singleton instance
+        const eIdPhone = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Phone$;         // singleton class instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const eProfile = spec.Fl32_Teq_User_Store_RDb_Schema_Profile$;          // singleton instance
+        const eProfile = spec.Fl32_Teq_User_Store_RDb_Schema_Profile$;          // singleton class instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const eRefLink = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Link$;         // singleton instance
+        const eRefLink = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Link$;         // singleton class instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-        const eRefTree = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$;         // singleton instance
+        const eRefTree = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$;         // singleton class instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
-        const eUser = spec.Fl32_Teq_User_Store_RDb_Schema_User$;                // singleton instance
+        const eUser = spec.Fl32_Teq_User_Store_RDb_Schema_User$;                // singleton class instance
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Request'];   // class constructor
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Response'];   // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */

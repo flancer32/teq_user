@@ -5,15 +5,15 @@ function Fl32_Teq_User_Store_RDb_Query_GetUsers_Factory(spec) {
     /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
     const User = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
     /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-    const eAuthPass = spec.Fl32_Teq_User_Store_RDb_Schema_Auth_Password$;   // singleton instance
+    const eAuthPass = spec.Fl32_Teq_User_Store_RDb_Schema_Auth_Password$;   // singleton class instance
     /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
-    const eProfile = spec.Fl32_Teq_User_Store_RDb_Schema_Profile$;          // singleton instance
+    const eProfile = spec.Fl32_Teq_User_Store_RDb_Schema_Profile$;          // singleton class instance
     /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-    const eRefLink = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Link$;         // singleton instance
+    const eRefLink = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Link$;         // singleton class instance
     /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-    const eRefTree = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$;         // singleton instance
+    const eRefTree = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$;         // singleton class instance
     /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
-    const eUser = spec.Fl32_Teq_User_Store_RDb_Schema_User$;                // singleton instance
+    const eUser = spec.Fl32_Teq_User_Store_RDb_Schema_User$;                // singleton class instance
 
     /**
      * @param trx

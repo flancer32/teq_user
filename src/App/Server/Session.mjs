@@ -5,17 +5,17 @@ export default class Fl32_Teq_User_App_Server_Session {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
-        const DEF = spec.Fl32_Teq_User_Defaults$;  // singleton instance
+        const DEF = spec.Fl32_Teq_User_Defaults$;  // singleton class instance
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec.TeqFw_Core_App_Db_Connector$;  // singleton instance
+        const rdb = spec.TeqFw_Core_App_Db_Connector$;  // singleton class instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const eAuthSess = spec.Fl32_Teq_User_Store_RDb_Schema_Auth_Session$;    // singleton instance
+        const eAuthSess = spec.Fl32_Teq_User_Store_RDb_Schema_Auth_Session$;    // singleton class instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
-        const eUser = spec.Fl32_Teq_User_Store_RDb_Schema_User$;                // singleton instance
+        const eUser = spec.Fl32_Teq_User_Store_RDb_Schema_User$;                // singleton class instance
         /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
         const User = spec['Fl32_Teq_User_Shared_Service_Data_User#'];       // class constructor
         /** @type {Fl32_Teq_User_Store_RDb_Query_GetUsers} */
-        const qGetUsers = spec.Fl32_Teq_User_Store_RDb_Query_GetUsers$; // singleton instance
+        const qGetUsers = spec.Fl32_Teq_User_Store_RDb_Query_GetUsers$; // singleton class instance
 
         /**
          * @param {IncomingMessage} req
