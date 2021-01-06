@@ -4,7 +4,7 @@
  * @return {Object}
  * @constructor
  */
-export default function Fl32_Teq_User_Front_State() {
+function Fl32_Teq_User_Front_State() {
 
     return {
         namespaced: true,
@@ -19,3 +19,5 @@ export default function Fl32_Teq_User_Front_State() {
         },
     };
 }
+
+export default Fl32_Teq_User_Front_State;

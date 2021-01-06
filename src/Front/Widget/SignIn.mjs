@@ -32,13 +32,13 @@ export {
     Fl32_Teq_User_Front_Widget_SignIn_Props as Props
 };
 
-export default function Fl32_Teq_User_Front_Widget_SignIn(spec) {
+function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
     const DEF = spec.Fl32_Teq_User_Defaults$;
     /** @type {Fl32_Teq_User_Front_App_Session} */
     const session = spec[DEF.DI_SESSION];
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignIn_Request} */
-    const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignIn#Request'];
+    const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignIn#Request'];  // class constructor
     const gate = spec.Fl32_Teq_User_Front_Gate_SignIn$; // singleton, function
     return {
         name: 'UserSignIn',
@@ -74,3 +74,5 @@ export default function Fl32_Teq_User_Front_Widget_SignIn(spec) {
         }
     };
 }
+
+export default Fl32_Teq_User_Front_Widget_SignIn;
