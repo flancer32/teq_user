@@ -44,16 +44,25 @@ export default class Fl32_Teq_User_Back_Service_SignOut {
             /**
              * @param {Fl32_Teq_User_Shared_Service_Route_SignOut_Request} apiReq
              * @param {IncomingMessage} httpReq
+             * @param httpRes
              * @return {Promise<Fl32_Teq_User_Shared_Service_Route_SignOut_Response>}
              * @exports Fl32_Teq_User_Back_Service_SignOut$process
              */
-            async function Fl32_Teq_User_Back_Service_SignOut$process(apiReq, httpReq) {
+            async function Fl32_Teq_User_Back_Service_SignOut$process(apiReq, httpReq, httpRes) {
                 // DEFINE INNER FUNCTIONS
 
-                async function deleteSessionById(trx, sessId) {
-                    const query = trx.from(eAuthSess.ENTITY);
-                    query.where(eAuthSess.A_SESSION_ID, sessId);
-                    return await query.del();
+                async function deleteAllSessions(trx, sessId) {
+                    // get user ID by session ID
+                    const qSelect = trx.from(eAuthSess.ENTITY)
+                        .select([eAuthSess.A_USER_REF])
+                        .where(eAuthSess.A_SESSION_ID, sessId);
+                    const rs = await qSelect;
+                    if (rs[0] && rs[0][eAuthSess.A_USER_REF]) {
+                        // remove all sessions for the user
+                        const qDelete = trx.from(eAuthSess.ENTITY)
+                            .where(eAuthSess.A_USER_REF, rs[0][eAuthSess.A_USER_REF]);
+                        await qDelete.del();
+                    }
                 }
 
 
@@ -64,9 +73,10 @@ export default class Fl32_Teq_User_Back_Service_SignOut {
                 try {
                     const sessId = httpReq[DEF.HTTP_REQ_SESSION_ID];
                     if (sessId) {
-                        await deleteSessionById(trx, sessId);
+                        await deleteAllSessions(trx, sessId);
                     }
                     await trx.commit();
+                    httpRes.clearCookie(DEF.SESSION_COOKIE_NAME);
                 } catch (error) {
                     await trx.rollback();
                     throw error;

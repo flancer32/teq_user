@@ -6,16 +6,22 @@ export default class Fl32_Teq_User_App_Server_Session {
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF = spec['Fl32_Teq_User_Defaults$'];  // singleton instance
+        /** @type {TeqFw_Core_App_Logger} */
+        const logger = spec['TeqFw_Core_App_Logger$'];  // singleton instance
         /** @type {Fl32_Teq_User_App_Cache_Session} */
         const cache = spec['Fl32_Teq_User_App_Cache_Session$']; // singleton instance
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
         const eAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session$'];    // singleton instance
+        /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
+        const eIdEmail = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Email$;         // singleton instance
+        /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
+        const eIdPhone = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Phone$;         // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
         const eUser = spec['Fl32_Teq_User_Store_RDb_Schema_User$'];                // singleton instance
         /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
-        const User = spec['Fl32_Teq_User_Shared_Service_Data_User#'];       // class constructor
+        const DUser = spec['Fl32_Teq_User_Shared_Service_Data_User#'];       // class constructor
         /** @type {Fl32_Teq_User_Store_RDb_Query_GetUsers} */
         const qGetUsers = spec['Fl32_Teq_User_Store_RDb_Query_GetUsers$']; // singleton instance
 
@@ -44,6 +50,30 @@ export default class Fl32_Teq_User_App_Server_Session {
                 return result;
             }
 
+            async function getEmails(trx, userId) {
+                const result = [];
+                const query = trx.from(eIdEmail.ENTITY);
+                query.select([eIdEmail.A_EMAIL]);
+                query.where(eIdEmail.A_USER_REF, userId);
+                const rs = await query;
+                if (rs.length > 0) {
+                    for (const one of rs) result.push(one[eIdEmail.A_EMAIL]);
+                }
+                return result;
+            }
+
+            async function getPhones(trx, userId) {
+                const result = [];
+                const query = trx.from(eIdPhone.ENTITY);
+                query.select([eIdPhone.A_PHONE]);
+                query.where(eIdPhone.A_USER_REF, userId);
+                const rs = await query;
+                if (rs.length > 0) {
+                    for (const one of rs) result.push(one[eIdPhone.A_PHONE]);
+                }
+                return result;
+            }
+
             /**
              * @param trx
              * @param {Number} userId
@@ -56,7 +86,8 @@ export default class Fl32_Teq_User_App_Server_Session {
                 const rows = await query;
                 if (rows[0]) {
                     /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
-                    result = Object.assign(new User(), rows[0]);
+                    const user = new DUser();
+                    result = Object.assign(user, rows[0]);
                 }
                 return result;
             }
@@ -67,7 +98,7 @@ export default class Fl32_Teq_User_App_Server_Session {
                 query.select([eAuthSess.A_DATE_CREATED, eAuthSess.A_SESSION_ID, eAuthSess.A_USER_REF]);
                 query.where(eAuthSess.A_SESSION_ID, sessId);
                 const rows = await query;
-                if (rows[0]) {
+                if (rows.length) {
                     result = rows[0];
                 }
                 return result;
@@ -87,25 +118,57 @@ export default class Fl32_Teq_User_App_Server_Session {
                         .then(async (trx) => {
                             try {
                                 const sess = await getSessionById(trx, sessId);
-                                const userId = sess[eAuthSess.A_USER_REF];
-                                const dateInit = sess[eAuthSess.A_DATE_CREATED];
-                                if (userId) {
-                                    const user = await getUserById(trx, userId);
-                                    user.dateLoggedIn = dateInit;
-                                    req[DEF.HTTP_REQ_USER] = user;
-                                    req[DEF.HTTP_REQ_SESSION_ID] = sessId;
-                                    cache.set(sessId, user);
+                                if (sess) {
+                                    const userId = sess[eAuthSess.A_USER_REF];
+                                    const dateInit = sess[eAuthSess.A_DATE_CREATED];
+                                    if (userId) {
+                                        /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
+                                        const user = await getUserById(trx, userId);
+                                        user.dateLoggedIn = dateInit;
+                                        // get parent data
+                                        if (user.parentId !== user.id) {
+                                            const parent = await getUserById(trx, user.parentId);
+                                            user.parentName = parent.name;
+                                        } else {
+                                            user.parentName = user.name;
+                                        }
+                                        // emails & phones
+                                        user.emails = await getEmails(trx, user.id);
+                                        user.phones = await getPhones(trx, user.id);
+                                        req[DEF.HTTP_REQ_USER] = user;
+                                        req[DEF.HTTP_REQ_SESSION_ID] = sessId;
+                                        cache.set(sessId, user);
+                                    }
+                                } else {
+                                    // clear session id from cookies
+                                    res.clearCookie(DEF.SESSION_COOKIE_NAME);
                                 }
                                 await trx.commit();
+                                next(); // continue asynchronously in normal mode
                             } catch (e) {
                                 await trx.rollback();
-                                console.error('ACL middleware RDB exception: ' + e.message);
+                                const stack = (e.stack) ?? '';
+                                const orig = e.message ?? 'Unknown error';
+                                const msg = `ACL middleware RDB exception: ${orig}`;
+                                const error = {msg, stack};
+                                const str = JSON.stringify({error});
+                                logger.error(str);
+                                res.setHeader('Content-Type', 'application/json');
+                                res.status(401);
+                                res.end(str);
                             }
-                            next(); // continue asynchronously in normal mode
+
                         })
                         .catch((e) => {
-                            console.error('ACL middleware exception: ' + e.message);
-                            next(); // continue asynchronously in error mode
+                            const stack = (e.stack) ?? '';
+                            const orig = e.message ?? 'Unknown error';
+                            const msg = `ACL middleware exception: ${orig}`;
+                            const error = {msg, stack};
+                            const str = JSON.stringify({error});
+                            logger.error(str);
+                            res.setHeader('Content-Type', 'application/json');
+                            res.status(401);
+                            res.end(str);
                         });
                 }
             } else {

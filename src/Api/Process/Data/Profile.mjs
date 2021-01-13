@@ -1,7 +1,8 @@
 /**
- * User data in services API.
+ * User profile data for backend processes.
+ * Some attributes are only to transfer data from back to front ('id', 'dateCreated', etc.).
  */
-export default class Fl32_Teq_User_Shared_Service_Data_User {
+export default class Fl32_Teq_User_Api_Process_Data_Profile {
     // attributes names to use in queries to RDb
     static A_DATE_CREATED = 'dateCreated';
     static A_DATE_LOGGED_IN = 'dateLoggedIn';
@@ -18,7 +19,7 @@ export default class Fl32_Teq_User_Shared_Service_Data_User {
     /** @type {Date} */
     dateLoggedIn
     /**
-     * Identity email or emails.
+     * Identity emails.
      * @type {String[]}
      */
     emails
@@ -41,12 +42,12 @@ export default class Fl32_Teq_User_Shared_Service_Data_User {
      */
     parentName;
     /**
-     * Identity phone number or numbers.
-     * @type {String|String[]}
+     * Identity phone numbers.
+     * @type {String[]}
      */
     phones
     /**
-     * Referral code or codes.
+     * Referral codes.
      * @type {String[]}
      */
     refCode

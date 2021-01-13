@@ -105,7 +105,7 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                 schema.createTable(eProfile.ENTITY, (table) => {
                     table.integer(eProfile.A_USER_REF).unsigned().notNullable().primary();
                     table.string(eProfile.A_NAME).notNullable()
-                        .comment('Phone number.');
+                        .comment('Name to display in profile.');
                     table.foreign(eProfile.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
                         .withKeyName(utilFKName(eProfile.ENTITY, eProfile.A_USER_REF, eUser.ENTITY, eUser.A_ID));

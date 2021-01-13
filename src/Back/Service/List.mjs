@@ -84,8 +84,8 @@ export default class Fl32_Teq_User_Back_Service_List {
                             for (const one of rs) {
                                 const id = one[eIdEmail.A_USER_REF];
                                 const email = one[eIdEmail.A_EMAIL];
-                                if (!Array.isArray(users[id][User.A_EMAIL])) users[id][User.A_EMAIL] = [];
-                                users[id][User.A_EMAIL].push(email);
+                                if (!Array.isArray(users[id][User.A_EMAILS])) users[id][User.A_EMAILS] = [];
+                                users[id][User.A_EMAILS].push(email);
                             }
                         }
                     }
@@ -105,8 +105,8 @@ export default class Fl32_Teq_User_Back_Service_List {
                             for (const one of rs) {
                                 const id = one[eIdPhone.A_USER_REF];
                                 const phone = one[eIdPhone.A_PHONE];
-                                if (!Array.isArray(users[id][User.A_PHONE])) users[id][User.A_PHONE] = [];
-                                users[id][User.A_PHONE].push(phone);
+                                if (!Array.isArray(users[id][User.A_PHONES])) users[id][User.A_PHONES] = [];
+                                users[id][User.A_PHONES].push(phone);
                             }
                         }
                     }

@@ -203,8 +203,8 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
                     // MAIN FUNCTIONALITY
                     const result = await getUser(trx, userId);
                     // get single/multiple attributes (email(s) & phone(s))
-                    result.email = await getEmails(trx, userId);
-                    result.phone = await getPhones(trx, userId);
+                    result.emails = await getEmails(trx, userId);
+                    result.phones = await getPhones(trx, userId);
                     return result;
                 }
 
