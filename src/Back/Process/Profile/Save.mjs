@@ -23,61 +23,79 @@ export default class Fl32_Teq_User_Back_Process_Profile_Save {
         this.exec = async function ({trx, input}) {
             // DEFINE INNER FUNCTIONS
 
-            async function updateEmails(trx, userId, emails) {
-                // select current entries (<=1)
-                const rs = await trx.from(eIdEmail.ENTITY)
-                    .select([eIdEmail.A_EMAIL])
-                    .where(eIdEmail.A_USER_REF, userId);
+            async function updateEmails(trx, userId, values) {
                 // we have one only entry for now
-                let [newValue] = emails;
+                let [newValue] = values;
                 newValue = newValue.toLowerCase().trim();
-                if (rs[0] && rs[0][eIdEmail.A_EMAIL] === newValue) {
-                    // current email is equal to new value; do nothing
-                } else if (rs[0] && rs[0][eIdEmail.A_EMAIL]) {
-                    // there is value an it is not equal to new value; update it
-                    const query = trx(eIdEmail.ENTITY)
-                        .update({
-                            [eIdEmail.A_EMAIL]: newValue,
-                        })
-                        .where({[eIdEmail.A_USER_REF]: userId});
-                    await query;
+                if (newValue.length === 0) {
+                    // remove values
+                    await trx.from(eIdEmail.ENTITY)
+                        .where(eIdEmail.A_USER_REF, userId)
+                        .del();
                 } else {
-                    // insert new value
-                    const query = trx(eIdEmail.ENTITY)
-                        .insert({
-                            [eIdEmail.A_USER_REF]: userId,
-                            [eIdEmail.A_EMAIL]: newValue,
-                        });
-                    await query;
+                    // select current entries (<=1)
+                    const rs = await trx.from(eIdEmail.ENTITY)
+                        .select([eIdEmail.A_EMAIL])
+                        .where(eIdEmail.A_USER_REF, userId);
+                    if (rs.length) {
+                        const [first] = rs;
+                        const curValue = first[eIdEmail.A_EMAIL];
+                        if (curValue !== newValue) {
+                            // there is value an it is not equal to new value; update it
+                            const query = trx(eIdEmail.ENTITY)
+                                .update({
+                                    [eIdEmail.A_EMAIL]: newValue,
+                                })
+                                .where({[eIdEmail.A_USER_REF]: userId});
+                            await query;
+                        }
+                    } else {
+                        // insert new value
+                        const query = trx(eIdEmail.ENTITY)
+                            .insert({
+                                [eIdEmail.A_USER_REF]: userId,
+                                [eIdEmail.A_EMAIL]: newValue,
+                            });
+                        await query;
+                    }
                 }
             }
 
-            async function updatePhones(trx, userId, phones) {
-                // select current entries (<=1)
-                const rs = await trx.from(eIdPhone.ENTITY)
-                    .select([eIdPhone.A_PHONE])
-                    .where(eIdPhone.A_USER_REF, userId);
+            async function updatePhones(trx, userId, values) {
                 // we have one only entry for now
-                let [newValue] = phones;
+                let [newValue] = values;
                 newValue = newValue.toLowerCase().trim();
-                if (rs[0] && rs[0][eIdPhone.A_PHONE] === newValue) {
-                    // current value is equal to the new value; do nothing
-                } else if (rs[0] && rs[0][eIdPhone.A_PHONE]) {
-                    // there is value an it is not equal to new value; update it
-                    const query = trx(eIdPhone.ENTITY)
-                        .update({
-                            [eIdPhone.A_PHONE]: newValue,
-                        })
-                        .where({[eIdPhone.A_USER_REF]: userId});
-                    await query;
+                if (newValue.length === 0) {
+                    // remove values
+                    await trx.from(eIdPhone.ENTITY)
+                        .where(eIdPhone.A_USER_REF, userId)
+                        .del();
                 } else {
-                    // insert new value
-                    const query = trx(eIdPhone.ENTITY)
-                        .insert({
-                            [eIdPhone.A_USER_REF]: userId,
-                            [eIdPhone.A_PHONE]: newValue,
-                        });
-                    await query;
+                    // select current entries (<=1)
+                    const rs = await trx.from(eIdPhone.ENTITY)
+                        .select([eIdPhone.A_PHONE])
+                        .where(eIdPhone.A_USER_REF, userId);
+                    if (rs.length) {
+                        const [first] = rs;
+                        const curValue = first[eIdPhone.A_PHONE];
+                        if (curValue !== newValue) {
+                            // there is value an it is not equal to new value; update it
+                            const query = trx(eIdPhone.ENTITY)
+                                .update({
+                                    [eIdPhone.A_PHONE]: newValue,
+                                })
+                                .where({[eIdPhone.A_USER_REF]: userId});
+                            await query;
+                        }
+                    } else {
+                        // insert new value
+                        const query = trx(eIdPhone.ENTITY)
+                            .insert({
+                                [eIdPhone.A_USER_REF]: userId,
+                                [eIdPhone.A_PHONE]: newValue,
+                            });
+                        await query;
+                    }
                 }
             }
 
