@@ -1,5 +1,5 @@
 /**
- * Request and response for 'current' service.
+ * Request and response for 'Get Current User' service.
  */
 class Fl32_Teq_User_Shared_Service_Route_Current_Request {
 }

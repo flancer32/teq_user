@@ -1,5 +1,5 @@
 /**
- * Request and response for 'list' service.
+ * Request and response for 'List Users' service.
  *
  * This request should contain standard grid listing structure (filters, order, limit).
  *

@@ -1,5 +1,5 @@
 /**
- * Request and response for 'changePassword' service.
+ * Request and response for 'Change Password' service.
  */
 class Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request {
     /** @type {String} */

@@ -7,6 +7,7 @@ export default class Fl32_Teq_User_Defaults {
     HTTP_REQ_SESSION_ID = 'sessionId';  // Attribute of the HTTP request to store session ID.
     HTTP_REQ_USER = 'user'; // Attribute of the HTTP request to store authenticated user data.
     ROUTE_CHANGE_PASSWORD = '/changePassword';
+    ROUTE_CHECK_EXISTENCE = '/check/existence';
     ROUTE_CURRENT = '/current';
     ROUTE_LIST = '/list';
     ROUTE_SIGN_IN = '/signIn';

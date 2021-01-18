@@ -165,7 +165,6 @@ export default class Fl32_Teq_User_Back_Service_List {
                 }
 
                 // MAIN FUNCTIONALITY
-                apiReq.cond; // dismiss unused argument warning
                 /** @type {Fl32_Teq_User_Shared_Service_Route_List_Response} */
                 const result = new Response();
                 const trx = await rdb.startTransaction();

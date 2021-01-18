@@ -1,5 +1,5 @@
 /**
- * Request and response for 'signUp' service.
+ * Request and response for 'Sign Up' service.
  *
  * Required fields:
  *  - login

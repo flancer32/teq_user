@@ -1,5 +1,5 @@
 /**
- * Request and response for 'signIn' service.
+ * Request and response for 'Sign In' service.
  */
 class Fl32_Teq_User_Shared_Service_Route_SignIn_Request {
     /** @type {String} user identity - login/email/phone */
