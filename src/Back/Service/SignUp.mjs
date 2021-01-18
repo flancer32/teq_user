@@ -2,36 +2,38 @@ import $bcrypt from 'bcrypt';
 import $crypto from 'crypto';
 
 /**
- * Service to register new user ("/api/${mod}/signUp").
+ * Service to register new user.
  */
 export default class Fl32_Teq_User_Back_Service_SignUp {
 
     constructor(spec) {
-        /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec.TeqFw_Core_App_Db_Connector$;  // singleton instance
         /** @type {Fl32_Teq_User_Defaults} */
-        const DEF = spec.Fl32_Teq_User_Defaults$;
+        const DEF = spec['Fl32_Teq_User_Defaults$'];
+        /** @type {TeqFw_Core_App_Db_Connector} */
+        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const eAuthPass = spec.Fl32_Teq_User_Store_RDb_Schema_Auth_Password$;   // singleton instance
+        const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];   // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const eIdEmail = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Email$;         // singleton instance
+        const eIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email$'];         // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const eIdPhone = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Phone$;         // singleton instance
+        const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$'];         // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const eProfile = spec.Fl32_Teq_User_Store_RDb_Schema_Profile$;          // singleton instance
+        const eProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile$'];          // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const eRefLink = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Link$;         // singleton instance
+        const eRefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link$'];         // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-        const eRefTree = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$;         // singleton instance
+        const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$'];         // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
-        const eUser = spec.Fl32_Teq_User_Store_RDb_Schema_User$;                // singleton instance
+        const eUser = spec['Fl32_Teq_User_Store_RDb_Schema_User$'];                // singleton instance
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignUp_Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Request'];   // class constructor
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignUp_Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Response'];   // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
-        const User = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
+        const DUser = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
 
         this.getRoute = function () {
-            return '/signUp';
+            return DEF.ROUTE_SIGN_UP;
         };
 
         /**
@@ -172,32 +174,32 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
                     async function getUser(trx, userId) {
                         const query = trx.from({u: eUser.ENTITY});
                         query.select([
-                            {[User.A_ID]: `u.${eUser.A_ID}`},
-                            {[User.A_DATE_CREATED]: `u.${eUser.A_DATE_CREATED}`},
+                            {[DUser.A_ID]: `u.${eUser.A_ID}`},
+                            {[DUser.A_DATE_CREATED]: `u.${eUser.A_DATE_CREATED}`},
                         ]);
                         query.leftOuterJoin(
                             {p: eProfile.ENTITY},
                             `p.${eProfile.A_USER_REF}`,
                             `u.${eUser.A_ID}`);
-                        query.select([{[User.A_NAME]: `p.${eProfile.A_NAME}`}]);
+                        query.select([{[DUser.A_NAME]: `p.${eProfile.A_NAME}`}]);
                         query.leftOuterJoin(
                             {a: eAuthPass.ENTITY},
                             `a.${eAuthPass.A_USER_REF}`,
                             `u.${eUser.A_ID}`);
-                        query.select([{[User.A_LOGIN]: `a.${eAuthPass.A_LOGIN}`}]);
+                        query.select([{[DUser.A_LOGIN]: `a.${eAuthPass.A_LOGIN}`}]);
                         query.leftOuterJoin(
                             {t: eRefTree.ENTITY},
                             `t.${eRefTree.A_USER_REF}`,
                             `u.${eUser.A_ID}`);
-                        query.select([{[User.A_PARENT_ID]: `t.${eRefTree.A_PARENT_REF}`}]);
+                        query.select([{[DUser.A_PARENT_ID]: `t.${eRefTree.A_PARENT_REF}`}]);
                         query.leftOuterJoin(
                             {l: eRefLink.ENTITY},
                             `l.${eRefLink.A_USER_REF}`,
                             `u.${eUser.A_ID}`);
-                        query.select([{[User.A_REF_CODE]: `l.${eRefLink.A_CODE}`}]);
+                        query.select([{[DUser.A_REF_CODE]: `l.${eRefLink.A_CODE}`}]);
                         query.where(`u.${eUser.A_ID}`, userId);
                         const rows = await query;
-                        return Object.assign(new User(), rows[0]);
+                        return Object.assign(new DUser(), rows[0]);
                     }
 
                     // MAIN FUNCTIONALITY

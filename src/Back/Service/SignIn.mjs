@@ -12,15 +12,16 @@ export default class Fl32_Teq_User_Back_Service_SignIn {
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];   // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
         const eAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session$'];   // singleton instance
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignIn_Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignIn#Request'];   // class constructor
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignIn_Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_SignIn#Response'];   // class constructor
 
         this.getRoute = function () {
-            return '/signIn';
+            return DEF.ROUTE_SIGN_IN;
         };
 
         /**

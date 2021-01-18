@@ -18,7 +18,7 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Response'];   // class constructor
 
         this.getRoute = function () {
-            return '/changePassword';
+            return DEF.ROUTE_CHANGE_PASSWORD;
         };
 
         /**

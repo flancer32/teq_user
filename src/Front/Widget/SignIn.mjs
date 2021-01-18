@@ -8,7 +8,7 @@ const I18N_BUNDLE = {
 i18next.addResourceBundle('en', 'teqUserSignIn', I18N_BUNDLE, true);
 
 const template = `
-<form class="teq-user-sign-up" onsubmit="return false">
+<form class="teqUserSignIn" onsubmit="return false">
     <div>
         <div>{{$t('teqUserSignIn:user')}}:</div>
         <div><input name="username" v-model="data.user" autocomplete="on"></div>

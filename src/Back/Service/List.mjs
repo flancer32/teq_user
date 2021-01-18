@@ -4,29 +4,33 @@
 export default class Fl32_Teq_User_Back_Service_List {
 
     constructor(spec) {
+        /** @type {Fl32_Teq_User_Defaults} */
+        const DEF = spec['Fl32_Teq_User_Defaults$'];    // singleton instance
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec.TeqFw_Core_App_Db_Connector$;  // singleton instance
+        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const eAuthPass = spec.Fl32_Teq_User_Store_RDb_Schema_Auth_Password$;   // singleton instance
+        const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];   // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const eIdEmail = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Email$;         // singleton instance
+        const eIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email$'];         // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const eIdPhone = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Phone$;         // singleton instance
+        const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$'];         // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const eProfile = spec.Fl32_Teq_User_Store_RDb_Schema_Profile$;          // singleton instance
+        const eProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile$'];          // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const eRefLink = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Link$;         // singleton instance
+        const eRefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link$'];         // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-        const eRefTree = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$;         // singleton instance
+        const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$'];         // singleton instance
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
-        const eUser = spec.Fl32_Teq_User_Store_RDb_Schema_User$;                // singleton instance
+        const eUser = spec['Fl32_Teq_User_Store_RDb_Schema_User$'];                // singleton instance
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_List#Request'];   // class constructor
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_List#Response'];   // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
         const User = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
 
         this.getRoute = function () {
-            return '/list';
+            return DEF.ROUTE_LIST;
         };
 
         /**

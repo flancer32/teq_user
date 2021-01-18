@@ -3,26 +3,29 @@
  *
  * Required fields:
  *  - login
- *  - password
  *  - name
+ *  - password
+ *  - referralCode
  *
  */
 class Fl32_Teq_User_Shared_Service_Route_SignUp_Request {
     /** @type {String} */
-    email
+    email;
     /** @type {String} */
-    login
+    login;
     /** @type {String} */
-    name
+    name;
     /** @type {String} */
-    password
+    password;
     /** @type {String} */
-    phone
+    phone;
+    /** @type {String} */
+    referralCode;
 }
 
 class Fl32_Teq_User_Shared_Service_Route_SignUp_Response {
     /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
-    user
+    user;
 }
 
 export {

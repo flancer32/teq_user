@@ -5,14 +5,14 @@ export default class Fl32_Teq_User_Back_Service_Current {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
-        const DEF = spec.Fl32_Teq_User_Defaults$;
+        const DEF = spec['Fl32_Teq_User_Defaults$'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_Current#Request'];   // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_Current#Response'];   // class constructor
 
         this.getRoute = function () {
-            return '/current';
+            return DEF.ROUTE_CURRENT;
         };
 
         /**

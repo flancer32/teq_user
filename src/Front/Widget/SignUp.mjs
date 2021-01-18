@@ -7,12 +7,14 @@ const I18N_BUNDLE = {
     password2: 'Repeat Password',
     password: 'Password',
     phone: 'Phone',
+    refCode: 'Referral Code',
     submit: 'Submit',
 };
+
 i18next.addResourceBundle('en', 'teqUser', I18N_BUNDLE, true);
 
 const template = `
-<div class="teq-user-sign-up">
+<form class="teqUserSignUp" onsubmit="return false">
     <div>
         <div>{{$t('teqUser:name')}}:</div>
         <div><input name="name" v-model="data.name"></div>
@@ -38,17 +40,22 @@ const template = `
         <div><input name="passwordAgain" v-model="passwordAgain"></div>
     </div>
     <div>
+        <div>{{$t('teqUser:refCode')}}:</div>
+        <div><input name="refCode" v-model="data.refCode"></div>
+    </div>
+    <div>
         <button v-on:click="actSubmit()">{{$t('teqUser:submit')}}</button>
     </div>
-</div>
+</form>
 `;
 
 class Fl32_Teq_User_Front_Widget_SignUp_Props {
-    email
-    login
-    name
-    password
-    phone
+    email;
+    login;
+    name;
+    password;
+    phone;
+    refCode;
 }
 
 export {
@@ -57,8 +64,9 @@ export {
 
 export default function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignUp_Request} */
-    const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Request'];
-    const gate = spec.Fl32_Teq_User_Front_Gate_SignUp$; // singleton, function
+    const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Request'];  // class constructor
+    const gate = spec['Fl32_Teq_User_Front_Gate_SignUp$']; // singleton function
+
     return {
         name: 'UserSignUp',
         template,
