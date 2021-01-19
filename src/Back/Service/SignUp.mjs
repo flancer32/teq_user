@@ -29,6 +29,8 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Request'];   // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignUp_Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Response'];   // class constructor
+        /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
+        const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
         const DUser = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
 
@@ -71,9 +73,10 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
                  * Register new user and return ID.
                  * @param trx
                  * @param {Fl32_Teq_User_Shared_Service_Route_SignUp_Request} req
+                 * @param {Number} parentId
                  * @return {Promise<Number>}
                  */
-                async function addUser(trx, req) {
+                async function addUser(trx, req, parentId) {
                     // DEFINE INNER FUNCTIONS
 
                     async function generateReferralCode(trx) {
@@ -105,7 +108,7 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
                     // register user in the referrals tree
                     await trx(eRefTree.ENTITY).insert({
                         [eRefTree.A_USER_REF]: userId,
-                        [eRefTree.A_PARENT_REF]: userId,    // by default user is registered as root node
+                        [eRefTree.A_PARENT_REF]: parentId,
                     });
                     // register referral code for the user
                     const code = await generateReferralCode(trx);
@@ -128,6 +131,26 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
                         });
                     }
                     return userId;
+                }
+
+                /**
+                 * @param trx
+                 * @param {String} code referral code
+                 * @return {Promise<Number|null>}
+                 */
+                async function getUserIdByRefCode(trx, code) {
+                    let result = null;
+                    const norm = code.trim().toLowerCase();
+                    const query = trx.from(eRefLink.ENTITY);
+                    query.select([eRefLink.A_USER_REF]);
+                    query.where(eRefLink.A_CODE, norm);
+                    /** @type {Array} */
+                    const rs = await query;
+                    if (rs.length === 1) {
+                        const [first] = rs;
+                        result = first[eRefLink.A_USER_REF];
+                    }
+                    return result;
                 }
 
                 /**
@@ -212,14 +235,21 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
 
                 // MAIN FUNCTIONALITY
                 /** @type {Fl32_Teq_User_Shared_Service_Route_SignUp_Response} */
-                const result = new Response();
+                let result = new Response();
                 const trx = await rdb.startTransaction();
 
                 try {
-                    // register new user in the tables
-                    const userId = await addUser(trx, apiReq);
-                    // select user data to compose API response
-                    result.user = await selectUser(trx, userId);
+                    const parentId = await getUserIdByRefCode(trx, apiReq.referralCode);
+                    if (parentId) {
+                        // register new user in the tables
+                        const userId = await addUser(trx, apiReq, parentId);
+                        // select user data to compose API response
+                        result.user = await selectUser(trx, userId);
+                    } else {
+                        const err = new GateError();
+                        err.message = 'Unknown referral code.';
+                        result = err;
+                    }
                     await trx.commit();
                 } catch (error) {
                     await trx.rollback();
