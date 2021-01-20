@@ -202,9 +202,6 @@ export default function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                 }
             },
         },
-        mounted() {
-            this.fldRefCode = this.input.refCode ?? null;
-        },
         watch: {
             fldEmail(current) {
                 const me = this;
@@ -296,6 +293,9 @@ export default function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                 clearTimeout(this.timerRefCode);    // clear previous timer, if exists
                 this.timerRefCode = setTimeout(fn, TIMEOUT);
             },
+        },
+        mounted() {
+            this.fldRefCode = this.input.refCode ?? null;
         },
     };
 }
