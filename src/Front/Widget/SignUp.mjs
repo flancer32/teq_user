@@ -63,7 +63,7 @@ const template = `
             <div v-show="showRefCodeMsg">{{ msgRefCode }}</div>
         </div>
     </div>
-    <div class="id-actions">
+    <div class="actions">
         <button v-on:click="actSubmit()" :disabled="disabledSubmit">{{ $t('teqUser:submit') }}</button>
     </div>
 </form>
