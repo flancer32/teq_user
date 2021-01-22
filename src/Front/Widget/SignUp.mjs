@@ -74,10 +74,11 @@ class Fl32_Teq_User_Front_Widget_SignUp_Props {
 }
 
 export {
-    Fl32_Teq_User_Front_Widget_SignUp_Props as Props
+    Fl32_Teq_User_Front_Widget_SignUp_Props as Props,
+    Fl32_Teq_User_Front_Widget_SignUp as default,
 };
 
-export default function Fl32_Teq_User_Front_Widget_SignUp(spec) {
+function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     const gateCheckExist = spec['Fl32_Teq_User_Front_Gate_Check_Existence$']; // singleton function
     const gateSignUp = spec['Fl32_Teq_User_Front_Gate_SignUp$']; // singleton function
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignUp_Request} */
