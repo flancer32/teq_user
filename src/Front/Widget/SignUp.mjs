@@ -28,21 +28,21 @@ const template = `
         <div>{{ $t('teqUser:login') }}:</div>
         <div>
             <input name="login" v-model="fldLogin" autocomplete="username">
-            <div v-show="showLoginMsg">{{ msgLogin }}</div>
+            <div class="warn" v-show="showLoginMsg">{{ msgLogin }}</div>
         </div>
     </div>
     <div class="id-email">
         <div>{{ $t('teqUser:email') }}:</div>
         <div>
             <input name="email" v-model="fldEmail">
-            <div v-show="showEmailMsg">{{ msgEmail }}</div>
+            <div class="warn" v-show="showEmailMsg">{{ msgEmail }}</div>
         </div>
     </div>
     <div class="id-phone">
         <div>{{ $t('teqUser:phone') }}:</div>
         <div>
             <input name="phone" v-model="fldPhone" autocomplete="on">
-            <div v-show="showPhoneMsg">{{ msgPhone }}</div>
+            <div class="warn" v-show="showPhoneMsg">{{ msgPhone }}</div>
         </div>
     </div>
     <div class="id-password">
@@ -53,14 +53,14 @@ const template = `
         <div>{{ $t('teqUser:password2') }}:</div>
         <div>
             <input name="passwordAgain" v-model="fldPasswordAgain" type="password" autocomplete="new-password">
-            <div v-show="showPasswordMsg">{{ msgPassword }}</div>
+            <div class="warn" v-show="showPasswordMsg">{{ msgPassword }}</div>
         </div>
     </div>
     <div class="id-refCode">
         <div>{{ $t('teqUser:refCode') }}:</div>
         <div>
             <input name="refCode" v-model="fldRefCode">
-            <div v-show="showRefCodeMsg">{{ msgRefCode }}</div>
+            <div class="warn" v-show="showRefCodeMsg">{{ msgRefCode }}</div>
         </div>
     </div>
     <div class="actions">
