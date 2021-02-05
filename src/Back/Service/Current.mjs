@@ -21,13 +21,12 @@ export default class Fl32_Teq_User_Back_Service_Current {
          */
         this.createParser = function () {
             /**
-             * @param {IncomingMessage} httpReq
+             * @param {String} body
+             * @param {IncomingHttpHeaders} headers
              * @return {Fl32_Teq_User_Shared_Service_Route_Current_Request}
              * @exports Fl32_Teq_User_Back_Service_Current$parse
              */
-            function Fl32_Teq_User_Back_Service_Current$parse(httpReq) {
-                const body = httpReq.body;
-                // clone HTTP body into API request object
+            function Fl32_Teq_User_Back_Service_Current$parse(body, headers) {
                 return Object.assign(new Request(), body.data);
             }
 
@@ -40,21 +39,22 @@ export default class Fl32_Teq_User_Back_Service_Current {
          */
         this.createProcessor = function () {
             /**
-             * @param {Fl32_Teq_User_Shared_Service_Route_Current_Request} apiReq
-             * @param {IncomingMessage} httpReq
-             * @return {Promise<Fl32_Teq_User_Shared_Service_Route_Current_Response>}
+             * @param {Fl32_Teq_User_Shared_Service_Route_Current_Request} req
+             * @param {IncomingHttpHeaders} headers
              * @exports Fl32_Teq_User_Back_Service_Current$process
+             * @returns {Promise<{response: Fl32_Teq_User_Shared_Service_Route_Current_Response}>}
+             * @constructor
              */
-            async function Fl32_Teq_User_Back_Service_Current$process(apiReq, httpReq) {
+            async function Fl32_Teq_User_Back_Service_Current$process(req, headers) {
                 // DEFINE INNER FUNCTIONS
 
                 // MAIN FUNCTIONALITY
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Current_Response} */
-                const result = new Response();
-                if (httpReq[DEF.HTTP_REQ_USER]) {
-                    result.user = httpReq[DEF.HTTP_REQ_USER];
+                const response = new Response();
+                if (headers[DEF.HTTP_REQ_USER]) {
+                    response.user = headers[DEF.HTTP_REQ_USER];
                 }
-                return result;
+                return {response};
             }
 
             return Fl32_Teq_User_Back_Service_Current$process;

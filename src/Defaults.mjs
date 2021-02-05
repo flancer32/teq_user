@@ -2,10 +2,13 @@
  * Hardcoded configuration for the module.
  */
 export default class Fl32_Teq_User_Defaults {
+    BACK_REALM = 'user';
     BCRYPT_HASH_ROUNDS = 10;    // Number of salt rounds used in bcrypt hash.
     DI_SESSION = 'session'; // ID of the session singleton in DI-container.
     HTTP_REQ_SESSION_ID = 'sessionId';  // Attribute of the HTTP request to store session ID.
     HTTP_REQ_USER = 'user'; // Attribute of the HTTP request to store authenticated user data.
+    /** @type {TeqFw_Core_App_Defaults} */
+    MOD_CORE;
     ROUTE_CHANGE_PASSWORD = '/changePassword';
     ROUTE_CHECK_EXISTENCE = '/check/existence';
     ROUTE_CURRENT = '/current';
@@ -17,7 +20,10 @@ export default class Fl32_Teq_User_Defaults {
     SESSION_COOKIE_NAME = 'TEQ_SESSION_ID';
     SESSION_ID_BYTES = 20;  // Number of bytes for generated session ID.
 
-    constructor() {
+    constructor(spec) {
+        /** @type {TeqFw_Core_App_Defaults} */
+        const DEF = spec['TeqFw_Core_App_Defaults$'];    // instance singleton
+        this.MOD_CORE = DEF;
         Object.freeze(this);
     }
 }

@@ -5,11 +5,11 @@ export default class Fl32_Teq_User_Back_Process_Profile_Save {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const eIdEmail = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Email$;         // singleton instance
+        const eIdEmail = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Email$;         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const eIdPhone = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Phone$;         // singleton instance
+        const eIdPhone = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Phone$;         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const eProfile = spec.Fl32_Teq_User_Store_RDb_Schema_Profile$;          // singleton instance
+        const eProfile = spec.Fl32_Teq_User_Store_RDb_Schema_Profile$;          // instance singleton
 
 
         /**
