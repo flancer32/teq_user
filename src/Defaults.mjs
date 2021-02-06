@@ -2,18 +2,18 @@
  * Hardcoded configuration for the module.
  */
 export default class Fl32_Teq_User_Defaults {
+    API_SIGN_IN = '/sign/in';
     BACK_REALM = 'user';
     BCRYPT_HASH_ROUNDS = 10;    // Number of salt rounds used in bcrypt hash.
     DI_SESSION = 'session'; // ID of the session singleton in DI-container.
-    HTTP_REQ_SESSION_ID = 'sessionId';  // Attribute of the HTTP request to store session ID.
-    HTTP_REQ_USER = 'user'; // Attribute of the HTTP request to store authenticated user data.
+    HTTP_REQ_CTX_SESSION_ID = 'sessionId';  // Attribute of the HTTP request to store session ID.
+    HTTP_REQ_CTX_USER = 'user'; // Attribute of the HTTP request to store authenticated user data.
     /** @type {TeqFw_Core_App_Defaults} */
     MOD_CORE;
     ROUTE_CHANGE_PASSWORD = '/changePassword';
     ROUTE_CHECK_EXISTENCE = '/check/existence';
     ROUTE_CURRENT = '/current';
     ROUTE_LIST = '/list';
-    ROUTE_SIGN_IN = '/signIn';
     ROUTE_SIGN_OUT = '/signOut';
     ROUTE_SIGN_UP = '/signUp';
     SESSION_COOKIE_LIFETIME = 31536000000;  // 3600 * 24 * 365 * 1000

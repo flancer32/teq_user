@@ -39,6 +39,7 @@ export default class Fl32_Teq_User_App_Server_Session {
              * @param {Object} context
              * @returns {Promise<boolean>}
              * @memberOf Fl32_Teq_User_App_Server_Session
+             * @implements {TeqFw_Core_App_Server_Handler_Factory.handler}
              */
             async function handler(context) {
                 // PARSE INPUT & DEFINE WORKING VARS
@@ -131,8 +132,8 @@ export default class Fl32_Teq_User_App_Server_Session {
                     if (sessId) {
                         const userCached = cache.get(sessId);
                         if (userCached) {
-                            req[DEF.HTTP_REQ_USER] = userCached;
-                            req[DEF.HTTP_REQ_SESSION_ID] = sessId;
+                            req[DEF.HTTP_REQ_CTX_USER] = userCached;
+                            req[DEF.HTTP_REQ_CTX_SESSION_ID] = sessId;
                             next(); // continue synchronously
                         } else {
                             // get user data from RDb asynchronously then continue
@@ -157,8 +158,8 @@ export default class Fl32_Teq_User_App_Server_Session {
                                                 // emails & phones
                                                 user.emails = await getEmails(trx, user.id);
                                                 user.phones = await getPhones(trx, user.id);
-                                                req[DEF.HTTP_REQ_USER] = user;
-                                                req[DEF.HTTP_REQ_SESSION_ID] = sessId;
+                                                req[DEF.HTTP_REQ_CTX_USER] = user;
+                                                req[DEF.HTTP_REQ_CTX_SESSION_ID] = sessId;
                                                 cache.set(sessId, user);
                                             }
                                         } else {

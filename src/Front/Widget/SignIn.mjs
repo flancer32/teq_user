@@ -1,11 +1,8 @@
-const i18next = self.teqfw.i18next;
-
 const I18N_BUNDLE = {
     password: 'Password',
     submit: 'Submit',
     user: 'User',
 };
-i18next.addResourceBundle('en', 'teqUserSignIn', I18N_BUNDLE, true);
 
 const template = `
 <form class="teqUserSignIn" onsubmit="return false">
@@ -34,12 +31,17 @@ export {
 
 function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
-    const DEF = spec.Fl32_Teq_User_Defaults$;
+    const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
     /** @type {Fl32_Teq_User_Front_App_Session} */
-    const session = spec[DEF.DI_SESSION];
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignIn_Request} */
-    const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignIn#Request'];  // class constructor
-    const gate = spec.Fl32_Teq_User_Front_Gate_SignIn$; // singleton, function
+    const session = spec[DEF.DI_SESSION];   // named singleton
+    const i18next = spec[DEF.MOD_CORE.DI_I18N];   // named singleton
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In_Request} */
+    const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Request'];  // class constructor
+    /** @type {Fl32_Teq_User_Front_Gate_Sign_In} */
+    const gate = spec['Fl32_Teq_User_Front_Gate_Sign_In$']; // function singleton
+
+    i18next.addResourceBundle('en', 'teqUserSignIn', I18N_BUNDLE, true);
+
     return {
         name: 'UserSignIn',
         template,
@@ -55,7 +57,7 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
         computed: {},
         methods: {
             async actSubmit() {
-                /** @type {Fl32_Teq_User_Shared_Service_Route_SignIn_Request} */
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In_Request} */
                 const req = new Request();
                 req.user = this.data.user;
                 req.password = this.data.password;
@@ -64,7 +66,7 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
                     // registration failed
                     this.$emit('onFailure', res.message);
                 } else {
-                    /** @type {Fl32_Teq_User_Shared_Service_Route_SignIn_Response} */
+                    /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In_Response} */
                     const data = res; // use IDE type hints
                     await session.init();
                     // registration succeed

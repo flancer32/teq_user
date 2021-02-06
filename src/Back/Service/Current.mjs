@@ -34,30 +34,36 @@ export default class Fl32_Teq_User_Back_Service_Current {
         };
 
         /**
-         * Create function to perform requested operation.
-         * @return {Function}
+         * Factory to create service (handler to process HTTP API request).
+         * @returns {Function}
          */
-        this.createProcessor = function () {
+        this.createService = function () {
             /**
-             * @param {Fl32_Teq_User_Shared_Service_Route_Current_Request} req
-             * @param {IncomingHttpHeaders} headers
-             * @exports Fl32_Teq_User_Back_Service_Current$process
-             * @returns {Promise<{response: Fl32_Teq_User_Shared_Service_Route_Current_Response}>}
-             * @constructor
+             * Service to handle HTTP API requests.
+             *
+             * @param {TeqFw_Core_App_Server_Request_Context} context HTTP2 request context
+             * @returns {Promise<void>}
              */
-            async function Fl32_Teq_User_Back_Service_Current$process(req, headers) {
+            async function service(context) {
+                // PARSE INPUT & DEFINE WORKING VARS
+                /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
+                const user = context[DEF.HTTP_REQ_CTX_USER];
                 // DEFINE INNER FUNCTIONS
 
                 // MAIN FUNCTIONALITY
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Current_Response} */
                 const response = new Response();
-                if (headers[DEF.HTTP_REQ_USER]) {
-                    response.user = headers[DEF.HTTP_REQ_USER];
+                if (user) {
+                    response.user = user;
                 }
                 return {response};
             }
 
-            return Fl32_Teq_User_Back_Service_Current$process;
+            // COMPOSE RESULT
+            Object.defineProperty(service, 'name', {
+                value: `${this.constructor.name}.${service.name}`,
+            });
+            return service;
         };
     }
 

@@ -86,9 +86,9 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
                 const trx = await rdb.startTransaction();
 
                 try {
-                    if (httpReq[DEF.HTTP_REQ_USER]) {
+                    if (httpReq[DEF.HTTP_REQ_CTX_USER]) {
                         /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
-                        const user = httpReq[DEF.HTTP_REQ_USER];
+                        const user = httpReq[DEF.HTTP_REQ_CTX_USER];
                         const isValid = await isValidPassword(trx, user.id, apiReq.passwordCurrent);
                         if (isValid) {
                             await setPassword(trx, user.id, apiReq.passwordNew);

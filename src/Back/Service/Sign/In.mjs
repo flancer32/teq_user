@@ -1,10 +1,11 @@
 import $bcrypt from 'bcrypt';
 import $crypto from 'crypto';
+import {constants as H2} from 'http2';
 
 /**
- * Service to authenticate user ("/api/${mod}/signIn").
+ * Service to authenticate user by username/email/phone & password.
  */
-export default class Fl32_Teq_User_Back_Service_SignIn {
+export default class Fl32_Teq_User_Back_Service_Sign_In {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
@@ -15,47 +16,68 @@ export default class Fl32_Teq_User_Back_Service_SignIn {
         const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];   // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
         const eAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session$'];   // instance singleton
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignIn_Request} */
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignIn#Request'];   // class constructor
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignIn_Response} */
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_SignIn#Response'];   // class constructor
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In_Request} */
+        const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Request'];   // class constructor
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In_Response} */
+        const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Response'];   // class constructor
 
         this.getRoute = function () {
-            return DEF.ROUTE_SIGN_IN;
+            return DEF.API_SIGN_IN;
         };
 
         /**
+         * TODO: change interface to createService and create base abstract class
+         *
          * Create function to validate and structure incoming data.
          * @return {Function}
          */
         this.createParser = function () {
             /**
-             * @param {IncomingMessage} httpReq
-             * @return {Fl32_Teq_User_Shared_Service_Route_SignIn_Request}
-             * @exports Fl32_Teq_User_Back_Service_SignIn$parse
+             * @param {Object} context
+             * @return {Fl32_Teq_User_Shared_Service_Route_Sign_In_Request}
+             * @exports Fl32_Teq_User_Back_Service_Sign_In$parse
              */
-            function Fl32_Teq_User_Back_Service_SignIn$parse(httpReq) {
+            function parse(context) {
                 const body = httpReq.body;
                 // clone HTTP body into API request object
                 return Object.assign(new Request(), body.data);
             }
 
-            return Fl32_Teq_User_Back_Service_SignIn$parse;
+            return parse;
         };
 
         /**
          * Create function to perform requested operation.
          * @return {Function}
          */
-        this.createProcessor = function () {
+        this.createService = function () {
+            // DEFINE INNER FUNCTIONS
             /**
-             * @param {Fl32_Teq_User_Shared_Service_Route_SignIn_Request} apiReq
-             * @param {IncomingMessage} httpReq
-             * @param httpRes
-             * @return {Promise<Fl32_Teq_User_Shared_Service_Route_SignIn_Response>}
-             * @exports Fl32_Teq_User_Back_Service_SignIn$process
+             * TODO: parser should be separate function to handle 'HTTP 400: Bad Request'
+             * Parse input data and compose API request data object.
+             * @param {String} body HTTP POST request body
              */
-            async function Fl32_Teq_User_Back_Service_SignIn$process(apiReq, httpReq, httpRes) {
+            function parseInput(body) {
+                const json = JSON.parse(body);
+                // clone HTTP body into API request object
+                return Object.assign(new Request(), json.data);
+            }
+
+            /**
+             * @param {TeqFw_Core_App_Server_Request_Context} context
+             * @implements {TeqFw_Core_App_Server_Handler_Api_Factory.service}
+             */
+            async function service(context) {
+                // PARSE INPUT & DEFINE WORKING VARS
+                /** @type {String} */
+                const body = context[DEF.MOD_CORE.HTTP_REQ_CTX_BODY];
+                /** @type {Number} */
+                const flags = context[DEF.MOD_CORE.HTTP_REQ_CTX_FLAGS];
+                /** @type {IncomingHttpHeaders} */
+                const headers = context[DEF.MOD_CORE.HTTP_REQ_CTX_HEADERS];
+                /** @type {ServerHttp2Stream} */
+                const stream = context[DEF.MOD_CORE.HTTP_REQ_CTX_STREAM];
+
                 // DEFINE INNER FUNCTIONS
                 /**
                  * Get user id & password hash by login name.
@@ -105,8 +127,12 @@ export default class Fl32_Teq_User_Back_Service_SignIn {
                 }
 
                 // MAIN FUNCTIONALITY
-                /** @type {Fl32_Teq_User_Shared_Service_Route_SignIn_Response} */
-                const result = new Response();
+                const result = {};
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In_Response} */
+                const response = new Response();
+                result.response = response;
+
+                const apiReq = parseInput(body);
                 const trx = await rdb.startTransaction();
 
                 try {
@@ -117,14 +143,16 @@ export default class Fl32_Teq_User_Back_Service_SignIn {
                         const equal = await $bcrypt.compare(apiReq.password, hash);
                         if (equal) {
                             // generate user session
-                            result.sessionId = await openSession(trx, userId);
+                            response.sessionId = await openSession(trx, userId);
                             // set session cookie
-                            httpRes.cookie(DEF.SESSION_COOKIE_NAME, result.sessionId, {
-                                maxAge: DEF.SESSION_COOKIE_LIFETIME,
-                                httpOnly: true,
-                                secure: true,
-                                sameSite: true
-                            });
+                            const name = DEF.SESSION_COOKIE_NAME;
+                            const value = response.sessionId;
+                            const now = new Date(Date.now() + DEF.SESSION_COOKIE_LIFETIME);
+                            const exp = `Expires=${now.toUTCString()}`;
+                            const same = 'SameSite=Strict';
+                            const secure = 'Secure; HttpOnly';
+                            const cookie = `${name}=${value}; ${exp}; ${same}; ${secure}`;
+                            result.headers = {[H2.HTTP2_HEADER_SET_COOKIE]: cookie};
                         }
                     }
                     await trx.commit();
@@ -135,7 +163,11 @@ export default class Fl32_Teq_User_Back_Service_SignIn {
                 return result;
             }
 
-            return Fl32_Teq_User_Back_Service_SignIn$process;
+            // COMPOSE RESULT
+            Object.defineProperty(service, 'name', {
+                value: `${this.constructor.name}.${service.name}`,
+            });
+            return service;
         };
     }
 
