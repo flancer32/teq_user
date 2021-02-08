@@ -1,36 +1,17 @@
 /**
  * Service to get currently authenticated user data ("/api/${mod}/current").
+ * @extends TeqFw_Core_App_Server_Handler_Api_Factory
  */
 export default class Fl32_Teq_User_Back_Service_Current {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF = spec['Fl32_Teq_User_Defaults$'];
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Request} */
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_Current#Request'];   // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_Current#Response'];   // class constructor
 
         this.getRoute = function () {
             return DEF.ROUTE_CURRENT;
-        };
-
-        /**
-         * Create function to validate and structure incoming data.
-         * @return {Function}
-         */
-        this.createParser = function () {
-            /**
-             * @param {String} body
-             * @param {IncomingHttpHeaders} headers
-             * @return {Fl32_Teq_User_Shared_Service_Route_Current_Request}
-             * @exports Fl32_Teq_User_Back_Service_Current$parse
-             */
-            function Fl32_Teq_User_Back_Service_Current$parse(body, headers) {
-                return Object.assign(new Request(), body.data);
-            }
-
-            return Fl32_Teq_User_Back_Service_Current$parse;
         };
 
         /**
@@ -41,20 +22,18 @@ export default class Fl32_Teq_User_Back_Service_Current {
             /**
              * Service to handle HTTP API requests.
              *
-             * @param {TeqFw_Core_App_Server_Request_Context} context HTTP2 request context
+             * @param {TeqFw_Core_App_Server_Handler_Api_Context} apiCtx API context for current request
              * @returns {Promise<void>}
              */
-            async function service(context) {
+            async function service(apiCtx) {
                 // PARSE INPUT & DEFINE WORKING VARS
-                /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
-                const user = context[DEF.HTTP_REQ_CTX_USER];
-                // DEFINE INNER FUNCTIONS
+                const sharedCtx = apiCtx.sharedContext;
 
                 // MAIN FUNCTIONALITY
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Current_Response} */
                 const response = new Response();
-                if (user) {
-                    response.user = user;
+                if (sharedCtx && sharedCtx[DEF.HTTP_SHARE_CTX_USER]) {
+                    response.user = sharedCtx[DEF.HTTP_SHARE_CTX_USER];
                 }
                 return {response};
             }

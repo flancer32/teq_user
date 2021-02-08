@@ -4,6 +4,7 @@ import {constants as H2} from 'http2';
 
 /**
  * Service to authenticate user by username/email/phone & password.
+ * @extends TeqFw_Core_App_Server_Handler_Api_Factory
  */
 export default class Fl32_Teq_User_Back_Service_Sign_In {
 
@@ -26,24 +27,28 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         };
 
         /**
-         * TODO: change interface to createService and create base abstract class
-         *
          * Create function to validate and structure incoming data.
          * @return {Function}
          */
-        this.createParser = function () {
+        this.createInputParser = function () {
+            // DEFINE INNER FUNCTIONS
             /**
-             * @param {Object} context
-             * @return {Fl32_Teq_User_Shared_Service_Route_Sign_In_Request}
-             * @exports Fl32_Teq_User_Back_Service_Sign_In$parse
+             * Parser to structure HTTP request data.
+             *
+             * @param {TeqFw_Core_App_Server_Http2_Context} httpCtx
+             * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_Sign_In_Request>}
+             * @memberOf Fl32_Teq_User_Back_Service_Sign_In
+             * @implements TeqFw_Core_App_Server_Handler_Api_Factory.parser
              */
-            function parse(context) {
-                const body = httpReq.body;
+            async function parser(httpCtx) {
+                const body = JSON.parse(httpCtx.body);
                 // clone HTTP body into API request object
                 return Object.assign(new Request(), body.data);
             }
 
-            return parse;
+            // COMPOSE RESULT
+            Object.defineProperty(parser, 'name', {value: `${this.constructor.name}.${parser.name}`});
+            return parser;
         };
 
         /**
@@ -52,31 +57,13 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
          */
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
-            /**
-             * TODO: parser should be separate function to handle 'HTTP 400: Bad Request'
-             * Parse input data and compose API request data object.
-             * @param {String} body HTTP POST request body
-             */
-            function parseInput(body) {
-                const json = JSON.parse(body);
-                // clone HTTP body into API request object
-                return Object.assign(new Request(), json.data);
-            }
 
             /**
-             * @param {TeqFw_Core_App_Server_Request_Context} context
+             * @param {TeqFw_Core_App_Server_Handler_Api_Context} context
              * @implements {TeqFw_Core_App_Server_Handler_Api_Factory.service}
              */
             async function service(context) {
                 // PARSE INPUT & DEFINE WORKING VARS
-                /** @type {String} */
-                const body = context[DEF.MOD_CORE.HTTP_REQ_CTX_BODY];
-                /** @type {Number} */
-                const flags = context[DEF.MOD_CORE.HTTP_REQ_CTX_FLAGS];
-                /** @type {IncomingHttpHeaders} */
-                const headers = context[DEF.MOD_CORE.HTTP_REQ_CTX_HEADERS];
-                /** @type {ServerHttp2Stream} */
-                const stream = context[DEF.MOD_CORE.HTTP_REQ_CTX_STREAM];
 
                 // DEFINE INNER FUNCTIONS
                 /**
@@ -132,7 +119,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                 const response = new Response();
                 result.response = response;
 
-                const apiReq = parseInput(body);
+                const apiReq = context.request;
                 const trx = await rdb.startTransaction();
 
                 try {
@@ -151,7 +138,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                             const exp = `Expires=${now.toUTCString()}`;
                             const same = 'SameSite=Strict';
                             const secure = 'Secure; HttpOnly';
-                            const cookie = `${name}=${value}; ${exp}; ${same}; ${secure}`;
+                            const path = 'Path=/';
+                            const cookie = `${name}=${value}; ${exp}; ${same}; ${secure}; ${path}`;
                             result.headers = {[H2.HTTP2_HEADER_SET_COOKIE]: cookie};
                         }
                     }

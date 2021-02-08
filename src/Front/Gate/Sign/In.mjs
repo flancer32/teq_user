@@ -1,8 +1,10 @@
 /**
  * Frontend gate to 'signIn' service.
  */
-export default function (spec) {
-    const config = spec.config;
+export default function Fl32_Teq_User_Front_Gate_Sign_In(spec) {
+    /** @type {Fl32_Teq_User_Defaults} */
+    const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
+    const config = spec[DEF.MOD_CORE.DI_CONFIG];
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In_Response} */
     const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Response']; // class constructor
     /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
@@ -18,7 +20,7 @@ export default function (spec) {
      * @return {Promise<Fl32_Teq_User_Shared_Service_Route_Sign_In_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
      * @exports Fl32_Teq_User_Front_Gate_Sign_In
      */
-    async function Fl32_Teq_User_Front_Gate_Sign_In(data) {
+    async function gate(data) {
         try {
             const res = await fetch(URL, {
                 method: 'POST',
@@ -53,5 +55,7 @@ export default function (spec) {
         }
     }
 
-    return Fl32_Teq_User_Front_Gate_Sign_In;
+    // COMPOSE RESULT
+    Object.defineProperty(gate, 'name', {value: 'Fl32_Teq_User_Front_Gate_Sign_In.gate'});
+    return gate;
 }

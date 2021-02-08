@@ -73,7 +73,7 @@ export default class Fl32_Teq_User_Back_Service_SignOut {
                 const result = new Response();
                 const trx = await rdb.startTransaction();
                 try {
-                    const sessId = httpReq[DEF.HTTP_REQ_CTX_SESSION_ID];
+                    const sessId = httpReq[DEF.HTTP_SHARE_CTX_SESSION_ID];
                     if (sessId) {
                         await deleteAllSessions(trx, sessId);
                     }
