@@ -44,8 +44,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
              */
             function parse(httpCtx) {
                 const body = JSON.parse(httpCtx.body);
-                // clone HTTP body data into API request object
-                return Object.assign(new Request(), body.data);
+                return Object.assign(new Request(), body.data);  // clone HTTP body data into API request object
             }
 
             // COMPOSE RESULT
@@ -152,9 +151,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
             }
 
             // COMPOSE RESULT
-            Object.defineProperty(service, 'name', {
-                value: `${this.constructor.name}.${service.name}`,
-            });
+            Object.defineProperty(service, 'name', {value: `${this.constructor.name}.${service.name}`});
             return service;
         };
     }

@@ -1,5 +1,3 @@
-const i18next = self.teqfw.i18next;
-
 const I18N_BUNDLE = {
     email: 'Email',
     errEmailExists: 'Email exists.',
@@ -16,7 +14,6 @@ const I18N_BUNDLE = {
     submit: 'Submit',
 };
 
-i18next.addResourceBundle('en', 'teqUser', I18N_BUNDLE, true);
 
 const template = `
 <form class="teqUserSignUp" onsubmit="return false">
@@ -73,20 +70,19 @@ class Fl32_Teq_User_Front_Widget_SignUp_Props {
     refCode;
 }
 
-export {
-    Fl32_Teq_User_Front_Widget_SignUp_Props as Props,
-    Fl32_Teq_User_Front_Widget_SignUp as default,
-};
-
 function Fl32_Teq_User_Front_Widget_SignUp(spec) {
+    /** @type {Fl32_Teq_User_Defaults} */
+    const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
+    const i18next = spec[DEF.MOD_CORE.DI_I18N];   // named singleton
     const gateCheckExist = spec['Fl32_Teq_User_Front_Gate_Check_Existence$']; // singleton function
-    const gateSignUp = spec['Fl32_Teq_User_Front_Gate_SignUp$']; // singleton function
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignUp_Request} */
-    const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Request'];  // class constructor
+    const gateSignUp = spec['Fl32_Teq_User_Front_Gate_Sign_Up$']; // singleton function
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
+    const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Request'];  // class constructor
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request} */
     const CheckExistReq = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Request']; // class constructor
 
     const TIMEOUT = 1000;
+    i18next.addResourceBundle('en', 'teqUser', I18N_BUNDLE, true);
 
     return {
         name: 'UserSignUp',
@@ -142,7 +138,7 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
         },
         methods: {
             actSubmit() {
-                /** @type {Fl32_Teq_User_Shared_Service_Route_SignUp_Request} */
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
                 const req = new Request();
                 req.email = this.fldEmail;
                 req.login = this.fldLogin;
@@ -300,3 +296,8 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
         },
     };
 }
+
+export {
+    Fl32_Teq_User_Front_Widget_SignUp_Props as Props,
+    Fl32_Teq_User_Front_Widget_SignUp as default,
+};

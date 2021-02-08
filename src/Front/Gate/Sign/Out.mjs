@@ -17,8 +17,6 @@ export default function Fl32_Teq_User_Front_Gate_Sign_Out(spec) {
     const URL = `https://${config.urlBase}/api/user${DEF.API_SIGN_OUT}`;
 
     /**
-     * We should place function separately to allow JSDoc & IDEA hints & navigation.
-     *
      * @param {Fl32_Teq_User_Shared_Service_Route_Sign_Out_Request} data
      * @return {Promise<Fl32_Teq_User_Shared_Service_Route_Sign_Out_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
      * @memberOf Fl32_Teq_User_Front_Gate_Sign_Out

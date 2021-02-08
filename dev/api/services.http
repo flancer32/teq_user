@@ -30,7 +30,7 @@ Authorization: Bearer {{sessionId}}
 
 
 ###
-POST https://{{host}}/api/user/signUp
+POST https://{{host}}/api/user/sign/up
 Accept: application/json
 Content-Type: application/json
 

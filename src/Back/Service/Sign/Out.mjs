@@ -40,8 +40,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
              */
             function parse(httpCtx) {
                 const body = JSON.parse(httpCtx.body);
-                // clone HTTP body data into API request object
-                return Object.assign(new Request(), body.data);
+                return Object.assign(new Request(), body.data); // clone HTTP body data into API request object
             }
 
             // COMPOSE RESULT
@@ -55,7 +54,6 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
          */
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
-
             /**
              * @param {TeqFw_Core_App_Server_Handler_Api_Context} apiCtx
              * @return {Promise<Fl32_Teq_User_Shared_Service_Route_Sign_Out_Response>}
@@ -79,12 +77,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
 
                 // MAIN FUNCTIONALITY
                 const result = new ApiResult();
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out_Response} */
-                const response = new Response();
-                result.response = response;
-
+                result.response = new Response();
                 const sharedCtx = apiCtx.sharedContext;
-
                 const trx = await rdb.startTransaction();
 
                 try {
@@ -93,7 +87,6 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
                         await deleteAllSessions(trx, sessId);
                     }
                     await trx.commit();
-
                     result.headers[H2.HTTP2_HEADER_SET_COOKIE] = utilCookie.clear(DEF.SESSION_COOKIE_NAME);
                 } catch (error) {
                     await trx.rollback();
@@ -102,6 +95,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
                 return result;
             }
 
+            // COMPOSE RESULT
+            Object.defineProperty(service, 'name', {value: `${this.constructor.name}.${service.name}`});
             return service;
         };
     }

@@ -1,26 +1,29 @@
 /**
- * Frontend gate to 'signUp' service.
+ * Factory to create frontend gate to 'signUp' service.
+ * Use as "spec['Fl32_Teq_User_Front_Gate_Sign_Up$']".
+ * @namespace Fl32_Teq_User_Front_Gate_Sign_Up
  */
-export default function (spec) {
-    const config = spec.config;
+export default function Fl32_Teq_User_Front_Gate_Sign_Up (spec) {
+    /** @type {Fl32_Teq_User_Defaults} */
+    const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
+    /** @type {TeqFw_Core_App_Front_Data_Config} */
+    const config = spec[DEF.MOD_CORE.DI_CONFIG];    // named singleton
     /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
     const User = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignUp_Response} */
-    const Response = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Response']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up_Response} */
+    const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Response']; // class constructor
     /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
     const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
 
     // TODO: we need to map gate to API URI
-    const URL = `https://${config.urlBase}/api/user/signUp`;
+    const URL = `https://${config.urlBase}/api/user${DEF.API_SIGN_UP}`;
 
     /**
-     * We should place function separately to allow JSDoc & IDEA hints & navigation.
-     *
-     * @param {Fl32_Teq_User_Shared_Service_Route_SignUp_Request} data
-     * @return {Promise<Fl32_Teq_User_Shared_Service_Route_SignUp_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
-     * @exports Fl32_Teq_User_Front_Gate_SignUp
+     * @param {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} data
+     * @return {Promise<Fl32_Teq_User_Shared_Service_Route_Sign_Up_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
+     * @memberOf Fl32_Teq_User_Front_Gate_Sign_Up
      */
-    async function Fl32_Teq_User_Front_Gate_SignUp(data) {
+    async function gate(data) {
         try {
             const res = await fetch(URL, {
                 method: 'POST',
@@ -33,7 +36,7 @@ export default function (spec) {
             let result;
             if (json.data) {
                 // normal result
-                /** @type {Fl32_Teq_User_Shared_Service_Route_SignUp_Response} */
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Response} */
                 result = new Response();
                 result.user = Object.assign(new User, json.data.user);
             } else {
@@ -56,5 +59,7 @@ export default function (spec) {
         }
     }
 
-    return Fl32_Teq_User_Front_Gate_SignUp;
+    // COMPOSE RESULT
+    Object.defineProperty(gate, 'name', {value: 'Fl32_Teq_User_Front_Gate_Sign_Up.gate'});
+    return gate;
 }

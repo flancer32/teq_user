@@ -3,8 +3,9 @@ import $crypto from 'crypto';
 
 /**
  * Service to register new user.
+ * @extends TeqFw_Core_App_Server_Handler_Api_Factory
  */
-export default class Fl32_Teq_User_Back_Service_SignUp {
+export default class Fl32_Teq_User_Back_Service_Sign_Up {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
@@ -25,54 +26,60 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
         const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$'];         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
         const eUser = spec['Fl32_Teq_User_Store_RDb_Schema_User$'];                // instance singleton
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignUp_Request} */
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Request'];   // class constructor
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_SignUp_Response} */
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_SignUp#Response'];   // class constructor
+        /** @type {typeof TeqFw_Core_App_Server_Handler_Api_Result} */
+        const ApiResult = spec['TeqFw_Core_App_Server_Handler_Api_Result#'];    // class constructor
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
+        const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Request'];   // class constructor
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up_Response} */
+        const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Response'];   // class constructor
         /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
         const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
         const DUser = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
 
         this.getRoute = function () {
-            return DEF.ROUTE_SIGN_UP;
+            return DEF.API_SIGN_UP;
         };
 
         /**
          * Create function to validate and structure incoming data.
-         * @return {Function}
+         * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.parse}
          */
-        this.createParser = function () {
+        this.createInputParser = function () {
+            // DEFINE INNER FUNCTIONS
             /**
-             * @param {IncomingMessage} httpReq
-             * @return {Fl32_Teq_User_Shared_Service_Route_SignUp_Request}
-             * @exports Fl32_Teq_User_Back_Service_SignUp$parse
+             * @param {TeqFw_Core_App_Server_Http2_Context} httpCtx
+             * @return {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request}
+             * @memberOf Fl32_Teq_User_Back_Service_Sign_Up
+             * @implements TeqFw_Core_App_Server_Handler_Api_Factory.parse
              */
-            function Fl32_Teq_User_Back_Service_SignUp$parse(httpReq) {
-                const body = httpReq.body;
-                // clone HTTP body into API request object
-                return Object.assign(new Request(), body.data);
+            function parse(httpCtx) {
+                const body = JSON.parse(httpCtx.body);
+                return Object.assign(new Request(), body.data); // clone HTTP body into API request object
             }
 
-            return Fl32_Teq_User_Back_Service_SignUp$parse;
+            // COMPOSE RESULT
+            Object.defineProperty(parse, 'name', {value: `${this.constructor.name}.${parse.name}`});
+            return parse;
         };
 
         /**
          * Create function to perform requested operation.
-         * @return {Function}
+         * @return {TeqFw_Core_App_Server_Handler_Api_Factory.service}
          */
-        this.createProcessor = function () {
+        this.createService = function () {
+            // DEFINE INNER FUNCTIONS
             /**
-             * @param {Fl32_Teq_User_Shared_Service_Route_SignUp_Request} apiReq
-             * @return {Promise<Fl32_Teq_User_Shared_Service_Route_SignUp_Response>}
-             * @exports Fl32_Teq_User_Back_Service_SignUp$process
+             * @param {TeqFw_Core_App_Server_Handler_Api_Context} apiCtx
+             * @return {Promise<Fl32_Teq_User_Shared_Service_Route_Sign_Up_Response>}
+             * @implements {TeqFw_Core_App_Server_Handler_Api_Factory.service}
              */
-            async function Fl32_Teq_User_Back_Service_SignUp$process(apiReq) {
+            async function service(apiCtx) {
                 // DEFINE INNER FUNCTIONS
                 /**
                  * Register new user and return ID.
                  * @param trx
-                 * @param {Fl32_Teq_User_Shared_Service_Route_SignUp_Request} req
+                 * @param {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} req
                  * @param {Number} parentId
                  * @return {Promise<Number>}
                  */
@@ -140,15 +147,17 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
                  */
                 async function getUserIdByRefCode(trx, code) {
                     let result = null;
-                    const norm = code.trim().toLowerCase();
-                    const query = trx.from(eRefLink.ENTITY);
-                    query.select([eRefLink.A_USER_REF]);
-                    query.where(eRefLink.A_CODE, norm);
-                    /** @type {Array} */
-                    const rs = await query;
-                    if (rs.length === 1) {
-                        const [first] = rs;
-                        result = first[eRefLink.A_USER_REF];
+                    if (code) {
+                        const norm = code.trim().toLowerCase();
+                        const query = trx.from(eRefLink.ENTITY);
+                        query.select([eRefLink.A_USER_REF]);
+                        query.where(eRefLink.A_CODE, norm);
+                        /** @type {Array} */
+                        const rs = await query;
+                        if (rs.length === 1) {
+                            const [first] = rs;
+                            result = first[eRefLink.A_USER_REF];
+                        }
                     }
                     return result;
                 }
@@ -234,21 +243,22 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
                 }
 
                 // MAIN FUNCTIONALITY
-                /** @type {Fl32_Teq_User_Shared_Service_Route_SignUp_Response} */
-                let result = new Response();
+                const result = new ApiResult();
+                result.response = new Response();
                 const trx = await rdb.startTransaction();
-
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
+                const apiReq = apiCtx.request;
                 try {
                     const parentId = await getUserIdByRefCode(trx, apiReq.referralCode);
                     if (parentId) {
                         // register new user in the tables
                         const userId = await addUser(trx, apiReq, parentId);
                         // select user data to compose API response
-                        result.user = await selectUser(trx, userId);
+                        result.response.user = await selectUser(trx, userId);
                     } else {
                         const err = new GateError();
                         err.message = 'Unknown referral code.';
-                        result = err;
+                        result.response = err;
                     }
                     await trx.commit();
                 } catch (error) {
@@ -258,7 +268,9 @@ export default class Fl32_Teq_User_Back_Service_SignUp {
                 return result;
             }
 
-            return Fl32_Teq_User_Back_Service_SignUp$process;
+            // COMPOSE RESULT
+            Object.defineProperty(service, 'name', {value: `${this.constructor.name}.${service.name}`});
+            return service;
         };
     }
 
