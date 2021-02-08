@@ -23,6 +23,7 @@ export default class Fl32_Teq_User_Plugin_Init {
             return [
                 'Fl32_Teq_User_Back_Service_Current$',
                 'Fl32_Teq_User_Back_Service_Sign_In$',
+                'Fl32_Teq_User_Back_Service_Sign_Out$',
             ];
         };
     }

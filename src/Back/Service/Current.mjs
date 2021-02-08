@@ -11,7 +11,7 @@ export default class Fl32_Teq_User_Back_Service_Current {
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_Current#Response'];   // class constructor
 
         this.getRoute = function () {
-            return DEF.ROUTE_CURRENT;
+            return DEF.API_CURRENT;
         };
 
         /**

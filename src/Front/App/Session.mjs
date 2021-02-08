@@ -3,11 +3,13 @@
  */
 export default class Fl32_Teq_User_Front_App_Session {
     constructor(spec) {
-        const gateCurrent = spec.Fl32_Teq_User_Front_Gate_Current$;
-        const gateSignOut = spec.Fl32_Teq_User_Front_Gate_SignOut$;
+        /** @type {Fl32_Teq_User_Front_Gate_Current.gate} */
+        const gateCurrent = spec['Fl32_Teq_User_Front_Gate_Current$'];
+        /** @type {Fl32_Teq_User_Front_Gate_Sign_Out.gate} */
+        const gateSignOut = spec['Fl32_Teq_User_Front_Gate_Sign_Out$']; // function singleton
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Request} */
         const CurrentRequest = spec['Fl32_Teq_User_Shared_Service_Route_Current#Request'];
-        const SignOutRequest = spec['Fl32_Teq_User_Shared_Service_Route_SignOut#Request'];
+        const SignOutRequest = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Request'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
         const User = spec['Fl32_Teq_User_Shared_Service_Data_User#'];
 
@@ -20,7 +22,7 @@ export default class Fl32_Teq_User_Front_App_Session {
 
         this.close = async function () {
             const req = new SignOutRequest();
-            /** @type {Fl32_Teq_User_Shared_Service_Route_SignOut_Response} */
+            /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out_Response} */
             const res = await gateSignOut(req);
             if (res) {
                 user = null;

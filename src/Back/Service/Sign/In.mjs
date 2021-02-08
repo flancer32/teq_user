@@ -17,6 +17,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];   // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
         const eAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session$'];   // instance singleton
+        /** @type {typeof TeqFw_Core_App_Server_Handler_Api_Result} */
+        const ApiResult = spec['TeqFw_Core_App_Server_Handler_Api_Result#'];    // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In_Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Request'];   // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In_Response} */
@@ -28,7 +30,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
 
         /**
          * Create function to validate and structure incoming data.
-         * @return {Function}
+         * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.parse}
          */
         this.createInputParser = function () {
             // DEFINE INNER FUNCTIONS
@@ -36,36 +38,35 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
              * Parser to structure HTTP request data.
              *
              * @param {TeqFw_Core_App_Server_Http2_Context} httpCtx
-             * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_Sign_In_Request>}
+             * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_In_Request}
              * @memberOf Fl32_Teq_User_Back_Service_Sign_In
-             * @implements TeqFw_Core_App_Server_Handler_Api_Factory.parser
+             * @implements TeqFw_Core_App_Server_Handler_Api_Factory.parse
              */
-            async function parser(httpCtx) {
+            function parse(httpCtx) {
                 const body = JSON.parse(httpCtx.body);
-                // clone HTTP body into API request object
+                // clone HTTP body data into API request object
                 return Object.assign(new Request(), body.data);
             }
 
             // COMPOSE RESULT
-            Object.defineProperty(parser, 'name', {value: `${this.constructor.name}.${parser.name}`});
-            return parser;
+            Object.defineProperty(parse, 'name', {value: `${this.constructor.name}.${parse.name}`});
+            return parse;
         };
 
         /**
          * Create function to perform requested operation.
-         * @return {Function}
+         * @return {TeqFw_Core_App_Server_Handler_Api_Factory.service}
          */
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
 
             /**
-             * @param {TeqFw_Core_App_Server_Handler_Api_Context} context
+             * @param {TeqFw_Core_App_Server_Handler_Api_Context} apiCtx
              * @implements {TeqFw_Core_App_Server_Handler_Api_Factory.service}
              */
-            async function service(context) {
-                // PARSE INPUT & DEFINE WORKING VARS
-
+            async function service(apiCtx) {
                 // DEFINE INNER FUNCTIONS
+
                 /**
                  * Get user id & password hash by login name.
                  * @param trx
@@ -114,12 +115,11 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                 }
 
                 // MAIN FUNCTIONALITY
-                const result = {};
+                const result = new ApiResult();
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In_Response} */
                 const response = new Response();
                 result.response = response;
-
-                const apiReq = context.request;
+                const apiReq = apiCtx.request;
                 const trx = await rdb.startTransaction();
 
                 try {
@@ -140,7 +140,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                             const secure = 'Secure; HttpOnly';
                             const path = 'Path=/';
                             const cookie = `${name}=${value}; ${exp}; ${same}; ${secure}; ${path}`;
-                            result.headers = {[H2.HTTP2_HEADER_SET_COOKIE]: cookie};
+                            result.headers[H2.HTTP2_HEADER_SET_COOKIE] = cookie;
                         }
                     }
                     await trx.commit();

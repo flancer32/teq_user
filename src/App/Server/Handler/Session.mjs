@@ -1,7 +1,7 @@
 import {constants as H2} from 'http2';
 
 /**
- * Factory to create handler to load user sessions data to request context.
+ * Factory to create HTTP2 server handler to load user sessions data to request context.
  *
  * @implements {TeqFw_Core_App_Server_Handler_Factory}
  */
@@ -16,6 +16,8 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
         const cache = spec['Fl32_Teq_User_App_Cache_Session$']; // instance singleton
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
+        /** @type {TeqFw_Core_App_Util_Back_Cookie} */
+        const utilCookie = spec['TeqFw_Core_App_Util_Back_Cookie$'];    // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
         const eAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session$'];    // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
@@ -65,8 +67,8 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
                             // there is session cookie in HTTP request
                             result = value;
                         }
-                    } else if (headers.headers && headers.headers.authorization) {
-                        const value = headers.headers.authorization;
+                    } else if (headers[H2.HTTP2_HEADER_AUTHORIZATION]) {
+                        const value = headers[H2.HTTP2_HEADER_AUTHORIZATION];
                         result = value.replace('Bearer ', '').trim();
                     }
                     return result;
@@ -162,7 +164,8 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
                             }
                         } else {
                             // clear session id from cookies
-                            res.clearCookie(DEF.SESSION_COOKIE_NAME);
+                            utilCookie.clear(DEF.SESSION_COOKIE_NAME);
+                            // TODO: add HTTP 401 error
                         }
                         await trx.commit();
                     } catch (e) {

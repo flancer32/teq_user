@@ -14,14 +14,14 @@ Content-Type: application/json
 {"data": {}}
 
 ###
-POST https://{{host}}/api/user/signIn
+POST https://{{host}}/api/user/sign/in
 Accept: application/json
 Content-Type: application/json
 
-{"data": {"user": "mgr", "password": "test"}}
+{"data": {"user": "cust", "password": "test"}}
 
 ###
-POST https://{{host}}/api/user/signOut
+POST https://{{host}}/api/user/sign/out
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{sessionId}}

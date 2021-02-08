@@ -1,24 +1,27 @@
 /**
- * Frontend gate to 'current' service (get info about currently authenticated user).
+ * Factory to create frontend gate to 'current' service (get info about currently authenticated user).
+ * Use as spec['Fl32_Teq_User_Front_Gate_Current$'].
+ * @namespace Fl32_Teq_User_Front_Gate_Current
  */
-export default function (spec) {
-    const config = spec.config;
+export default function Fl32_Teq_User_Front_Gate_Current(spec) {
+    /** @type {Fl32_Teq_User_Defaults} */
+    const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
+    /** @type {TeqFw_Core_App_Front_Data_Config} */
+    const config = spec[DEF.MOD_CORE.DI_CONFIG];    // named singleton
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Response} */
     const Response = spec['Fl32_Teq_User_Shared_Service_Route_Current#Response']; // class constructor
     /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
     const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
 
     // TODO: we need to map gate to API URI
-    const URL = `https://${config.urlBase}/api/user/current`;
+    const URL = `https://${config.urlBase}/api/user${DEF.API_CURRENT}`;
 
     /**
-     * We should place function separately to allow JSDoc & IDEA hints & navigation.
-     *
      * @param {Fl32_Teq_User_Shared_Service_Route_Current_Request} data
      * @return {Promise<Fl32_Teq_User_Shared_Service_Route_Current_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
-     * @exports Fl32_Teq_User_Front_Gate_Current
+     * @memberOf gate
      */
-    async function Fl32_Teq_User_Front_Gate_Current(data) {
+    async function gate(data) {
         try {
             const res = await fetch(URL, {
                 method: 'POST',
@@ -53,5 +56,7 @@ export default function (spec) {
         }
     }
 
-    return Fl32_Teq_User_Front_Gate_Current;
+    // COMPOSE RESULT
+    Object.defineProperty(gate, 'name', {value: 'Fl32_Teq_User_Front_Gate_Current.gate'});
+    return gate;
 }
