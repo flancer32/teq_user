@@ -21,6 +21,7 @@ export default class Fl32_Teq_User_Plugin_Init {
 
         this.getHttp2Services = function () {
             return [
+                'Fl32_Teq_User_Back_Service_Check_Existence$',
                 'Fl32_Teq_User_Back_Service_Current$',
                 'Fl32_Teq_User_Back_Service_Sign_In$',
                 'Fl32_Teq_User_Back_Service_Sign_Out$',

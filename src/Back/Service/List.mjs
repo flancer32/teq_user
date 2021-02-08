@@ -30,7 +30,7 @@ export default class Fl32_Teq_User_Back_Service_List {
         const User = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
 
         this.getRoute = function () {
-            return DEF.ROUTE_LIST;
+            return DEF.API_LIST;
         };
 
         /**

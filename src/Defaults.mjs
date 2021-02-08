@@ -2,7 +2,10 @@
  * Hardcoded configuration for the module.
  */
 export default class Fl32_Teq_User_Defaults {
+    API_CHANGE_PASSWORD = '/changePassword';
+    API_CHECK_EXISTENCE = '/check/existence';
     API_CURRENT = '/current';
+    API_LIST = '/list';
     API_SIGN_IN = '/sign/in';
     API_SIGN_OUT = '/sign/out';
     API_SIGN_UP = '/sign/up';
@@ -13,9 +16,6 @@ export default class Fl32_Teq_User_Defaults {
     HTTP_SHARE_CTX_USER = `${this.BACK_REALM}/data`; // Attribute of the HTTP request to store authenticated user data.
     /** @type {TeqFw_Core_App_Defaults} */
     MOD_CORE;
-    ROUTE_CHANGE_PASSWORD = '/changePassword';
-    ROUTE_CHECK_EXISTENCE = '/check/existence';
-    ROUTE_LIST = '/list';
     SESSION_COOKIE_LIFETIME = 31536000000;  // 3600 * 24 * 365 * 1000
     SESSION_COOKIE_NAME = 'TEQ_SESSION_ID';
     SESSION_ID_BYTES = 20;  // Number of bytes for generated session ID.
