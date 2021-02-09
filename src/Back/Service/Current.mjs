@@ -7,6 +7,8 @@ export default class Fl32_Teq_User_Back_Service_Current {
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF = spec['Fl32_Teq_User_Defaults$'];
+        /** @type {typeof TeqFw_Core_App_Server_Handler_Api_Result} */
+        const ApiResult = spec['TeqFw_Core_App_Server_Handler_Api_Result#'];    // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_Current#Response'];   // class constructor
 
@@ -16,32 +18,29 @@ export default class Fl32_Teq_User_Back_Service_Current {
 
         /**
          * Factory to create service (handler to process HTTP API request).
-         * @returns {Function}
+         * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.service}
          */
         this.createService = function () {
+            // DEFINE INNER FUNCTIONS
             /**
-             * Service to handle HTTP API requests.
-             *
-             * @param {TeqFw_Core_App_Server_Handler_Api_Context} apiCtx API context for current request
-             * @returns {Promise<void>}
+             * @param {TeqFw_Core_App_Server_Handler_Api_Context} apiCtx
+             * @returns {Promise<TeqFw_Core_App_Server_Handler_Api_Result>}
+             * @memberOf Fl32_Teq_User_Back_Service_Current
+             * @implements {TeqFw_Core_App_Server_Handler_Api_Factory.service}
              */
             async function service(apiCtx) {
-                // PARSE INPUT & DEFINE WORKING VARS
-                const sharedCtx = apiCtx.sharedContext;
-
                 // MAIN FUNCTIONALITY
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Current_Response} */
-                const response = new Response();
+                const result = new ApiResult();
+                result.response = new Response();
+                const sharedCtx = apiCtx.sharedContext;
                 if (sharedCtx && sharedCtx[DEF.HTTP_SHARE_CTX_USER]) {
-                    response.user = sharedCtx[DEF.HTTP_SHARE_CTX_USER];
+                    result.response.user = sharedCtx[DEF.HTTP_SHARE_CTX_USER];
                 }
-                return {response};
+                return result;
             }
 
             // COMPOSE RESULT
-            Object.defineProperty(service, 'name', {
-                value: `${this.constructor.name}.${service.name}`,
-            });
+            Object.defineProperty(service, 'name', {value: `${this.constructor.name}.${service.name}`});
             return service;
         };
     }

@@ -42,14 +42,14 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         };
 
         /**
-         * Create function to validate and structure incoming data.
+         * Factory to create function to validate and structure incoming data.
          * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.parse}
          */
         this.createInputParser = function () {
             // DEFINE INNER FUNCTIONS
             /**
              * @param {TeqFw_Core_App_Server_Http2_Context} httpCtx
-             * @return {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request}
+             * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request}
              * @memberOf Fl32_Teq_User_Back_Service_Sign_Up
              * @implements TeqFw_Core_App_Server_Handler_Api_Factory.parse
              */
@@ -64,14 +64,15 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         };
 
         /**
-         * Create function to perform requested operation.
-         * @return {TeqFw_Core_App_Server_Handler_Api_Factory.service}
+         * Factory to create service (handler to process HTTP API request).
+         * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.service}
          */
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
             /**
              * @param {TeqFw_Core_App_Server_Handler_Api_Context} apiCtx
-             * @return {Promise<Fl32_Teq_User_Shared_Service_Route_Sign_Up_Response>}
+             * @returns {Promise<TeqFw_Core_App_Server_Handler_Api_Result>}
+             * @memberOf Fl32_Teq_User_Back_Service_Sign_Up
              * @implements {TeqFw_Core_App_Server_Handler_Api_Factory.service}
              */
             async function service(apiCtx) {
@@ -81,7 +82,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                  * @param trx
                  * @param {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} req
                  * @param {Number} parentId
-                 * @return {Promise<Number>}
+                 * @returns {Promise<Number>}
                  */
                 async function addUser(trx, req, parentId) {
                     // DEFINE INNER FUNCTIONS
@@ -143,7 +144,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                 /**
                  * @param trx
                  * @param {String} code referral code
-                 * @return {Promise<Number|null>}
+                 * @returns {Promise<Number|null>}
                  */
                 async function getUserIdByRefCode(trx, code) {
                     let result = null;
@@ -166,7 +167,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                  * Select data for newly registered user.
                  * @param trx
                  * @param {Number} userId
-                 * @return {Promise<Fl32_Teq_User_Shared_Service_Data_User>}
+                 * @returns {Promise<Fl32_Teq_User_Shared_Service_Data_User>}
                  */
                 async function selectUser(trx, userId) {
 
@@ -201,7 +202,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                     /**
                      * @param trx
                      * @param {Number} userId
-                     * @return {Promise<Fl32_Teq_User_Shared_Service_Data_User>}
+                     * @returns {Promise<Fl32_Teq_User_Shared_Service_Data_User>}
                      */
                     async function getUser(trx, userId) {
                         const query = trx.from({u: eUser.ENTITY});
@@ -248,6 +249,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                 const trx = await rdb.startTransaction();
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
                 const apiReq = apiCtx.request;
+
                 try {
                     const parentId = await getUserIdByRefCode(trx, apiReq.referralCode);
                     if (parentId) {

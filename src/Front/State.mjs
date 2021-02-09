@@ -1,7 +1,7 @@
 /**
  * State for User module functionality.
  *
- * @return {Object}
+ * @returns {Object}
  * @constructor
  */
 function Fl32_Teq_User_Front_State() {

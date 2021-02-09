@@ -55,7 +55,7 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
                 /**
                  * Extract session ID from cookies or HTTP headers.
                  * @param {Object<String, String>} headers
-                 * @return {String|null}
+                 * @returns {String|null}
                  */
                 function extractSessionId(headers) {
                     let result = null;
@@ -109,7 +109,7 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
                     /**
                      * @param trx
                      * @param {Number} userId
-                     * @return {Promise<Fl32_Teq_User_Shared_Service_Data_User|null>}
+                     * @returns {Promise<Fl32_Teq_User_Shared_Service_Data_User|null>}
                      */
                     async function getUserById(trx, userId) {
                         let result = null;

@@ -37,14 +37,14 @@ export default class Fl32_Teq_User_Back_Service_List {
         };
 
         /**
-         * Create function to validate and structure incoming data.
+         * Factory to create function to validate and structure incoming data.
          * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.parse}
          */
         this.createInputParser = function () {
             // DEFINE INNER FUNCTIONS
             /**
              * @param {TeqFw_Core_App_Server_Http2_Context} httpCtx
-             * @return {Fl32_Teq_User_Shared_Service_Route_List_Request}
+             * @returns {Fl32_Teq_User_Shared_Service_Route_List_Request}
              * @memberOf Fl32_Teq_User_Back_Service_List
              * @implements TeqFw_Core_App_Server_Handler_Api_Factory.parse
              */
@@ -59,14 +59,14 @@ export default class Fl32_Teq_User_Back_Service_List {
         };
 
         /**
-         * Create function to perform requested operation.
-         * @return {TeqFw_Core_App_Server_Handler_Api_Factory.service}
+         * Factory to create service (handler to process HTTP API request).
+         * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.service}
          */
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
             /**
              * @param {TeqFw_Core_App_Server_Handler_Api_Context} apiCtx
-             * @return {Promise<Fl32_Teq_User_Shared_Service_Route_List_Response>}
+             * @returns {Promise<TeqFw_Core_App_Server_Handler_Api_Result>}
              * @memberOf Fl32_Teq_User_Back_Service_List
              * @implements {TeqFw_Core_App_Server_Handler_Api_Factory.service}
              */
@@ -75,7 +75,7 @@ export default class Fl32_Teq_User_Back_Service_List {
                 /**
                  * Select data for all users w/o conditions.
                  * @param trx
-                 * @return {Promise<Fl32_Teq_User_Shared_Service_Data_User[]>}
+                 * @returns {Promise<Fl32_Teq_User_Shared_Service_Data_User[]>}
                  */
                 async function selectUsers(trx) {
 
@@ -84,7 +84,7 @@ export default class Fl32_Teq_User_Back_Service_List {
                     /**
                      * @param trx
                      * @param {Object.<Number, Fl32_Teq_User_Shared_Service_Data_User>} users
-                     * @return {Promise<void>}
+                     * @returns {Promise<void>}
                      */
                     async function populateWithEmails(trx, users) {
                         const ids = Object.keys(users);
@@ -105,7 +105,7 @@ export default class Fl32_Teq_User_Back_Service_List {
                     /**
                      * @param trx
                      * @param {Object.<Number, Fl32_Teq_User_Shared_Service_Data_User>} users
-                     * @return {Promise<void>}
+                     * @returns {Promise<void>}
                      */
                     async function populateWithPhones(trx, users) {
                         const ids = Object.keys(users);
@@ -125,7 +125,7 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                     /**
                      * @param trx
-                     * @return {Promise<Object.<Number, Fl32_Teq_User_Shared_Service_Data_User>>}
+                     * @returns {Promise<Object.<Number, Fl32_Teq_User_Shared_Service_Data_User>>}
                      */
                     async function getUsers(trx) {
                         const result = {};

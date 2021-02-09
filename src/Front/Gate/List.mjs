@@ -20,7 +20,7 @@ export default function Fl32_Teq_User_Front_Gate_List (spec) {
 
     /**
      * @param {Fl32_Teq_User_Shared_Service_Route_List_Request} data
-     * @return {Promise<Fl32_Teq_User_Shared_Service_Route_List_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
+     * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_List_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
      * @memberOf Fl32_Teq_User_Front_Gate_List
      */
     async function gate(data) {

@@ -16,7 +16,7 @@ export default class Fl32_Teq_User_App_Cache_Session {
         };
         /**
          * @param {String} sessId
-         * @return {Fl32_Teq_User_Shared_Service_Data_User|null}
+         * @returns {Fl32_Teq_User_Shared_Service_Data_User|null}
          */
         this.get = function (sessId) {
             return map.get(sessId) ?? null;

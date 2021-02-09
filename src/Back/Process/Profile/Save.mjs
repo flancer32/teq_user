@@ -18,7 +18,7 @@ export default class Fl32_Teq_User_Back_Process_Profile_Save {
          *
          * @param trx
          * @param {Fl32_Teq_User_Api_Process_Data_Profile} input
-         * @return {Promise<{output: *, error}>}
+         * @returns {Promise<{output: *, error}>}
          */
         this.exec = async function ({trx, input}) {
             // DEFINE INNER FUNCTIONS

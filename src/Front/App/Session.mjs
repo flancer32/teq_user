@@ -38,7 +38,7 @@ export default class Fl32_Teq_User_Front_App_Session {
         };
 
         /**
-         * @return {Fl32_Teq_User_Shared_Service_Data_User}
+         * @returns {Fl32_Teq_User_Shared_Service_Data_User}
          */
         this.getUser = function () {
             return user;

@@ -17,7 +17,7 @@ function Fl32_Teq_User_Store_RDb_Query_GetUsers_Factory(spec) {
 
     /**
      * @param trx
-     * @return {*}
+     * @returns {*}
      * @exports Fl32_Teq_User_Store_RDb_Query_GetUsers
      */
     function Fl32_Teq_User_Store_RDb_Query_GetUsers(trx) {

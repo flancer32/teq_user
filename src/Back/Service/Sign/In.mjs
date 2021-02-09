@@ -29,7 +29,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         };
 
         /**
-         * Create function to validate and structure incoming data.
+         * Factory to create function to validate and structure incoming data.
          * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.parse}
          */
         this.createInputParser = function () {
@@ -53,14 +53,15 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         };
 
         /**
-         * Create function to perform requested operation.
-         * @return {TeqFw_Core_App_Server_Handler_Api_Factory.service}
+         * Factory to create service (handler to process HTTP API request).
+         * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.service}
          */
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
-
             /**
              * @param {TeqFw_Core_App_Server_Handler_Api_Context} apiCtx
+             * @returns {Promise<TeqFw_Core_App_Server_Handler_Api_Result>}
+             * @memberOf Fl32_Teq_User_Back_Service_Sign_In
              * @implements {TeqFw_Core_App_Server_Handler_Api_Factory.service}
              */
             async function service(apiCtx) {
@@ -70,7 +71,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                  * Get user id & password hash by login name.
                  * @param trx
                  * @param {String} login
-                 * @return {Promise<{userId: number, hash: string}>}
+                 * @returns {Promise<{userId: number, hash: string}>}
                  */
                 async function getUserData(trx, login) {
                     const result = {};
@@ -115,11 +116,10 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
 
                 // MAIN FUNCTIONALITY
                 const result = new ApiResult();
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In_Response} */
-                const response = new Response();
-                result.response = response;
-                const apiReq = apiCtx.request;
+                result.response = new Response();
                 const trx = await rdb.startTransaction();
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In_Request} */
+                const apiReq = apiCtx.request;
 
                 try {
                     // select user data by login name (this type of authentication is accepted at the moment)
@@ -129,10 +129,10 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                         const equal = await $bcrypt.compare(apiReq.password, hash);
                         if (equal) {
                             // generate user session
-                            response.sessionId = await openSession(trx, userId);
+                            result.response.sessionId = await openSession(trx, userId);
                             // set session cookie
                             const name = DEF.SESSION_COOKIE_NAME;
-                            const value = response.sessionId;
+                            const value = result.response.sessionId;
                             const now = new Date(Date.now() + DEF.SESSION_COOKIE_LIFETIME);
                             const exp = `Expires=${now.toUTCString()}`;
                             const same = 'SameSite=Strict';

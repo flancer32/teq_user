@@ -27,14 +27,14 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         };
 
         /**
-         * Create function to validate and structure incoming data.
+         * Factory to create function to validate and structure incoming data.
          * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.parse}
          */
         this.createInputParser = function () {
             // DEFINE INNER FUNCTIONS
             /**
              * @param {TeqFw_Core_App_Server_Http2_Context} httpCtx
-             * @return {Fl32_Teq_User_Shared_Service_Route_Sign_Out_Request}
+             * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_Out_Request}
              * @memberOf Fl32_Teq_User_Back_Service_Sign_In
              * @implements TeqFw_Core_App_Server_Handler_Api_Factory.parse
              */
@@ -49,14 +49,15 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         };
 
         /**
-         * Create function to perform requested operation.
-         * @return {TeqFw_Core_App_Server_Handler_Api_Factory.service}
+         * Factory to create service (handler to process HTTP API request).
+         * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.service}
          */
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
             /**
              * @param {TeqFw_Core_App_Server_Handler_Api_Context} apiCtx
-             * @return {Promise<Fl32_Teq_User_Shared_Service_Route_Sign_Out_Response>}
+             * @returns {Promise<TeqFw_Core_App_Server_Handler_Api_Result>}
+             * @memberOf Fl32_Teq_User_Back_Service_Sign_Out
              * @implements {TeqFw_Core_App_Server_Handler_Api_Factory.service}
              */
             async function service(apiCtx) {

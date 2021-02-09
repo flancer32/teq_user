@@ -18,7 +18,7 @@ export default function Fl32_Teq_User_Front_Gate_Check_Existence(spec) {
 
     /**
      * @param {Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request} data
-     * @return {Promise<Fl32_Teq_User_Shared_Service_Route_Check_Existence_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
+     * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_Check_Existence_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
      * @memberOf Fl32_Teq_User_Front_Gate_Check_Existence
      */
     async function gate(data) {
