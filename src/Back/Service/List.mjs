@@ -1,5 +1,6 @@
 /**
- * Service to get users listing ("/api/${mod}/list").
+ * Service to get users listing.
+ * @extends TeqFw_Core_App_Server_Handler_Api_Factory
  */
 export default class Fl32_Teq_User_Back_Service_List {
 
@@ -22,6 +23,8 @@ export default class Fl32_Teq_User_Back_Service_List {
         const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$'];         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
         const eUser = spec['Fl32_Teq_User_Store_RDb_Schema_User$'];                // instance singleton
+        /** @type {typeof TeqFw_Core_App_Server_Handler_Api_Result} */
+        const ApiResult = spec['TeqFw_Core_App_Server_Handler_Api_Result#'];    // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_List#Request'];   // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Response} */
@@ -35,34 +38,39 @@ export default class Fl32_Teq_User_Back_Service_List {
 
         /**
          * Create function to validate and structure incoming data.
-         * @return {Function}
+         * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.parse}
          */
-        this.createParser = function () {
+        this.createInputParser = function () {
+            // DEFINE INNER FUNCTIONS
             /**
-             * @param {IncomingMessage} httpReq
+             * @param {TeqFw_Core_App_Server_Http2_Context} httpCtx
              * @return {Fl32_Teq_User_Shared_Service_Route_List_Request}
-             * @exports Fl32_Teq_User_Back_Service_List$parse
+             * @memberOf Fl32_Teq_User_Back_Service_List
+             * @implements TeqFw_Core_App_Server_Handler_Api_Factory.parse
              */
-            function Fl32_Teq_User_Back_Service_List$parse(httpReq) {
-                const body = httpReq.body;
-                // clone HTTP body into API request object
-                return Object.assign(new Request(), body.data);
+            function parse(httpCtx) {
+                const body = JSON.parse(httpCtx.body);
+                return Object.assign(new Request(), body.data); // clone HTTP body into API request object
             }
 
-            return Fl32_Teq_User_Back_Service_List$parse;
+            // COMPOSE RESULT
+            Object.defineProperty(parse, 'name', {value: `${this.constructor.name}.${parse.name}`});
+            return parse;
         };
 
         /**
          * Create function to perform requested operation.
-         * @return {Function}
+         * @return {TeqFw_Core_App_Server_Handler_Api_Factory.service}
          */
-        this.createProcessor = function () {
+        this.createService = function () {
+            // DEFINE INNER FUNCTIONS
             /**
-             * @param {Fl32_Teq_User_Shared_Service_Route_List_Request} apiReq
+             * @param {TeqFw_Core_App_Server_Handler_Api_Context} apiCtx
              * @return {Promise<Fl32_Teq_User_Shared_Service_Route_List_Response>}
-             * @exports Fl32_Teq_User_Back_Service_List$process
+             * @memberOf Fl32_Teq_User_Back_Service_List
+             * @implements {TeqFw_Core_App_Server_Handler_Api_Factory.service}
              */
-            async function Fl32_Teq_User_Back_Service_List$process(apiReq) {
+            async function service(apiCtx) {
                 // DEFINE INNER FUNCTIONS
                 /**
                  * Select data for all users w/o conditions.
@@ -165,12 +173,12 @@ export default class Fl32_Teq_User_Back_Service_List {
                 }
 
                 // MAIN FUNCTIONALITY
-                /** @type {Fl32_Teq_User_Shared_Service_Route_List_Response} */
-                const result = new Response();
+                const result = new ApiResult();
+                result.response = new Response();
                 const trx = await rdb.startTransaction();
 
                 try {
-                    result.items = await selectUsers(trx);
+                    result.response.items = await selectUsers(trx);
                     trx.commit();
                 } catch (error) {
                     trx.rollback();
@@ -179,7 +187,9 @@ export default class Fl32_Teq_User_Back_Service_List {
                 return result;
             }
 
-            return Fl32_Teq_User_Back_Service_List$process;
+            // COMPOSE RESULT
+            Object.defineProperty(service, 'name', {value: `${this.constructor.name}.${service.name}`});
+            return service;
         };
     }
 

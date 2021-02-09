@@ -1,7 +1,8 @@
 import $bcrypt from 'bcrypt';
 
 /**
- * Service to get currently authenticated user data ("/api/${mod}/changePassword").
+ * Service to get currently authenticated user data.
+ * @extends TeqFw_Core_App_Server_Handler_Api_Factory
  */
 export default class Fl32_Teq_User_Back_Service_ChangePassword {
 
@@ -12,6 +13,8 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];   // instance singleton
+        /** @type {typeof TeqFw_Core_App_Server_Handler_Api_Result} */
+        const ApiResult = spec['TeqFw_Core_App_Server_Handler_Api_Result#'];    // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Request'];   // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword_Response} */
@@ -23,35 +26,38 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
 
         /**
          * Create function to validate and structure incoming data.
-         * @return {Function}
+         * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.parse}
          */
-        this.createParser = function () {
+        this.createInputParser = function () {
             /**
-             * @param {IncomingMessage} httpReq
+             * @param {TeqFw_Core_App_Server_Http2_Context} httpCtx
              * @return {Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request}
-             * @exports Fl32_Teq_User_Back_Service_ChangePassword$parse
+             * @memberOf Fl32_Teq_User_Back_Service_ChangePassword
+             * @implements TeqFw_Core_App_Server_Handler_Api_Factory.parse
              */
-            function Fl32_Teq_User_Back_Service_ChangePassword$parse(httpReq) {
-                const body = httpReq.body;
-                // clone HTTP body into API request object
-                return Object.assign(new Request(), body.data);
+            function parse(httpCtx) {
+                const body = JSON.parse(httpCtx.body);
+                return Object.assign(new Request(), body.data); // clone HTTP body into API request object
             }
 
-            return Fl32_Teq_User_Back_Service_ChangePassword$parse;
+            // COMPOSE RESULT
+            Object.defineProperty(parse, 'name', {value: `${this.constructor.name}.${parse.name}`});
+            return parse;
         };
 
         /**
          * Create function to perform requested operation.
-         * @return {Function}
+         * @return {TeqFw_Core_App_Server_Handler_Api_Factory.service}
          */
-        this.createProcessor = function () {
+        this.createService = function () {
+            // DEFINE INNER FUNCTIONS
             /**
-             * @param {Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request} apiReq
-             * @param {IncomingMessage} httpReq
+             * @param {TeqFw_Core_App_Server_Handler_Api_Context} apiCtx
              * @return {Promise<Fl32_Teq_User_Shared_Service_Route_ChangePassword_Response>}
-             * @exports Fl32_Teq_User_Back_Service_ChangePassword$process
+             * @memberOf Fl32_Teq_User_Back_Service_ChangePassword
+             * @implements {TeqFw_Core_App_Server_Handler_Api_Factory.service}
              */
-            async function Fl32_Teq_User_Back_Service_ChangePassword$process(apiReq, httpReq) {
+            async function service(apiCtx) {
                 // DEFINE INNER FUNCTIONS
 
                 async function isValidPassword(trx, userId, password) {
@@ -80,19 +86,22 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
                 }
 
                 // MAIN FUNCTIONALITY
-                /** @type {Fl32_Teq_User_Shared_Service_Route_ChangePassword_Response} */
-                const result = new Response();
-                result.success = false;
+                const result = new ApiResult();
+                result.response = new Response();
                 const trx = await rdb.startTransaction();
+                /** @type {Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request} */
+                const apiReq = apiCtx.request;
+                const sharedCtx = apiCtx.sharedContext;
+                result.response.success = false;
 
                 try {
-                    if (httpReq[DEF.HTTP_SHARE_CTX_USER]) {
+                    if (sharedCtx && sharedCtx[DEF.HTTP_SHARE_CTX_USER]) {
                         /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
-                        const user = httpReq[DEF.HTTP_SHARE_CTX_USER];
+                        const user = sharedCtx && sharedCtx[DEF.HTTP_SHARE_CTX_USER];
                         const isValid = await isValidPassword(trx, user.id, apiReq.passwordCurrent);
                         if (isValid) {
                             await setPassword(trx, user.id, apiReq.passwordNew);
-                            result.success = true;
+                            result.response.success = true;
                         }
                     }
                     await trx.commit();
@@ -103,7 +112,9 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
                 return result;
             }
 
-            return Fl32_Teq_User_Back_Service_ChangePassword$process;
+            // COMPOSE RESULT
+            Object.defineProperty(service, 'name', {value: `${this.constructor.name}.${service.name}`});
+            return service;
         };
     }
 

@@ -1,8 +1,13 @@
 /**
- * Frontend gate to 'list' service.
+ * Factory to create frontend gate to 'list' service.
+ * Use as spec['Fl32_Teq_User_Front_Gate_List$'].
+ * @namespace Fl32_Teq_User_Front_Gate_List
  */
-export default function (spec) {
-    const config = spec.config;
+export default function Fl32_Teq_User_Front_Gate_List (spec) {
+    /** @type {Fl32_Teq_User_Defaults} */
+    const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
+    /** @type {TeqFw_Core_App_Front_Data_Config} */
+    const config = spec[DEF.MOD_CORE.DI_CONFIG];    // named singleton
     /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
     const User = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Response} */
@@ -11,16 +16,14 @@ export default function (spec) {
     const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
 
     // TODO: we need to map gate to API URI
-    const URL = `https://${config.urlBase}/api/user/list`;
+    const URL = `https://${config.urlBase}/api/user${DEF.API_LIST}`;
 
     /**
-     * We should place function separately to allow JSDoc & IDEA hints & navigation.
-     *
      * @param {Fl32_Teq_User_Shared_Service_Route_List_Request} data
      * @return {Promise<Fl32_Teq_User_Shared_Service_Route_List_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
-     * @exports Fl32_Teq_User_Front_Gate_List
+     * @memberOf Fl32_Teq_User_Front_Gate_List
      */
-    async function Fl32_Teq_User_Front_Gate_List(data) {
+    async function gate(data) {
         try {
             const res = await fetch(URL, {
                 method: 'POST',
@@ -61,5 +64,7 @@ export default function (spec) {
         }
     }
 
-    return Fl32_Teq_User_Front_Gate_List;
+    // COMPOSE RESULT
+    Object.defineProperty(gate, 'name', {value: 'Fl32_Teq_User_Front_Gate_List.gate'});
+    return gate;
 }

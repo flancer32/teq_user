@@ -1,5 +1,5 @@
 /**
- * Service to get currently authenticated user data ("/api/${mod}/current").
+ * Service to get currently authenticated user data.
  * @extends TeqFw_Core_App_Server_Handler_Api_Factory
  */
 export default class Fl32_Teq_User_Back_Service_Current {
