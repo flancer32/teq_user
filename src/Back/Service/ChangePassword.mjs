@@ -31,13 +31,13 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
         this.createInputParser = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Core_App_Server_Http2_Context} httpCtx
+             * @param {TeqFw_Core_App_Server_Http2_Handler_Stream_Context} context
              * @returns {Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request}
              * @memberOf Fl32_Teq_User_Back_Service_ChangePassword
              * @implements TeqFw_Core_App_Server_Handler_Api_Factory.parse
              */
-            function parse(httpCtx) {
-                const body = JSON.parse(httpCtx.body);
+            function parse(context) {
+                const body = JSON.parse(context.body);
                 return Object.assign(new Request(), body.data); // clone HTTP body into API request object
             }
 

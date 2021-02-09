@@ -30,6 +30,8 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
         const DUser = spec['Fl32_Teq_User_Shared_Service_Data_User#'];       // class constructor
         /** @type {Fl32_Teq_User_Store_RDb_Query_GetUsers} */
         const qGetUsers = spec['Fl32_Teq_User_Store_RDb_Query_GetUsers$']; // instance singleton
+        /** @type {typeof TeqFw_Core_App_Server_Http2_Handler_Stream_Report} */
+        const Report = spec['TeqFw_Core_App_Server_Http2_Handler_Stream#Report'];   // class constructor
 
         /**
          * Create handler to load user sessions data to request context.
@@ -40,17 +42,12 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
             /**
              * Handler to load user sessions data to request context.
              *
-             * @param {TeqFw_Core_App_Server_Http2_Context} httpCtx
-             * @returns {Promise<boolean>}
+             * @param {TeqFw_Core_App_Server_Http2_Handler_Stream_Context} context
+             * @returns {Promise<TeqFw_Core_App_Server_Http2_Handler_Stream_Report>}
              * @memberOf Fl32_Teq_User_App_Server_Handler_Session
-             * @implements {TeqFw_Core_App_Server_Handler_Factory.handler}
+             * @implements {TeqFw_Core_App_Server_Http2_Handler_Stream.handler}
              */
-            async function handler(httpCtx) {
-                // PARSE INPUT & DEFINE WORKING VARS
-                /** @type {Object<String, String>} */
-                const headers = httpCtx.headers;
-                const sharedCtx = httpCtx.shared;
-
+            async function handler(context) {
                 // DEFINE INNER FUNCTIONS
                 /**
                  * Extract session ID from cookies or HTTP headers.
@@ -75,12 +72,12 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
                 }
 
                 /**
-                 * Load user data using session ID and place it to the request's shared context.
+                 * Load user data using session ID and place it to the report's additional shared objects.
                  * @param {String} sessId
-                 * @param {TeqFw_Core_App_Server_Http2_Context_Shared} sharedCtx
+                 * @param {TeqFw_Core_App_Server_Http2_Handler_Stream_Report} report
                  * @returns {Promise<void>}
                  */
-                async function loadUserData(sessId, sharedCtx) {
+                async function loadUserData(sessId, report) {
                     // DEFINE INNER FUNCTIONS
                     async function getEmails(trx, userId) {
                         const result = [];
@@ -158,14 +155,15 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
                                 // emails & phones
                                 user.emails = await getEmails(trx, user.id);
                                 user.phones = await getPhones(trx, user.id);
-                                sharedCtx[DEF.HTTP_SHARE_CTX_USER] = user;
-                                sharedCtx[DEF.HTTP_SHARE_CTX_SESSION_ID] = sessId;
+                                report.sharedAdditional[DEF.HTTP_SHARE_CTX_USER] = user;
+                                report.sharedAdditional[DEF.HTTP_SHARE_CTX_SESSION_ID] = sessId;
                                 cache.set(sessId, user);
                             }
                         } else {
                             // clear session id from cookies
-                            utilCookie.clear(DEF.SESSION_COOKIE_NAME);
-                            // TODO: add HTTP 401 error
+                            result.headers[H2.HTTP2_HEADER_SET_COOKIE] = utilCookie.clear(DEF.SESSION_COOKIE_NAME);
+                            result.headers[H2.HTTP2_HEADER_STATUS] = H2.HTTP_STATUS_UNAUTHORIZED;
+                            result.complete = true;
                         }
                         await trx.commit();
                     } catch (e) {
@@ -175,30 +173,33 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
                 }
 
                 // MAIN FUNCTIONALITY
+                const result = new Report();
+                /** @type {Object<String, String>} */
+                const headers = context.headers;
                 try {
                     // process request, compose response and write it to the 'stream'
                     const sessId = extractSessionId(headers);
                     if (sessId) {
                         const userCached = cache.get(sessId);
                         if (userCached) {
-                            sharedCtx[DEF.HTTP_SHARE_CTX_USER] = userCached;
-                            sharedCtx[DEF.HTTP_SHARE_CTX_SESSION_ID] = sessId;
+                            result.sharedAdditional[DEF.HTTP_SHARE_CTX_USER] = userCached;
+                            result.sharedAdditional[DEF.HTTP_SHARE_CTX_SESSION_ID] = sessId;
                         } else {
-                            await loadUserData(sessId, sharedCtx);
+                            await loadUserData(sessId, result);
                         }
                     }
                 } catch (e) {
-                    // TODO: add HTTP 401 error
-                    debugger;
+                    result.headers[H2.HTTP2_HEADER_STATUS] = H2.HTTP_STATUS_UNAUTHORIZED;
+                    result.complete = true;
                 }
-                return false;   // always return 'false' cause this is middleware handler
+                return result;
             }
 
             // MAIN FUNCTIONALITY
             const name = `${this.constructor.name}.${handler.name}`;
             logger.debug(`HTTP2 requests handler '${name}' is created.`);
             // COMPOSE RESULT
-            Object.defineProperty(handler, 'name', {value: name});
+            Object.defineProperty(handler, 'name', {value: `${this.constructor.name}.${handler.name}`});
             return handler;
         };
     }
