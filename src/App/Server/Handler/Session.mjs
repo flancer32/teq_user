@@ -3,7 +3,7 @@ import {constants as H2} from 'http2';
 /**
  * Factory to create HTTP2 server handler to load user sessions data to request context.
  *
- * @implements {TeqFw_Core_App_Server_Handler_Factory}
+ * @implements {TeqFw_Core_App_Server_Http2_Handler_Factory}
  */
 export default class Fl32_Teq_User_App_Server_Handler_Session {
 
@@ -30,8 +30,8 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
         const DUser = spec['Fl32_Teq_User_Shared_Service_Data_User#'];       // class constructor
         /** @type {Fl32_Teq_User_Store_RDb_Query_GetUsers} */
         const qGetUsers = spec['Fl32_Teq_User_Store_RDb_Query_GetUsers$']; // instance singleton
-        /** @type {typeof TeqFw_Core_App_Server_Http2_Handler_Stream_Report} */
-        const Report = spec['TeqFw_Core_App_Server_Http2_Handler_Stream#Report'];   // class constructor
+        /** @type {typeof TeqFw_Core_App_Server_Http2_Stream_Report} */
+        const Report = spec['TeqFw_Core_App_Server_Http2_Stream#Report'];   // class constructor
 
         /**
          * Create handler to load user sessions data to request context.
@@ -42,10 +42,10 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
             /**
              * Handler to load user sessions data to request context.
              *
-             * @param {TeqFw_Core_App_Server_Http2_Handler_Stream_Context} context
-             * @returns {Promise<TeqFw_Core_App_Server_Http2_Handler_Stream_Report>}
+             * @param {TeqFw_Core_App_Server_Http2_Stream_Context} context
+             * @returns {Promise<TeqFw_Core_App_Server_Http2_Stream_Report>}
              * @memberOf Fl32_Teq_User_App_Server_Handler_Session
-             * @implements {TeqFw_Core_App_Server_Http2_Handler_Stream.handler}
+             * @implements {TeqFw_Core_App_Server_Http2_Stream.handler}
              */
             async function handler(context) {
                 // DEFINE INNER FUNCTIONS
@@ -74,7 +74,7 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
                 /**
                  * Load user data using session ID and place it to the report's additional shared objects.
                  * @param {String} sessId
-                 * @param {TeqFw_Core_App_Server_Http2_Handler_Stream_Report} report
+                 * @param {TeqFw_Core_App_Server_Http2_Stream_Report} report
                  * @returns {Promise<void>}
                  */
                 async function loadUserData(sessId, report) {

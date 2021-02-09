@@ -1,6 +1,6 @@
 /**
  * Check existence for different values (login, referral code, email, phone, ...).
- * @extends TeqFw_Core_App_Server_Handler_Api_Factory
+ * @extends TeqFw_Core_App_Server_Http2_Handler_Api_Factory
  */
 export default class Fl32_Teq_User_Back_Service_Check_Existence {
 
@@ -17,8 +17,8 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
         const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$'];         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
         const eRefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link$'];         // instance singleton
-        /** @type {typeof TeqFw_Core_App_Server_Handler_Api_Result} */
-        const ApiResult = spec['TeqFw_Core_App_Server_Handler_Api_Result#'];    // class constructor
+        /** @type {typeof TeqFw_Core_App_Server_Http2_Handler_Api_Result} */
+        const ApiResult = spec['TeqFw_Core_App_Server_Http2_Handler_Api#Result'];    // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Request'];   // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence_Response} */
@@ -30,18 +30,18 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
 
         /**
          * Factory to create function to validate and structure incoming data.
-         * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.parse}
+         * @returns {TeqFw_Core_App_Server_Http2_Handler_Api_Factory.parse}
          */
         this.createInputParser = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Core_App_Server_Http2_Context} httpCtx
+             * @param {TeqFw_Core_App_Server_Http2_Stream_Context} context
              * @returns {Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request}
              * @memberOf Fl32_Teq_User_Back_Service_Check_Existence
-             * @implements TeqFw_Core_App_Server_Handler_Api_Factory.parse
+             * @implements TeqFw_Core_App_Server_Http2_Handler_Api_Factory.parse
              */
-            function parse(httpCtx) {
-                const body = JSON.parse(httpCtx.body);
+            function parse(context) {
+                const body = JSON.parse(context.body);
                 return Object.assign(new Request(), body.data); // clone HTTP body into API request object
             }
 
@@ -52,15 +52,15 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
 
         /**
          * Factory to create service (handler to process HTTP API request).
-         * @returns {TeqFw_Core_App_Server_Handler_Api_Factory.service}
+         * @returns {TeqFw_Core_App_Server_Http2_Handler_Api_Factory.service}
          */
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Core_App_Server_Handler_Api_Context} apiCtx
-             * @returns {Promise<TeqFw_Core_App_Server_Handler_Api_Result>}
+             * @param {TeqFw_Core_App_Server_Http2_Handler_Api_Context} apiCtx
+             * @returns {Promise<TeqFw_Core_App_Server_Http2_Handler_Api_Result>}
              * @memberOf Fl32_Teq_User_Back_Service_Check_Existence
-             * @implements {TeqFw_Core_App_Server_Handler_Api_Factory.service}
+             * @implements {TeqFw_Core_App_Server_Http2_Handler_Api_Factory.service}
              */
             async function service(apiCtx) {
                 // DEFINE INNER FUNCTIONS
