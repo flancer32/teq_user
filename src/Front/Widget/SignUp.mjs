@@ -82,7 +82,7 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     const CheckExistReq = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Request']; // class constructor
 
     const TIMEOUT = 1000;
-    i18next.addResourceBundle('en', 'teqUser', I18N_BUNDLE, true);
+    i18next.addResourceBundle('dev', 'teqUser', I18N_BUNDLE, true);
 
     return {
         name: 'UserSignUp',

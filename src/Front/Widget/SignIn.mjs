@@ -40,7 +40,7 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     /** @type {Fl32_Teq_User_Front_Gate_Sign_In} */
     const gate = spec['Fl32_Teq_User_Front_Gate_Sign_In$']; // function singleton
 
-    i18next.addResourceBundle('en', 'teqUserSignIn', I18N_BUNDLE, true);
+    i18next.addResourceBundle('dev', 'teqUserSignIn', I18N_BUNDLE, true);
 
     return {
         name: 'UserSignIn',
