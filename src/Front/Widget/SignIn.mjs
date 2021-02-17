@@ -6,16 +6,27 @@ const I18N_BUNDLE = {
 
 const template = `
 <form class="teqUserSignIn" onsubmit="return false">
-    <div>
-        <div>{{$t('teqUserSignIn:user')}}:</div>
-        <div><input name="username" v-model="data.user" autocomplete="on"></div>
-    </div>
-    <div>
-        <div>{{$t('teqUserSignIn:password')}}:</div>
-        <div><input name="password" v-model="data.password" type="password" autocomplete="current-password"></div>
-    </div>
+    <teq-input
+            :label="$t('teqUserSignIn:user')"
+            :autocomplete="'off'"
+            v-model="data.user"
+    ></teq-input>
+    <teq-input
+            :label="$t('teqUserSignIn:password')"
+            :type="'password'"
+            :autocomplete="'off'"
+             v-model="data.password"
+    ></teq-input>
+<!--    <div>-->
+<!--        <div>{{ $t('teqUserSignIn:user') }}:</div>-->
+<!--        <div><input name="username" v-model="data.user" autocomplete="on"></div>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <div>{{ $t('teqUserSignIn:password') }}:</div>-->
+<!--        <div><input name="password" v-model="data.password" type="password" autocomplete="current-password"></div>-->
+<!--    </div>-->
     <div class="actions">
-        <button v-on:click="actSubmit()">{{$t('teqUserSignIn:submit')}}</button>
+        <button v-on:click="actSubmit()" :disabled="disabled">{{ $t('teqUserSignIn:submit') }}</button>
     </div>
 </form>
 `;
@@ -52,9 +63,14 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
         data: function () {
             return {
                 passwordAgain: null,
+                pageTitle: 'title is here'
             };
         },
-        computed: {},
+        computed: {
+            disabled() {
+                return !(this.data.user && this.data.password);
+            }
+        },
         methods: {
             async actSubmit() {
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In_Request} */
