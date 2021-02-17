@@ -12,7 +12,7 @@ export default class Fl32_Teq_User_Plugin_Init {
             return [];
         };
 
-        this.getHttp2StaticMaps = function () {
+        this.getHttpStaticMaps = function () {
             return {};
         };
 
