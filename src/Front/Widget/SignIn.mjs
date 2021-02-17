@@ -6,27 +6,27 @@ const I18N_BUNDLE = {
 
 const template = `
 <form class="teqUserSignIn" onsubmit="return false">
-    <teq-input
-            :label="$t('teqUserSignIn:user')"
-            :autocomplete="'off'"
-            v-model="data.user"
-    ></teq-input>
-    <teq-input
-            :label="$t('teqUserSignIn:password')"
-            :type="'password'"
-            :autocomplete="'off'"
+    <q-input outlined
+             :label="$t('teqUserSignIn:user')"
+             autocomplete="username"
+             v-model="data.user"
+    ></q-input>
+    <q-input outlined
+             :label="$t('teqUserSignIn:password')"
+             :type="isPwd ? 'password' : 'text'"
+             autocomplete="current-password"
              v-model="data.password"
-    ></teq-input>
-<!--    <div>-->
-<!--        <div>{{ $t('teqUserSignIn:user') }}:</div>-->
-<!--        <div><input name="username" v-model="data.user" autocomplete="on"></div>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        <div>{{ $t('teqUserSignIn:password') }}:</div>-->
-<!--        <div><input name="password" v-model="data.password" type="password" autocomplete="current-password"></div>-->
-<!--    </div>-->
+    >
+        <template v-slot:append>
+            <q-icon
+                    :name="isPwd ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isPwd = !isPwd"
+            ></q-icon>
+        </template>
+    </q-input>
     <div class="actions">
-        <button v-on:click="actSubmit()" :disabled="disabled">{{ $t('teqUserSignIn:submit') }}</button>
+        <q-btn  v-on:click="actSubmit()" :disabled="disabled" :label="$t('teqUserSignIn:submit')"></q-btn>
     </div>
 </form>
 `;
@@ -62,6 +62,7 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
         emits: ['onSuccess', 'onFailure'],
         data: function () {
             return {
+                isPwd: true,
                 passwordAgain: null,
                 pageTitle: 'title is here'
             };
@@ -87,8 +88,12 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
                     await session.init();
                     // registration succeed
                     this.$emit('onSuccess', data.sessionId);
+                    this.reset();
                 }
-            }
+            },
+            reset() {
+                this.data.password = null;
+            },
         }
     };
 }
