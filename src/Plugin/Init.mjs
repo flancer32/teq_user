@@ -16,11 +16,11 @@ export default class Fl32_Teq_User_Plugin_Init {
             return {};
         };
 
-        this.getHttp2BackRealm = function () {
+        this.getServicesRealm = function () {
             return DEF.BACK_REALM;
         };
 
-        this.getHttp2Services = function () {
+        this.getServicesList = function () {
             return [
                 'Fl32_Teq_User_Back_Service_ChangePassword$',
                 'Fl32_Teq_User_Back_Service_Check_Existence$',
