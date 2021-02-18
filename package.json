@@ -17,8 +17,9 @@
   "repository": "github:flancer32/teq_user",
   "scripts": {},
   "dependencies": {
-    "bcrypt": "*",
-    "cookie-parser": "*"
+    "@teqfw/http2": "github:teqfw/http2",
+    "@teqfw/ui-quasar": "github:teqfw/ui-quasar",
+    "bcrypt": "*"
   },
   "devDependencies": {},
   "teqfw": {
