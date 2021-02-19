@@ -1,0 +1,14 @@
+.teqUserSignIn {
+    display: grid;
+    width: 90vw;
+    grid-gap: var(--grid-gap);
+}
+
+.teqUserSignIn .actions, .actions {
+    align-items: center;
+    display: grid;
+    grid-auto-columns: auto;
+    grid-auto-flow: column;
+    grid-gap: var(--grid-gap);
+    justify-items: center;
+}

@@ -26,7 +26,7 @@ const template = `
         </template>
     </q-input>
     <div class="actions">
-        <q-btn  v-on:click="actSubmit()" :disabled="disabled" :label="$t('teqUserSignIn:submit')"></q-btn>
+        <q-btn v-on:click="actSubmit()" :disabled="disabled" :label="$t('teqUserSignIn:submit')"></q-btn>
     </div>
 </form>
 `;
@@ -50,12 +50,15 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Request'];  // class constructor
     /** @type {Fl32_Teq_User_Front_Gate_Sign_In} */
     const gate = spec['Fl32_Teq_User_Front_Gate_Sign_In$']; // function singleton
+    /** @type {TeqFw_Core_App_Front_Widget_Layout_Centered} */
+    const layoutCentered = spec['TeqFw_Core_App_Front_Widget_Layout_Centered$'];    // Vue component singleton
 
     i18next.addResourceBundle('dev', 'teqUserSignIn', I18N_BUNDLE, true);
 
     return {
         name: 'UserSignIn',
         template,
+        components: {layoutCentered},
         props: {
             data: Fl32_Teq_User_Front_Widget_SignIn_Props,
         },

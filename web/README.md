@@ -1,1 +1,3 @@
-Root folder for static files accessed through the web.
+# `/web/` folder
+
+Contains static resources accessed through the Web.
