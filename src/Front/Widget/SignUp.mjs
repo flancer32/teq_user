@@ -14,54 +14,75 @@ const I18N_BUNDLE = {
     submit: 'Submit',
 };
 
-
+/* use existence service types for fields:
+ *  - @see Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request.TYPE_...
+ *  - @see `this.checkExistence(...)` method
+ */
 const template = `
 <form class="teqUserSignUp" onsubmit="return false">
-    <div class="id-name">
-        <div>{{ $t('teqUser:name') }}:</div>
-        <div><input name="name" v-model="fldName"></div>
-    </div>
-    <div class="id-login">
-        <div>{{ $t('teqUser:login') }}:</div>
-        <div>
-            <input name="login" v-model="fldLogin" autocomplete="username">
-            <div class="warn" v-show="showLoginMsg">{{ msgLogin }}</div>
-        </div>
-    </div>
-    <div class="id-email">
-        <div>{{ $t('teqUser:email') }}:</div>
-        <div>
-            <input name="email" v-model="fldEmail">
-            <div class="warn" v-show="showEmailMsg">{{ msgEmail }}</div>
-        </div>
-    </div>
-    <div class="id-phone">
-        <div>{{ $t('teqUser:phone') }}:</div>
-        <div>
-            <input name="phone" v-model="fldPhone" autocomplete="on">
-            <div class="warn" v-show="showPhoneMsg">{{ msgPhone }}</div>
-        </div>
-    </div>
-    <div class="id-password">
-        <div>{{ $t('teqUser:password') }}:</div>
-        <div><input name="password" v-model="fldPassword" type="password" autocomplete="new-password"></div>
-    </div>
-    <div class="id-password2">
-        <div>{{ $t('teqUser:password2') }}:</div>
-        <div>
-            <input name="passwordAgain" v-model="fldPasswordAgain" type="password" autocomplete="new-password">
-            <div class="warn" v-show="showPasswordMsg">{{ msgPassword }}</div>
-        </div>
-    </div>
-    <div class="id-refCode">
-        <div>{{ $t('teqUser:refCode') }}:</div>
-        <div>
-            <input name="refCode" v-model="fldRefCode">
-            <div class="warn" v-show="showRefCodeMsg">{{ msgRefCode }}</div>
-        </div>
-    </div>
+    <q-input class="id-name"
+        outlined
+        :label="$t('teqUser:name')"
+        v-model="fldName"
+    ></q-input>
+    <q-input class="id-login" 
+        :error-message="error['login']"
+        :error="invalid['login']"
+        :label="$t('teqUser:login')"
+        :loading="loading['login']"
+        autocomplete="username"
+        bottom-slots
+        outlined
+        v-model="fldLogin"
+    ></q-input>
+    <q-input class="id-email" 
+        :error-message="error['email']"
+        :error="invalid['email']"
+        :label="$t('teqUser:email')"
+        :loading="loading['email']"
+        autocomplete="email"
+        bottom-slots
+        outlined
+        v-model="fldEmail"
+    ></q-input>
+    <q-input class="id-phone"
+        :error-message="error['phone']"
+        :error="invalid['phone']"
+        :label="$t('teqUser:phone')"
+        :loading="loading['phone']"
+        autocomplete="phone"
+        bottom-slots
+        outlined
+        v-model="fldPhone"
+    ></q-input>
+    <q-input class="id-password"
+        :error-message="error['password']"
+        :error="invalid['password']"
+        :label="$t('teqUser:password')"
+        autocomplete="new-password"
+        bottom-slots
+        outlined
+        type="password"
+        v-model="fldPassword"
+    ></q-input>
+    <q-input class="id-password2"
+        :label="$t('teqUser:password2')"
+        autocomplete="new-password"
+        outlined
+        type="password"
+        v-model="fldPasswordAgain"
+    ></q-input>
+    <q-input class="id-ref-code"
+        :error-message="error['refCode']"
+        :error="invalid['refCode']"
+        :label="$t('teqUser:refCode')"
+        bottom-slots
+        outlined
+        v-model="fldRefCode"
+    ></q-input>
+
     <div class="actions">
-        <button v-on:click="actSubmit()" :disabled="disabledSubmit">{{ $t('teqUser:submit') }}</button>
+        <q-btn v-on:click="actSubmit()" :disabled="disabledSubmit" :label="$t('teqUser:submit')"></q-btn>
     </div>
 </form>
 `;
@@ -100,20 +121,10 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                 fldPasswordAgain: null,
                 fldPhone: null,
                 fldRefCode: null,
-                msgEmail: null,
-                msgLogin: null,
-                msgPassword: null,
-                msgPhone: null,
-                msgRefCode: null,
-                showEmailMsg: false,
-                showLoginMsg: false,
-                showPasswordMsg: false,
-                showPhoneMsg: false,
-                showRefCodeMsg: false,
-                timerEmail: null,
-                timerLogin: null,
-                timerPhone: null,
-                timerRefCode: null,
+                error: {email: '', login: '', password: '', phone: '', refCode: '', repeat: ''},
+                invalid: {email: false, login: false, password: false, phone: false, refCode: false, repeat: false},
+                loading: {email: false, login: false, password: false, phone: false, refCode: false, repeat: false},
+                timer: {},
             };
         },
         computed: {
@@ -124,11 +135,13 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                 }
 
                 // MAIN FUNCTIONALITY
-                const warnValid = this.showEmailMsg ||
-                    this.showLoginMsg ||
-                    this.showPasswordMsg ||
-                    this.showPhoneMsg ||
-                    this.showRefCodeMsg;
+                let warnValid = false;
+                for (const one of Object.keys(this.invalid)) {
+                    if (this.invalid[one]) {
+                        warnValid = true;
+                        break;
+                    }
+                }
                 const warnEmpty = isEmpty(this.fldName) ||
                     isEmpty(this.fldLogin) ||
                     isEmpty(this.fldPassword) ||
@@ -168,17 +181,37 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                     }
                 });
             },
-            async checkExistence(value, type) {
-                this.showRefCodeMsg = false;
-                if (value) {
-                    const req = Object.assign(new CheckExistReq(), {value, type});
-                    /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence_Response} */
-                    const res = await gateCheckExist(req);
-                    if (!res.exist) {
-                        this.showRefCodeMsg = true;
-                        this.msgRefCode = this.$t('teqUser:errUnknownRefCode');
+            /**
+             * Send request to server to check data existence.
+             *
+             * @param {String} value
+             * @param {String} type @see Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request.TYPE_...
+             * @param {Boolean} fireError 'true' - error on exist (for `email`), 'false' - otherwise (for `refCode`)
+             * @param {String} msg i18n-key for error message
+             * @returns {Promise<void>}
+             */
+            async checkExistence(value, type, fireError, msg) {
+                const me = this;
+                me.invalid[type] = false;
+                // create function to execute checking
+                const fn = async function () {
+                    if (value) {
+                        me.loading[type] = true;
+                        const req = new CheckExistReq();
+                        req.type = type;
+                        req.value = value;
+                        /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence_Response} */
+                        const res = await gateCheckExist(req);
+                        me.loading[type] = false;
+                        if (res.exist === fireError) {
+                            me.invalid[type] = true;
+                            me.error[type] = me.$t(`teqUser:${msg}`);
+                        }
                     }
-                }
+                };
+                // deferred execution
+                clearTimeout(this.timer[type]);    // clear previous timer, if exists
+                this.timer[type] = setTimeout(fn, TIMEOUT);
             },
             checkPassword() {
                 // DEFINE INNER FUNCTIONS
@@ -191,56 +224,20 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                 const emptyRepeat = isEmpty(this.fldPasswordAgain);
                 if (!emptyPass && !emptyRepeat) {
                     if (this.fldPassword !== this.fldPasswordAgain) {
-                        this.showPasswordMsg = true;
-                        this.msgPassword = this.$t('teqUser:errPasswordDiffs');
+                        this.invalid.password = true;
+                        this.error.password = this.$t('teqUser:errPasswordDiffs');
                     } else {
-                        this.showPasswordMsg = false;
+                        this.invalid.password = false;
                     }
                 }
             },
         },
         watch: {
             fldEmail(current) {
-                const me = this;
-                // create function to execute checking
-                const fn = async function () {
-                    me.showEmailMsg = false;
-                    if (current) {
-                        const req = new CheckExistReq();
-                        req.type = CheckExistReq.TYPE_EMAIL;
-                        req.value = current;
-                        /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence_Response} */
-                        const res = await gateCheckExist(req);
-                        if (res.exist === true) {
-                            me.showEmailMsg = true;
-                            me.msgEmail = me.$t('teqUser:errEmailExists');
-                        }
-                    }
-                };
-                // deferred execution
-                clearTimeout(this.timerEmail);    // clear previous timer, if exists
-                this.timerEmail = setTimeout(fn, TIMEOUT);
+                this.checkExistence(current, CheckExistReq.TYPE_EMAIL, true, 'errEmailExists');
             },
             fldLogin(current) {
-                const me = this;
-                // create function to execute checking
-                const fn = async function () {
-                    me.showLoginMsg = false;
-                    if (current) {
-                        const req = new CheckExistReq();
-                        req.type = CheckExistReq.TYPE_LOGIN;
-                        req.value = current;
-                        /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence_Response} */
-                        const res = await gateCheckExist(req);
-                        if (res.exist === true) {
-                            me.showLoginMsg = true;
-                            me.msgLogin = me.$t('teqUser:errLoginExists');
-                        }
-                    }
-                };
-                // deferred execution
-                clearTimeout(this.timerLogin);    // clear previous timer, if exists
-                this.timerLogin = setTimeout(fn, TIMEOUT);
+                this.checkExistence(current, CheckExistReq.TYPE_LOGIN, true, 'errLoginExists');
             },
             fldPassword() {
                 this.checkPassword();
@@ -249,46 +246,10 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                 this.checkPassword();
             },
             fldPhone(current) {
-                const me = this;
-                // create function to execute checking
-                const fn = async function () {
-                    me.showPhoneMsg = false;
-                    if (current) {
-                        const req = new CheckExistReq();
-                        req.type = CheckExistReq.TYPE_PHONE;
-                        req.value = current;
-                        /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence_Response} */
-                        const res = await gateCheckExist(req);
-                        if (res.exist === true) {
-                            me.showPhoneMsg = true;
-                            me.msgPhone = me.$t('teqUser:errPhoneExists');
-                        }
-                    }
-                };
-                // deferred execution
-                clearTimeout(this.timerPhone);    // clear previous timer, if exists
-                this.timerPhone = setTimeout(fn, TIMEOUT);
+                this.checkExistence(current, CheckExistReq.TYPE_PHONE, true, 'errPhoneExists');
             },
             fldRefCode(current) {
-                const me = this;
-                // create function to execute checking
-                const fn = async function () {
-                    me.showRefCodeMsg = false;
-                    if (current) {
-                        const req = new CheckExistReq();
-                        req.type = CheckExistReq.TYPE_REF_CODE;
-                        req.value = current;
-                        /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence_Response} */
-                        const res = await gateCheckExist(req);
-                        if (res.exist !== true) {
-                            me.showRefCodeMsg = true;
-                            me.msgRefCode = me.$t('teqUser:errUnknownRefCode');
-                        }
-                    }
-                };
-                // deferred execution
-                clearTimeout(this.timerRefCode);    // clear previous timer, if exists
-                this.timerRefCode = setTimeout(fn, TIMEOUT);
+                this.checkExistence(current, CheckExistReq.TYPE_REF_CODE, false, 'errUnknownRefCode');
             },
         },
         mounted() {
