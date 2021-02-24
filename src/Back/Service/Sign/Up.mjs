@@ -1,5 +1,6 @@
 import $bcrypt from 'bcrypt';
 import $crypto from 'crypto';
+import {constants as H2} from 'http2';
 
 /**
  * Service to register new user.
@@ -12,6 +13,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const DEF = spec['Fl32_Teq_User_Defaults$'];
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
+        const {createCookie} = spec['TeqFw_Http2_Back_Util']; // ES6 module
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];   // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
@@ -26,6 +28,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$'];         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
         const eUser = spec['Fl32_Teq_User_Store_RDb_Schema_User$'];                // instance singleton
+        /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
+        const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$']; // instance singleton
         /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
         const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
@@ -257,6 +261,15 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                         const userId = await addUser(trx, apiReq, parentId);
                         // select user data to compose API response
                         result.response.user = await selectUser(trx, userId);
+                        const {output, error} = await procSessionOpen.exec({trx, userId});
+                        result.response.sessionId = output.sessId;
+                        // set session cookie
+                        result.headers[H2.HTTP2_HEADER_SET_COOKIE] = createCookie({
+                            name: DEF.SESSION_COOKIE_NAME,
+                            value: result.response.sessionId,
+                            expires: DEF.SESSION_COOKIE_LIFETIME,
+                            path: '/'
+                        });
                     } else {
                         const err = new GateError();
                         err.message = 'Unknown referral code.';

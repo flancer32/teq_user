@@ -1,5 +1,4 @@
 import $bcrypt from 'bcrypt';
-import $crypto from 'crypto';
 import {constants as H2} from 'http2';
 
 /**
@@ -13,10 +12,11 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
+        const {createCookie} = spec['TeqFw_Http2_Back_Util']; // ES6 module
+        /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
+        const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];   // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const eAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session$'];   // instance singleton
         /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
         const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In_Request} */
@@ -87,33 +87,6 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                     return result;
                 }
 
-                async function openSession(trx, userId) {
-                    // DEFINE INNER FUNCTIONS
-                    async function getSessionById(sessId) {
-                        const query = trx.from(eAuthSess.ENTITY);
-                        query.select([eAuthSess.A_USER_REF]);
-                        query.where(eAuthSess.A_SESSION_ID, sessId);
-                        const rs = await query;
-                        return rs[0] !== undefined;
-                    }
-
-                    async function createSession(trx, userId, sessId) {
-                        await trx(eAuthSess.ENTITY).insert({
-                            [eAuthSess.A_USER_REF]: userId,
-                            [eAuthSess.A_SESSION_ID]: sessId,
-                        });
-                    }
-
-                    // MAIN FUNCTIONALITY
-                    let sessId = $crypto.randomBytes(DEF.SESSION_ID_BYTES).toString('hex');
-                    let found = true;
-                    do {
-                        found = await getSessionById(sessId);
-                    } while (found);
-                    await createSession(trx, userId, sessId);
-                    return sessId;
-                }
-
                 // MAIN FUNCTIONALITY
                 const result = new ApiResult();
                 result.response = new Response();
@@ -129,17 +102,15 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                         const equal = await $bcrypt.compare(apiReq.password, hash);
                         if (equal) {
                             // generate user session
-                            result.response.sessionId = await openSession(trx, userId);
+                            const {output, error} = await procSessionOpen.exec({trx, userId});
+                            result.response.sessionId = output.sessId;
                             // set session cookie
-                            const name = DEF.SESSION_COOKIE_NAME;
-                            const value = result.response.sessionId;
-                            const now = new Date(Date.now() + DEF.SESSION_COOKIE_LIFETIME);
-                            const exp = `Expires=${now.toUTCString()}`;
-                            const same = 'SameSite=Strict';
-                            const secure = 'Secure; HttpOnly';
-                            const path = 'Path=/';
-                            const cookie = `${name}=${value}; ${exp}; ${same}; ${secure}; ${path}`;
-                            result.headers[H2.HTTP2_HEADER_SET_COOKIE] = cookie;
+                            result.headers[H2.HTTP2_HEADER_SET_COOKIE] = createCookie({
+                                name: DEF.SESSION_COOKIE_NAME,
+                                value: result.response.sessionId,
+                                expires: DEF.SESSION_COOKIE_LIFETIME,
+                                path: '/'
+                            });
                         }
                     }
                     await trx.commit();

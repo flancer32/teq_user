@@ -94,7 +94,10 @@ class Fl32_Teq_User_Front_Widget_SignUp_Props {
 function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
+    /** @type {Fl32_Teq_User_Front_App_Session} */
+    const session = spec[DEF.DI_SESSION];   // named singleton
     const i18next = spec[DEF.MOD_CORE.DI_I18N];   // named singleton
+    /** @type {Fl32_Teq_User_Front_Gate_Check_Existence} */
     const gateCheckExist = spec['Fl32_Teq_User_Front_Gate_Check_Existence$']; // singleton function
     const gateSignUp = spec['Fl32_Teq_User_Front_Gate_Sign_Up$']; // singleton function
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
@@ -150,36 +153,25 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
             },
         },
         methods: {
-            actSubmit() {
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
-                const req = new Request();
-                req.email = this.fldEmail;
-                req.login = this.fldLogin;
-                req.name = this.fldName;
-                req.password = this.fldPassword;
-                req.phone = this.fldPhone;
-                req.referralCode = this.fldRefCode;
-                gateSignUp(req).then((res) => {
-                    if (res.constructor.name === 'TeqFw_Core_App_Front_Gate_Response_Error') {
-                        // registration failed
-                        this.$emit('onFailure', res.message);
-                    } else {
-                        // registration succeed
-                        this.$emit('onSuccess', res.user);
-                        // reset data
-                        this.fldEmail = null;
-                        this.fldLogin = null;
-                        this.fldName = null;
-                        this.fldPassword = null;
-                        this.fldPasswordAgain = null;
-                        this.fldRefCode = null;
-                        this.showEmailMsg = false;
-                        this.showLoginMsg = false;
-                        this.showPasswordMsg = false;
-                        this.showPhoneMsg = false;
-                        this.showRefCodeMsg = false;
-                    }
-                });
+            async actSubmit() {
+                const req = this.createSignUpRequest();
+                const res = await gateSignUp(req);
+                if (res.constructor.name === 'TeqFw_Core_App_Front_Gate_Response_Error') {
+                    // registration failed
+                    this.$emit('onFailure', res.message);
+                } else {
+                    // registration succeed, init new session
+                    await session.init();
+                    this.$emit('onSuccess', res.user);
+                    // reset data
+                    this.fldEmail = null;
+                    this.fldLogin = null;
+                    this.fldName = null;
+                    this.fldPassword = null;
+                    this.fldPasswordAgain = null;
+                    this.fldRefCode = null;
+                    for (const one of Object.keys(this.invalid)) this.invalid[one] = false;
+                }
             },
             /**
              * Send request to server to check data existence.
@@ -231,6 +223,21 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                     }
                 }
             },
+            /**
+             * Create service request. This method can be overwrote in parent components.
+             * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request}
+             */
+            createSignUpRequest() {
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
+                const result = new Request();
+                result.email = this.fldEmail;
+                result.login = this.fldLogin;
+                result.name = this.fldName;
+                result.password = this.fldPassword;
+                result.phone = this.fldPhone;
+                result.referralCode = this.fldRefCode;
+                return result;
+            },
         },
         watch: {
             fldEmail(current) {
@@ -250,6 +257,10 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
             },
             fldRefCode(current) {
                 this.checkExistence(current, CheckExistReq.TYPE_REF_CODE, false, 'errUnknownRefCode');
+            },
+            input(current) {
+                this.fldRefCode = current.refCode;
+                this.invalid[CheckExistReq.TYPE_REF_CODE] = false;
             },
         },
         mounted() {

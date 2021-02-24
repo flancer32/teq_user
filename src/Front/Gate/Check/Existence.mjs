@@ -3,7 +3,7 @@
  * Use as "spec['Fl32_Teq_User_Front_Gate_Check_Existence$']".
  * @namespace Fl32_Teq_User_Front_Gate_Check_Existence
  */
-export default function Fl32_Teq_User_Front_Gate_Check_Existence(spec) {
+function Fl32_Teq_User_Front_Gate_Check_Existence(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
@@ -29,3 +29,6 @@ export default function Fl32_Teq_User_Front_Gate_Check_Existence(spec) {
     Object.defineProperty(gate, 'name', {value: 'Fl32_Teq_User_Front_Gate_Check_Existence.gate'});
     return gate;
 }
+
+// We should place function separately to allow JSDoc & IDEA hints & navigation.
+export default Fl32_Teq_User_Front_Gate_Check_Existence;
