@@ -97,6 +97,7 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     /** @type {Fl32_Teq_User_Front_App_Session} */
     const session = spec[DEF.DI_SESSION];   // named singleton
     const i18next = spec[DEF.MOD_CORE.DI_I18N];   // named singleton
+    const {isEmpty} = spec['TeqFw_Core_App_Shared_Util'];
     /** @type {Fl32_Teq_User_Front_Gate_Check_Existence} */
     const gateCheckExist = spec['Fl32_Teq_User_Front_Gate_Check_Existence$']; // singleton function
     const gateSignUp = spec['Fl32_Teq_User_Front_Gate_Sign_Up$']; // singleton function
@@ -132,11 +133,6 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
         },
         computed: {
             disabledSubmit() {
-                // DEFINE INNER FUNCTIONS
-                function isEmpty(val) {
-                    return (val === undefined) || (val === null) || (val === '');
-                }
-
                 // MAIN FUNCTIONALITY
                 let warnValid = false;
                 for (const one of Object.keys(this.invalid)) {
@@ -206,11 +202,6 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                 this.timer[type] = setTimeout(fn, TIMEOUT);
             },
             checkPassword() {
-                // DEFINE INNER FUNCTIONS
-                function isEmpty(val) {
-                    return (val === undefined) || (val === null) || (val === '');
-                }
-
                 // MAIN FUNCTIONALITY
                 const emptyPass = isEmpty(this.fldPassword);
                 const emptyRepeat = isEmpty(this.fldPasswordAgain);

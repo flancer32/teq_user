@@ -1,10 +1,13 @@
-.teqUserSignIn {
+.teqUserSignIn,
+.teqUserSignUp {
     display: grid;
     width: 90vw;
     grid-gap: var(--grid-gap);
 }
 
-.teqUserSignIn .actions, .actions {
+.teqUserSignIn .actions,
+.teqUserSignUp .actions,
+.actions {
     align-items: center;
     display: grid;
     grid-auto-columns: auto;
