@@ -3,21 +3,21 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
         const utilFKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForForeignKey'];
         const utilUKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForUniqueKey'];
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const eAuthPassword = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];
+        const eAuthPassword = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const eAuthSession = spec.Fl32_Teq_User_Store_RDb_Schema_Auth_Session$;
+        const eAuthSession = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const eIdEmail = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Email$;
+        const eIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const eIdPhone = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Phone$;
+        const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const eProfile = spec.Fl32_Teq_User_Store_RDb_Schema_Profile$;
+        const eProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const eRefLink = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Link$;
+        const eRefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-        const eRefTree = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$;
+        const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
-        const eUser = spec.Fl32_Teq_User_Store_RDb_Schema_User$;
+        const eUser = spec['Fl32_Teq_User_Store_RDb_Schema_User$']; // instance singleton
 
         /**
          * TODO: tables drop should be ordered according to relations between tables (DEM).
