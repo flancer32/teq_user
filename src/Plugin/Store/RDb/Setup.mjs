@@ -73,7 +73,7 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                     table.foreign(eAuthSession.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
                         .withKeyName(utilFKName(eAuthSession.ENTITY, eAuthSession.A_USER_REF, eUser.ENTITY, eUser.A_ID));
-                    table.comment('Authentication by password.');
+                    table.comment('Registry for opened sessions.');
                 });
             }
 
@@ -97,7 +97,7 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                     table.foreign(eIdPhone.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
                         .withKeyName(utilFKName(eIdPhone.ENTITY, eIdPhone.A_USER_REF, eUser.ENTITY, eUser.A_ID));
-                    table.comment('Emails as identifiers for users.');
+                    table.comment('Phones as identifiers for users.');
                 });
             }
 
@@ -109,7 +109,7 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                     table.foreign(eProfile.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
                         .withKeyName(utilFKName(eProfile.ENTITY, eProfile.A_USER_REF, eUser.ENTITY, eUser.A_ID));
-                    table.comment('Emails as identifiers for users.');
+                    table.comment('Personal information for users.');
                 });
             }
 
