@@ -129,7 +129,7 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                 schema.createTable(eRefTree.ENTITY, (table) => {
                     table.integer(eRefTree.A_USER_REF).unsigned().notNullable();
                     table.integer(eRefTree.A_PARENT_REF).unsigned().notNullable();
-                    table.primary([eRefTree.A_USER_REF, eRefTree.A_PARENT_REF]);
+                    table.primary([eRefTree.A_USER_REF]);
                     table.foreign(eRefTree.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
                         .withKeyName(utilFKName(eRefTree.ENTITY, eRefTree.A_USER_REF, eUser.ENTITY, eUser.A_ID));
