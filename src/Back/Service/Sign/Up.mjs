@@ -103,7 +103,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
 
                     // MAIN FUNCTIONALITY
                     // register user
-                    const rs = await trx(eUser.ENTITY).insert({});
+                    const rs = await trx(eUser.ENTITY).insert({}, eUser.A_ID);
                     const userId = rs[0];
                     // register login & password
                     const hash = await $bcrypt.hash(req.password, DEF.BCRYPT_HASH_ROUNDS);
