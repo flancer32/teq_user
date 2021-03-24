@@ -24,9 +24,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In_Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Response'];   // class constructor
 
-        this.getRoute = function () {
-            return DEF.API_SIGN_IN;
-        };
+        this.getRoute = () => DEF.SERV_SIGN_IN;
 
         /**
          * Factory to create function to validate and structure incoming data.

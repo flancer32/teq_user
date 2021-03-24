@@ -41,9 +41,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
         const DUser = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
 
-        this.getRoute = function () {
-            return DEF.API_SIGN_UP;
-        };
+        this.getRoute = () => DEF.SERV_SIGN_UP;
 
         /**
          * Factory to create function to validate and structure incoming data.

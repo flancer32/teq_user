@@ -12,9 +12,7 @@ export default class Fl32_Teq_User_Back_Service_Current {
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_Current#Response'];   // class constructor
 
-        this.getRoute = function () {
-            return DEF.API_CURRENT;
-        };
+        this.getRoute = () => DEF.SERV_CURRENT;
 
         /**
          * Factory to create service (handler to process HTTP API request).

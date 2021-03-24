@@ -18,7 +18,7 @@ export default function Fl32_Teq_User_Front_Gate_ChangePassword(spec) {
      */
     async function gate(data) {
         let result = false;
-        const res = await backConnect.send(data, DEF.BACK_REALM, DEF.API_CHANGE_PASSWORD);
+        const res = await backConnect.send(data, DEF.BACK_REALM, DEF.SERV_CHANGE_PASSWORD);
         if (res) {
             result = Object.assign(new Response(), res);
         }

@@ -20,9 +20,7 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword_Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Response'];   // class constructor
 
-        this.getRoute = function () {
-            return DEF.API_CHANGE_PASSWORD;
-        };
+        this.getRoute = () => DEF.SERV_CHANGE_PASSWORD;
 
         /**
          * Factory to create function to validate and structure incoming data.

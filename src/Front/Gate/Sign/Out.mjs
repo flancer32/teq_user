@@ -18,7 +18,7 @@ export default function Fl32_Teq_User_Front_Gate_Sign_Out(spec) {
      */
     async function gate(data) {
         let result = false;
-        const res = await backConnect.send(data, DEF.BACK_REALM, DEF.API_SIGN_OUT);
+        const res = await backConnect.send(data, DEF.BACK_REALM, DEF.SERV_SIGN_OUT);
         if (res) {
             result = Object.assign(new Response(), res);
         }

@@ -32,9 +32,7 @@ export default class Fl32_Teq_User_Back_Service_List {
         /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
         const User = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
 
-        this.getRoute = function () {
-            return DEF.API_LIST;
-        };
+        this.getRoute = () => DEF.SERV_LIST;
 
         /**
          * Factory to create function to validate and structure incoming data.

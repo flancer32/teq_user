@@ -24,9 +24,7 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence_Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Response'];   // class constructor
 
-        this.getRoute = function () {
-            return DEF.API_CHECK_EXISTENCE;
-        };
+        this.getRoute = () => DEF.SERV_CHECK_EXISTENCE;
 
         /**
          * Factory to create function to validate and structure incoming data.

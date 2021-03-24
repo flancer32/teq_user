@@ -22,9 +22,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out_Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Response'];   // class constructor
 
-        this.getRoute = function () {
-            return DEF.API_SIGN_OUT;
-        };
+        this.getRoute = () => DEF.SERV_SIGN_OUT;
 
         /**
          * Factory to create function to validate and structure incoming data.

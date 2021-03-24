@@ -20,7 +20,7 @@ export default function Fl32_Teq_User_Front_Gate_Sign_Up(spec) {
      */
     async function gate(data) {
         let result = false;
-        const res = await backConnect.send(data, DEF.BACK_REALM, DEF.API_SIGN_UP);
+        const res = await backConnect.send(data, DEF.BACK_REALM, DEF.SERV_SIGN_UP);
         if (res && res.user) {
             result = new Response();
             result.user = Object.assign(new User, res.user);

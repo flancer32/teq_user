@@ -26,12 +26,12 @@ export default class Fl32_Teq_User_Plugin_Init {
                 'Fl32_Teq_User_Back_Service_Check_Existence$',
                 'Fl32_Teq_User_Back_Service_Current$',
                 'Fl32_Teq_User_Back_Service_List$',
+                'Fl32_Teq_User_Back_Service_RefLink_Create$',
                 'Fl32_Teq_User_Back_Service_Sign_In$',
                 'Fl32_Teq_User_Back_Service_Sign_Out$',
                 'Fl32_Teq_User_Back_Service_Sign_Up$',
             ];
         };
     }
-
 
 }

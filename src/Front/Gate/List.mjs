@@ -20,7 +20,7 @@ export default function Fl32_Teq_User_Front_Gate_List(spec) {
      */
     async function gate(data) {
         let result = false;
-        const res = await backConnect.send(data, DEF.BACK_REALM, DEF.API_LIST);
+        const res = await backConnect.send(data, DEF.BACK_REALM, DEF.SERV_LIST);
         if (res && res.items) {
             result = new Response();
             result.items = {};
