@@ -12,8 +12,8 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
         const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
         const eProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile$']; // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const eRefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link$']; // instance singleton
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
+        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#']; // class constructor
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
         const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
@@ -34,7 +34,7 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
             schema.dropTableIfExists(eAuthSession.ENTITY);
             schema.dropTableIfExists(eIdEmail.ENTITY);
             schema.dropTableIfExists(eIdPhone.ENTITY);
-            schema.dropTableIfExists(eRefLink.ENTITY);
+            schema.dropTableIfExists(ERefLink.ENTITY);
             schema.dropTableIfExists(eRefTree.ENTITY);
             schema.dropTableIfExists(eProfile.ENTITY);
         };
@@ -114,13 +114,15 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
             }
 
             function createTblRefLink(schema, knex) {
-                schema.createTable(eRefLink.ENTITY, (table) => {
-                    table.string(eRefLink.A_CODE).notNullable().primary()
+                schema.createTable(ERefLink.ENTITY, (table) => {
+                    table.string(ERefLink.A_CODE).notNullable().primary()
                         .comment('Referral link code.');
-                    table.integer(eRefLink.A_USER_REF).unsigned().notNullable();
-                    table.foreign(eRefLink.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
+                    table.integer(ERefLink.A_USER_REF).unsigned().notNullable();
+                    table.dateTime(ERefLink.A_DATE_EXPIRED).notNullable()
+                        .comment('Date-time for referral code expiration.');
+                    table.foreign(ERefLink.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(eRefLink.ENTITY, eRefLink.A_USER_REF, eUser.ENTITY, eUser.A_ID));
+                        .withKeyName(utilFKName(ERefLink.ENTITY, ERefLink.A_USER_REF, eUser.ENTITY, eUser.A_ID));
                     table.comment('Referral links to registration.');
                 });
             }

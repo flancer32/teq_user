@@ -22,8 +22,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$'];         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
         const eProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile$'];          // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const eRefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link$'];         // instance singleton
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
+        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
         const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$'];         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
@@ -95,8 +95,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                         let code, rs;
                         do {
                             code = $crypto.randomBytes(4).toString('hex').toLowerCase();
-                            const query = trx.from(eRefLink.ENTITY);
-                            rs = await query.select().where(eRefLink.A_CODE, code);
+                            const query = trx.from(ERefLink.ENTITY);
+                            rs = await query.select().where(ERefLink.A_CODE, code);
                         } while (rs.length > 0);
                         return code;
                     }
@@ -124,9 +124,9 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                     });
                     // register referral code for the user
                     const code = await generateReferralCode(trx);
-                    await trx(eRefLink.ENTITY).insert({
-                        [eRefLink.A_USER_REF]: userId,
-                        [eRefLink.A_CODE]: code,
+                    await trx(ERefLink.ENTITY).insert({
+                        [ERefLink.A_USER_REF]: userId,
+                        [ERefLink.A_CODE]: code,
                     });
                     // register email
                     if (typeof req.email === 'string') {
@@ -154,14 +154,14 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                     let result = null;
                     if (code) {
                         const norm = code.trim().toLowerCase();
-                        const query = trx.from(eRefLink.ENTITY);
-                        query.select([eRefLink.A_USER_REF]);
-                        query.where(eRefLink.A_CODE, norm);
+                        const query = trx.from(ERefLink.ENTITY);
+                        query.select([ERefLink.A_USER_REF]);
+                        query.where(ERefLink.A_CODE, norm);
                         /** @type {Array} */
                         const rs = await query;
                         if (rs.length === 1) {
                             const [first] = rs;
-                            result = first[eRefLink.A_USER_REF];
+                            result = first[ERefLink.A_USER_REF];
                         }
                     }
                     return result;
@@ -230,10 +230,10 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                             `u.${eUser.A_ID}`);
                         query.select([{[DUser.A_PARENT_ID]: `t.${eRefTree.A_PARENT_REF}`}]);
                         query.leftOuterJoin(
-                            {l: eRefLink.ENTITY},
-                            `l.${eRefLink.A_USER_REF}`,
+                            {l: ERefLink.ENTITY},
+                            `l.${ERefLink.A_USER_REF}`,
                             `u.${eUser.A_ID}`);
-                        query.select([{[DUser.A_REF_CODE]: `l.${eRefLink.A_CODE}`}]);
+                        query.select([{[DUser.A_REF_CODE]: `l.${ERefLink.A_CODE}`}]);
                         query.where(`u.${eUser.A_ID}`, userId);
                         const rows = await query;
                         return Object.assign(new DUser(), rows[0]);

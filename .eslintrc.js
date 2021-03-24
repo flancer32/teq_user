@@ -24,7 +24,7 @@ module.exports = {
     'rules': {
         'camelcase': [
             'warn',
-            {'properties': 'never', ignoreDestructuring: true}
+            {'properties': 'never', ignoreDestructuring: true, allow: ['^Fl32_Teq_User_', '^TeqFw_']}
         ],
         'indent': [
             'error',

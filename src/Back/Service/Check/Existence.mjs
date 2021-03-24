@@ -15,8 +15,8 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
         const eIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email$'];         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
         const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$'];         // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const eRefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link$'];         // instance singleton
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
+        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];         // instance singleton
         /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
         const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request} */
@@ -90,9 +90,9 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
                 }
 
                 async function checkRefCode(trx, value) {
-                    const query = trx.from(eRefLink.ENTITY);
-                    query.select([eRefLink.A_USER_REF]);
-                    query.where(eRefLink.A_CODE, value);
+                    const query = trx.from(ERefLink.ENTITY);
+                    query.select([ERefLink.A_USER_REF]);
+                    query.where(ERefLink.A_CODE, value);
                     const rs = await query;
                     return (rs.length >= 1);
                 }

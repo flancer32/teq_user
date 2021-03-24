@@ -21,15 +21,15 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
         const eAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session$'];    // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const eIdEmail = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Email$;         // instance singleton
+        const eIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const eIdPhone = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Phone$;         // instance singleton
+        const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
         const eUser = spec['Fl32_Teq_User_Store_RDb_Schema_User$'];                // instance singleton
         /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
         const DUser = spec['Fl32_Teq_User_Shared_Service_Data_User#'];       // class constructor
-        /** @type {Fl32_Teq_User_Store_RDb_Query_GetUsers} */
-        const qGetUsers = spec['Fl32_Teq_User_Store_RDb_Query_GetUsers$']; // instance singleton
+        /** @type {Fl32_Teq_User_Store_RDb_Query_GetUsers.queryBuilder} */
+        const qbGetUsers = spec['Fl32_Teq_User_Store_RDb_Query_GetUsers$']; // instance singleton
         /** @type {typeof TeqFw_Http2_Back_Server_Stream_Report} */
         const Report = spec['TeqFw_Http2_Back_Server_Stream#Report'];   // class constructor
 
@@ -110,7 +110,7 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
                      */
                     async function getUserById(trx, userId) {
                         let result = null;
-                        const query = qGetUsers(trx);
+                        const query = qbGetUsers(trx);
                         query.where(eUser.A_ID, userId);
                         const rows = await query;
                         if (rows[0]) {

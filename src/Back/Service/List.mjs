@@ -17,8 +17,8 @@ export default class Fl32_Teq_User_Back_Service_List {
         const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$'];         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
         const eProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile$'];          // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const eRefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link$'];         // instance singleton
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
+        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
         const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$'];         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
@@ -150,10 +150,10 @@ export default class Fl32_Teq_User_Back_Service_List {
                             `u.${eUser.A_ID}`);
                         query.select([{[User.A_PARENT_ID]: `t.${eRefTree.A_PARENT_REF}`}]);
                         query.leftOuterJoin(
-                            {l: eRefLink.ENTITY},
-                            `l.${eRefLink.A_USER_REF}`,
+                            {l: ERefLink.ENTITY},
+                            `l.${ERefLink.A_USER_REF}`,
                             `u.${eUser.A_ID}`);
-                        query.select([{[User.A_REF_CODE]: `l.${eRefLink.A_CODE}`}]);
+                        query.select([{[User.A_REF_CODE]: `l.${ERefLink.A_CODE}`}]);
                         const rows = await query;
                         for (const one of rows) {
                             /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
