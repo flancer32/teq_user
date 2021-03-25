@@ -1,7 +1,7 @@
 /**
  * User data in services API.
  */
-export default class Fl32_Teq_User_Shared_Service_Data_User {
+export default class Fl32_Teq_User_Shared_Api_Data_User {
     // attributes names to use in queries to RDb
     static A_DATE_CREATED = 'dateCreated';
     static A_DATE_LOGGED_IN = 'dateLoggedIn';

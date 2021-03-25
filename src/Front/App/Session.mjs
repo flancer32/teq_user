@@ -11,10 +11,10 @@ export default class Fl32_Teq_User_Front_App_Session {
         const CurrentRequest = spec['Fl32_Teq_User_Shared_Service_Route_Current#Request']; // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out_Request} */
         const SignOutRequest = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Request']; // class constructor
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
-        const User = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
+        const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class constructor
 
-        /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
+        /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
         let user = null;
         /** @type {String} route to redirect after authentication  */
         let routeToRedirect = null;
@@ -39,7 +39,7 @@ export default class Fl32_Teq_User_Front_App_Session {
         };
 
         /**
-         * @returns {Fl32_Teq_User_Shared_Service_Data_User}
+         * @returns {Fl32_Teq_User_Shared_Api_Data_User}
          */
         this.getUser = function () {
             return user;

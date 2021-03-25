@@ -82,7 +82,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
                 // const apiReq = apiCtx.request;
                 const shared = apiCtx.sharedContext;
                 try {
-                    /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
+                    /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
                     const user = shared[DEF.HTTP_SHARE_CTX_USER];
                     if (user) {
                         response.refCode = await procCreate({trx, userId: user.id});

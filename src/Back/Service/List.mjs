@@ -17,8 +17,6 @@ export default class Fl32_Teq_User_Back_Service_List {
         const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$'];         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
         const eProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile$'];          // instance singleton
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
         const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$'];         // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
@@ -29,8 +27,8 @@ export default class Fl32_Teq_User_Back_Service_List {
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_List#Request'];   // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_List#Response'];   // class constructor
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
-        const User = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
+        const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class constructor
 
         this.getRoute = () => DEF.SERV_LIST;
 
@@ -73,7 +71,7 @@ export default class Fl32_Teq_User_Back_Service_List {
                 /**
                  * Select data for all users w/o conditions.
                  * @param trx
-                 * @returns {Promise<Fl32_Teq_User_Shared_Service_Data_User[]>}
+                 * @returns {Promise<Fl32_Teq_User_Shared_Api_Data_User[]>}
                  */
                 async function selectUsers(trx) {
 
@@ -81,7 +79,7 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                     /**
                      * @param trx
-                     * @param {Object.<Number, Fl32_Teq_User_Shared_Service_Data_User>} users
+                     * @param {Object.<Number, Fl32_Teq_User_Shared_Api_Data_User>} users
                      * @returns {Promise<void>}
                      */
                     async function populateWithEmails(trx, users) {
@@ -102,7 +100,7 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                     /**
                      * @param trx
-                     * @param {Object.<Number, Fl32_Teq_User_Shared_Service_Data_User>} users
+                     * @param {Object.<Number, Fl32_Teq_User_Shared_Api_Data_User>} users
                      * @returns {Promise<void>}
                      */
                     async function populateWithPhones(trx, users) {
@@ -123,7 +121,7 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                     /**
                      * @param trx
-                     * @returns {Promise<Object.<Number, Fl32_Teq_User_Shared_Service_Data_User>>}
+                     * @returns {Promise<Object.<Number, Fl32_Teq_User_Shared_Api_Data_User>>}
                      */
                     async function getUsers(trx) {
                         const result = {};
@@ -147,14 +145,10 @@ export default class Fl32_Teq_User_Back_Service_List {
                             `t.${eRefTree.A_USER_REF}`,
                             `u.${eUser.A_ID}`);
                         query.select([{[User.A_PARENT_ID]: `t.${eRefTree.A_PARENT_REF}`}]);
-                        query.leftOuterJoin(
-                            {l: ERefLink.ENTITY},
-                            `l.${ERefLink.A_USER_REF}`,
-                            `u.${eUser.A_ID}`);
-                        query.select([{[User.A_REF_CODE]: `l.${ERefLink.A_CODE}`}]);
+
                         const rows = await query;
                         for (const one of rows) {
-                            /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
+                            /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
                             const item = Object.assign(new User(), one);
                             result[item.id] = item;
                         }

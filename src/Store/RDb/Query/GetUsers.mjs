@@ -13,14 +13,12 @@ const NS = 'Fl32_Teq_User_Store_RDb_Query_GetUsers';
  * @returns {function(*): *}
  */
 function Factory(spec) {
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
-    const User = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
+    const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class constructor
     /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
     const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$']; // instance singleton
     /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
     const eProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile$']; // instance singleton
-    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-    const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#']; // class constructor
     /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
     const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$']; // instance singleton
     /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
@@ -35,7 +33,6 @@ function Factory(spec) {
     function queryBuilder(trx) {
 
         const T_AP = 'ap';
-        const T_L = 'l';
         const T_P = 'p';
         const T_T = 't';
         const T_U = 'u';
@@ -61,11 +58,7 @@ function Factory(spec) {
             `${T_T}.${eRefTree.A_USER_REF}`,
             `${T_U}.${eUser.A_ID}`);
         query.select([{[User.A_PARENT_ID]: `${T_T}.${eRefTree.A_PARENT_REF}`}]);
-        query.leftOuterJoin(
-            {[T_L]: ERefLink.ENTITY},
-            `${T_L}.${ERefLink.A_USER_REF}`,
-            `${T_U}.${eUser.A_ID}`);
-        query.select([{[User.A_REF_CODE]: `${T_L}.${ERefLink.A_CODE}`}]);
+
         return query;
     }
 

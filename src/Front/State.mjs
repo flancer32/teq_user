@@ -9,7 +9,7 @@ function Fl32_Teq_User_Front_State() {
     return {
         namespaced: true,
         state: {
-            /** @type {Fl32_Teq_User_Shared_Service_Data_User|null} */
+            /** @type {Fl32_Teq_User_Shared_Api_Data_User|null} */
             authenticated: null,
         },
         mutations: {

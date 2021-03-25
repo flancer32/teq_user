@@ -10,7 +10,7 @@ class Fl32_Teq_User_Shared_Service_Route_List_Request {
 }
 
 class Fl32_Teq_User_Shared_Service_Route_List_Response {
-    /** @type {Object.<Number, Fl32_Teq_User_Shared_Service_Data_User>} */
+    /** @type {Object.<Number, Fl32_Teq_User_Shared_Api_Data_User>} */
     items
 }
 

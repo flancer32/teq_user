@@ -16,7 +16,7 @@ export default class Fl32_Teq_User_Back_Process_Profile_Save {
          * between services & processes.
          *
          * @param trx
-         * @param {Fl32_Teq_User_Api_Process_Data_Profile} input
+         * @param {Fl32_Teq_User_Shared_Api_Data_User} input
          * @returns {Promise<{output: *, error}>}
          */
         this.exec = async function ({trx, input}) {

@@ -22,23 +22,19 @@ function Factory(spec) {
     // PARSE INPUT & DEFINE WORKING VARS
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
     const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#']; // class constructor
+    /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process} */
+    const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$'];
 
     // DEFINE INNER FUNCTIONS
     /**
-     * Process to re-create database structure (drop-create tables).
+     * Process to generate referral link.
      * @param trx
      * @param {Number} userId
-     * @returns {Promise<void>}
+     * @returns {Promise<{link: string}>}
      * @memberOf Fl32_Teq_User_Back_Process_Referral_Link_Create
      */
     async function process({trx, userId}) {
         // DEFINE INNER FUNCTIONS
-        async function removeExpiredLinks(trx) {
-            await trx.from(ERefLink.ENTITY)
-                .where(ERefLink.A_DATE_EXPIRED, '<', new Date())
-                .del();
-        }
-
         async function createLink(trx, userId) {
             // DEFINE INNER FUNCTIONS
             /**
@@ -70,7 +66,7 @@ function Factory(spec) {
         }
 
         // MAIN FUNCTIONALITY
-        await removeExpiredLinks(trx);
+        await procCleanUp({trx});
         const link = await createLink(trx, userId);
         // COMPOSE RESULT
         return {link};

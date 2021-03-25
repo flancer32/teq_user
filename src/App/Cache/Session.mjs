@@ -16,14 +16,14 @@ export default class Fl32_Teq_User_App_Cache_Session {
         };
         /**
          * @param {String} sessId
-         * @returns {Fl32_Teq_User_Shared_Service_Data_User|null}
+         * @returns {Fl32_Teq_User_Shared_Api_Data_User|null}
          */
         this.get = function (sessId) {
             return map.get(sessId) ?? null;
         };
         /**
          * @param {String} sessId
-         * @param {Fl32_Teq_User_Shared_Service_Data_User} user
+         * @param {Fl32_Teq_User_Shared_Api_Data_User} user
          */
         this.set = function (sessId, user) {
             map.set(sessId, user);

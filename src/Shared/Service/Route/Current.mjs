@@ -5,7 +5,7 @@ class Fl32_Teq_User_Shared_Service_Route_Current_Request {
 }
 
 class Fl32_Teq_User_Shared_Service_Route_Current_Response {
-    /** @type {Fl32_Teq_User_Shared_Service_Data_User} */
+    /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
     user;
 }
 

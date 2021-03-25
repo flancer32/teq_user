@@ -16,6 +16,7 @@ export default class Fl32_Teq_User_Defaults {
     SERV_CURRENT = '/current';
     SERV_LIST = '/list';
     SERV_REF_LINK_CREATE = '/refLink/create';
+    SERV_REF_LINK_GET = '/refLink/get';
     SERV_SIGN_IN = '/sign/in';
     SERV_SIGN_OUT = '/sign/out';
     SERV_SIGN_UP = '/sign/up';

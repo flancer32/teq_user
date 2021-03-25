@@ -38,8 +38,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Response'];   // class constructor
         /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
         const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
-        const DUser = spec['Fl32_Teq_User_Shared_Service_Data_User#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
+        const DUser = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class constructor
 
         this.getRoute = () => DEF.SERV_SIGN_UP;
 
@@ -169,7 +169,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                  * Select data for newly registered user.
                  * @param trx
                  * @param {Number} userId
-                 * @returns {Promise<Fl32_Teq_User_Shared_Service_Data_User>}
+                 * @returns {Promise<Fl32_Teq_User_Shared_Api_Data_User>}
                  */
                 async function selectUser(trx, userId) {
 
@@ -204,7 +204,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                     /**
                      * @param trx
                      * @param {Number} userId
-                     * @returns {Promise<Fl32_Teq_User_Shared_Service_Data_User>}
+                     * @returns {Promise<Fl32_Teq_User_Shared_Api_Data_User>}
                      */
                     async function getUser(trx, userId) {
                         const query = trx.from({u: eUser.ENTITY});
@@ -227,11 +227,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                             `t.${eRefTree.A_USER_REF}`,
                             `u.${eUser.A_ID}`);
                         query.select([{[DUser.A_PARENT_ID]: `t.${eRefTree.A_PARENT_REF}`}]);
-                        query.leftOuterJoin(
-                            {l: ERefLink.ENTITY},
-                            `l.${ERefLink.A_USER_REF}`,
-                            `u.${eUser.A_ID}`);
-                        query.select([{[DUser.A_REF_CODE]: `l.${ERefLink.A_CODE}`}]);
+
                         query.where(`u.${eUser.A_ID}`, userId);
                         const rows = await query;
                         return Object.assign(new DUser(), rows[0]);
