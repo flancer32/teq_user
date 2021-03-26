@@ -30,6 +30,11 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
         } = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Create']; // ES6 module
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_Create.process} */
         const procCreate = spec['Fl32_Teq_User_Back_Process_Referral_Link_Create$']; // function singleton
+        /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
+        const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$']; // function singleton
+        /** @type {typeof Fl32_Teq_User_Shared_Api_Data_RefLink} */
+        const DRefLink = spec['Fl32_Teq_User_Shared_Api_Data_RefLink#']; // class constructor
+
 
         // DEFINE INSTANCE METHODS
 
@@ -85,7 +90,12 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
                     /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
                     const user = shared[DEF.HTTP_SHARE_CTX_USER];
                     if (user) {
-                        response.refCode = await procCreate({trx, userId: user.id});
+                        const {link, dateExp} = await procCreate({trx, userId: user.id});
+                        const data = new DRefLink();
+                        data.parent = await procLoad({trx, userId: user.id});
+                        data.refCode = link;
+                        data.dateExpired = dateExp;
+                        response.link = data;
                     } else {
                         result.headers[H2.HTTP2_HEADER_STATUS] = H2.HTTP_STATUS_UNAUTHORIZED;
                     }

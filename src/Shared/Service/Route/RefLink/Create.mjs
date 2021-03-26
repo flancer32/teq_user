@@ -6,8 +6,8 @@ class Fl32_Teq_User_Shared_Service_Route_RefLink_Create_Request {
 }
 
 class Fl32_Teq_User_Shared_Service_Route_RefLink_Create_Response {
-    /** @type {String} */
-    refCode;
+    /** @type {Fl32_Teq_User_Shared_Api_Data_RefLink} */
+    link;
 }
 
 export {

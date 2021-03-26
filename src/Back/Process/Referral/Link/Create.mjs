@@ -35,7 +35,7 @@ function Factory(spec) {
      */
     async function process({trx, userId}) {
         // DEFINE INNER FUNCTIONS
-        async function createLink(trx, userId) {
+        async function createLink(trx, userId, dateExp) {
             // DEFINE INNER FUNCTIONS
             /**
              * @param trx
@@ -52,8 +52,6 @@ function Factory(spec) {
             }
 
             // MAIN FUNCTIONALITY
-            const dateExp = new Date();
-            dateExp.setUTCDate(dateExp.getUTCDate() + 1);
             const code = await generateReferralCode(trx);
             await trx(ERefLink.ENTITY)
                 .insert({
@@ -67,9 +65,11 @@ function Factory(spec) {
 
         // MAIN FUNCTIONALITY
         await procCleanUp({trx});
-        const link = await createLink(trx, userId);
+        const dateExp = new Date();
+        dateExp.setUTCDate(dateExp.getUTCDate() + 1);
+        const link = await createLink(trx, userId, dateExp);
         // COMPOSE RESULT
-        return {link};
+        return {link, dateExp};
     }
 
     // MAIN FUNCTIONALITY

@@ -1,3 +1,5 @@
+import {constants as H2} from 'http2';
+
 /**
  * Service to get referral link data (exp. date and parent data).
  *
@@ -29,9 +31,10 @@ class Fl32_Teq_User_Back_Service_RefLink_Get {
         const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$']; // function singleton
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
         const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$']; // function singleton
-
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
         const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Shared_Api_Data_RefLink} */
+        const DRefLink = spec['Fl32_Teq_User_Shared_Api_Data_RefLink#']; // class constructor
 
         // DEFINE INSTANCE METHODS
 
@@ -104,12 +107,18 @@ class Fl32_Teq_User_Back_Service_RefLink_Get {
                 try {
                     // clean up expired links
                     await procCleanUp({trx});
+                    // load link data by code
                     const code = apiReq.code;
-                    const refLink = await selectLinkByCode(trx, code);
-                    const parent = await procLoad({trx, userId: refLink.user_ref});
-                    response.refCode = refLink.code;
-                    response.dateExpired = refLink.date_expired;
-                    response.parent = parent;
+                    const linkData = await selectLinkByCode(trx, code);
+                    if (linkData) {
+                        const link = new DRefLink();
+                        link.parent = await procLoad({trx, userId: linkData.user_ref});
+                        link.refCode = linkData.code;
+                        link.dateExpired = new Date(linkData.date_expired);
+                        response.link = link;
+                    } else {
+                        result.headers[H2.HTTP2_HEADER_STATUS] = H2.HTTP_STATUS_NOT_FOUND;
+                    }
                     await trx.commit();
                 } catch (error) {
                     await trx.rollback();

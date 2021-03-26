@@ -1,18 +1,7 @@
 /**
- * User data in services API.
+ * User data in API.
  */
-export default class Fl32_Teq_User_Shared_Api_Data_User {
-    // attributes names to use in queries to RDb
-    static A_DATE_CREATED = 'dateCreated';
-    static A_DATE_LOGGED_IN = 'dateLoggedIn';
-    static A_EMAILS = 'emails';
-    static A_ID = 'id';
-    static A_LOGIN = 'login';
-    static A_NAME = 'name';
-    static A_PARENT_ID = 'parentId';
-    static A_PHONES = 'phones';
-    static A_REF_CODE = 'refCode';
-
+class Fl32_Teq_User_Shared_Api_Data_User {
     /** @type {Date} */
     dateCreated
     /** @type {Date} */
@@ -45,9 +34,18 @@ export default class Fl32_Teq_User_Shared_Api_Data_User {
      * @type {String|String[]}
      */
     phones
-    /**
-     * Referral code or codes.
-     * @type {String[]}
-     */
-    refCode
 }
+
+// attributes names to use in queries to RDb
+Fl32_Teq_User_Shared_Api_Data_User.A_DATE_CREATED = 'dateCreated';
+Fl32_Teq_User_Shared_Api_Data_User.A_DATE_LOGGED_IN = 'dateLoggedIn';
+Fl32_Teq_User_Shared_Api_Data_User.A_EMAILS = 'emails';
+Fl32_Teq_User_Shared_Api_Data_User.A_ID = 'id';
+Fl32_Teq_User_Shared_Api_Data_User.A_LOGIN = 'login';
+Fl32_Teq_User_Shared_Api_Data_User.A_NAME = 'name';
+Fl32_Teq_User_Shared_Api_Data_User.A_PARENT_ID = 'parentId';
+Fl32_Teq_User_Shared_Api_Data_User.A_PHONES = 'phones';
+
+export {
+    Fl32_Teq_User_Shared_Api_Data_User as default
+};

@@ -18,7 +18,8 @@ function Factory(spec) {
     const Response = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Get#Response']; // class constructor
     /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
     const DUser = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class constructor
-
+    /** @type {typeof Fl32_Teq_User_Shared_Api_Data_RefLink} */
+    const DRefLink = spec['Fl32_Teq_User_Shared_Api_Data_RefLink#']; // class constructor
     /**
      * @param {Fl32_Teq_User_Shared_Service_Route_RefLink_Get_Request} data
      * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_RefLink_Get_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
@@ -29,9 +30,10 @@ function Factory(spec) {
         const res = await backConnect.send(data, DEF.BACK_REALM, DEF.SERV_REF_LINK_GET);
         if (res) {
             result = Object.assign(new Response(), res);
-            result.dateExpired = new Date(result.dateExpired);
-            result.parent = Object.assign(new DUser(), result.parent);
-            result.parent.dateCreated = new Date(result.parent.dateCreated);
+            result.link = Object.assign(new DRefLink(), result.link);
+            result.link.dateExpired = new Date(result.link.dateExpired);
+            result.link.parent = Object.assign(new DUser(), result.link.parent);
+            result.link.parent.dateCreated = new Date(result.link.parent.dateCreated);
         }
         return result;
     }

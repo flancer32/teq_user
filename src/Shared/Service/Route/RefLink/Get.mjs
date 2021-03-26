@@ -7,10 +7,8 @@ class Fl32_Teq_User_Shared_Service_Route_RefLink_Get_Request {
 }
 
 class Fl32_Teq_User_Shared_Service_Route_RefLink_Get_Response {
-    /** @type {Date} */
-    dateExpired;
-    /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
-    parent;
+    /** @type {Fl32_Teq_User_Shared_Api_Data_RefLink} */
+    link
 }
 
 export {
