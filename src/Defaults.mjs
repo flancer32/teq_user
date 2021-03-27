@@ -5,11 +5,13 @@ export default class Fl32_Teq_User_Defaults {
     BACK_REALM = 'user';
     BCRYPT_HASH_ROUNDS = 10;    // Number of salt rounds used in bcrypt hash.
     DI_SESSION = 'userSession'; // ID of the session singleton in DI-container.
-    HTTP_SHARE_CTX_SESSION_ID = `${this.BACK_REALM}/sessionId`;  // Attribute of the HTTP request to store session ID.
-    HTTP_SHARE_CTX_USER = `${this.BACK_REALM}/data`; // Attribute of the HTTP request to store authenticated user data.
+    HTTP_SHARE_CTX_SESSION_ID = `${this.BACK_REALM}/sessionId`;  // Attribute of the HTTP request to share session ID.
+    HTTP_SHARE_CTX_USER = `${this.BACK_REALM}/data`; // Attribute of the HTTP request to share authenticated user data.
 
     /** @type {TeqFw_Core_App_Defaults} */
     MOD_CORE;
+    /** @type {TeqFw_Http2_Defaults} */
+    MOD_HTTP2;
 
     SERV_CHANGE_PASSWORD = '/changePassword';
     SERV_CHECK_EXISTENCE = '/check/existence';
@@ -27,7 +29,8 @@ export default class Fl32_Teq_User_Defaults {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Defaults} */
-        this.MOD_CORE = spec['TeqFw_Core_App_Defaults$'];    // pin 'core' defaults
+        this.MOD_CORE = spec['TeqFw_Core_App_Defaults$']; // pin 'core' defaults
+        this.MOD_HTTP2 = spec['TeqFw_Http2_Defaults$']; // pin 'http2' defaults
         Object.freeze(this);
     }
 }
