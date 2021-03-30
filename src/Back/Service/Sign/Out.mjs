@@ -13,6 +13,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         const utilCookie = spec['TeqFw_Core_App_Util_Back_Cookie$'];  // instance singleton
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
+        /** @type {TeqFw_Http2_Back_Realm_Registry} */
+        const regRealms = spec['TeqFw_Http2_Back_Realm_Registry$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
         const eAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session$'];   // instance singleton
         /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
@@ -86,7 +88,11 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
                         await deleteAllSessions(trx, sessId);
                     }
                     await trx.commit();
-                    result.headers[H2.HTTP2_HEADER_SET_COOKIE] = utilCookie.clear(DEF.SESSION_COOKIE_NAME);
+                    // clear session ID from cookie
+                    const path = result.headers[H2.HTTP2_HEADER_PATH];
+                    const addr = regRealms.parseAddress(path);
+                    const realm = addr.realm ?? '';
+                    result.headers[H2.HTTP2_HEADER_SET_COOKIE] = utilCookie.clear(DEF.SESSION_COOKIE_NAME, realm);
                 } catch (error) {
                     await trx.rollback();
                     throw error;

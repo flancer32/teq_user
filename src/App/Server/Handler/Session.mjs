@@ -18,6 +18,8 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
         /** @type {TeqFw_Core_App_Util_Back_Cookie} */
         const utilCookie = spec['TeqFw_Core_App_Util_Back_Cookie$'];    // instance singleton
+        /** @type {TeqFw_Http2_Back_Realm_Registry} */
+        const regRealms = spec['TeqFw_Http2_Back_Realm_Registry$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
         const eAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session$'];    // instance singleton
         /** @type {typeof TeqFw_Http2_Back_Server_Stream_Report} */
@@ -65,11 +67,14 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
 
                 /**
                  * Load user data using session ID and place it to the report's additional shared objects.
+                 * Compose "Clear cookie" HTTP header for wrong session ID.
+                 *
                  * @param {String} sessId
+                 * @param {String} path current URL to extract realm to clean cookie
                  * @param {TeqFw_Http2_Back_Server_Stream_Report} report
                  * @returns {Promise<void>}
                  */
-                async function loadUserData(sessId, report) {
+                async function loadUserData(sessId, path, report) {
                     // DEFINE INNER FUNCTIONS
 
                     async function getSessionById(trx, sessId) {
@@ -109,7 +114,9 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
                             }
                         } else {
                             // clear session id from cookies
-                            result.headers[H2.HTTP2_HEADER_SET_COOKIE] = utilCookie.clear(DEF.SESSION_COOKIE_NAME);
+                            const addr = regRealms.parseAddress(path);
+                            const realm = addr.realm ?? '';
+                            result.headers[H2.HTTP2_HEADER_SET_COOKIE] = utilCookie.clear(DEF.SESSION_COOKIE_NAME, realm);
                             result.headers[H2.HTTP2_HEADER_STATUS] = H2.HTTP_STATUS_UNAUTHORIZED;
                             result.complete = true;
                         }
@@ -133,7 +140,8 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
                             result.sharedAdditional[DEF.HTTP_SHARE_CTX_USER] = userCached;
                             result.sharedAdditional[DEF.HTTP_SHARE_CTX_SESSION_ID] = sessId;
                         } else {
-                            await loadUserData(sessId, result);
+                            const path = headers[H2.HTTP2_HEADER_PATH];
+                            await loadUserData(sessId, path, result);
                         }
                     }
                 } catch (e) {

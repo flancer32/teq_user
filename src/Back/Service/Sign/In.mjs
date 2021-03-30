@@ -105,7 +105,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                             result.response.sessionId = output.sessId;
                             // set session cookie
                             const headers = apiCtx.sharedContext[DEF.MOD_HTTP2.HTTP_SHARE_HEADERS];
-                            const pathSrv = $path.join('/', DEF.MOD_CORE.REALM_API, DEF.BACK_REALM, DEF.SERV_SIGN_IN);
+                            const pathSrv = $path.join('/', DEF.MOD_CORE.AREA_API, DEF.BACK_REALM, DEF.SERV_SIGN_IN);
                             const pathHttp = headers[H2.HTTP2_HEADER_PATH];
                             const realm = pathHttp.replace(pathSrv, '');
                             result.headers[H2.HTTP2_HEADER_SET_COOKIE] = createCookie({
