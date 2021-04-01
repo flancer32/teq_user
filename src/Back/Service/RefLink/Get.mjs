@@ -29,10 +29,10 @@ class Fl32_Teq_User_Back_Service_RefLink_Get {
         } = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Get']; // ES6 module
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process} */
         const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$']; // function singleton
+        /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_Get.process} */
+        const procGet = spec['Fl32_Teq_User_Back_Process_Referral_Link_Get$']; // function singleton
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
         const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$']; // function singleton
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#']; // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Api_Data_RefLink} */
         const DRefLink = spec['Fl32_Teq_User_Shared_Api_Data_RefLink#']; // class constructor
 
@@ -76,28 +76,6 @@ class Fl32_Teq_User_Back_Service_RefLink_Get {
              * @implements {TeqFw_Http2_Back_Server_Handler_Api_Factory.service}
              */
             async function service(apiCtx) {
-                // DEFINE INNER FUNCTIONS
-                /**
-                 * @param trx
-                 * @param {String} code
-                 * @returns {Promise<Fl32_Teq_User_Store_RDb_Schema_Ref_Link>}
-                 */
-                async function selectLinkByCode(trx, code) {
-                    let result;
-                    const norm = code.trim().toLowerCase();
-                    const query = trx.from(ERefLink.ENTITY);
-                    query.select();
-                    query.where(ERefLink.A_CODE, norm);
-                    /** @type {Array} */
-                    const rs = await query;
-                    if (rs.length === 1) {
-                        const [first] = rs;
-                        result = Object.assign(new ERefLink(), first);
-                    }
-                    return result;
-                }
-
-                // MAIN FUNCTIONALITY
                 const result = new ApiResult();
                 const response = new Response();
                 result.response = response;
@@ -109,7 +87,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Get {
                     await procCleanUp({trx});
                     // load link data by code
                     const code = apiReq.code;
-                    const linkData = await selectLinkByCode(trx, code);
+                    const linkData = await procGet({trx, code});
                     if (linkData) {
                         const link = new DRefLink();
                         link.parent = await procLoad({trx, userId: linkData.user_ref});

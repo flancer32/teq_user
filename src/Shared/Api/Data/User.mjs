@@ -30,6 +30,11 @@ class Fl32_Teq_User_Shared_Api_Data_User {
      */
     parentName;
     /**
+     * Plain password (pass password to process if new user is created).
+     * @type {String}
+     */
+    password;
+    /**
      * Identity phone number or numbers.
      * @type {String|String[]}
      */
@@ -44,6 +49,8 @@ Fl32_Teq_User_Shared_Api_Data_User.A_ID = 'id';
 Fl32_Teq_User_Shared_Api_Data_User.A_LOGIN = 'login';
 Fl32_Teq_User_Shared_Api_Data_User.A_NAME = 'name';
 Fl32_Teq_User_Shared_Api_Data_User.A_PARENT_ID = 'parentId';
+Fl32_Teq_User_Shared_Api_Data_User.A_PARENT_NAME = 'parentName';
+Fl32_Teq_User_Shared_Api_Data_User.A_PASSWORD = 'password';
 Fl32_Teq_User_Shared_Api_Data_User.A_PHONES = 'phones';
 
 export {

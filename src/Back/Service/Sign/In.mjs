@@ -13,7 +13,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
-        const {createCookie} = spec['TeqFw_Http2_Back_Util']; // ES6 module
+        const {createCookie} = spec['TeqFw_Http2_Back_Util']; // ES6 module destructing
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
         const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$']; // instance singleton
         /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
@@ -101,7 +101,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                         const equal = await $bcrypt.compare(apiReq.password, hash);
                         if (equal) {
                             // generate user session
-                            const {output, error} = await procSessionOpen.exec({trx, userId});
+                            const {output} = await procSessionOpen.exec({trx, userId});
                             result.response.sessionId = output.sessId;
                             // set session cookie
                             const headers = apiCtx.sharedContext[DEF.MOD_HTTP2.HTTP_SHARE_HEADERS];

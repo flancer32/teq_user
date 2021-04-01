@@ -16,7 +16,7 @@ export default class Fl32_Teq_User_Back_Process_Session_Open {
          * between services & processes.
          *
          * @param trx
-         * @param {Fl32_Teq_User_Shared_Api_Data_User} input
+         * @param {Number} userId
          * @returns {Promise<{output: *, error}>}
          */
         this.exec = async function ({trx, userId}) {

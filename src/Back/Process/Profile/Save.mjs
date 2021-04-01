@@ -1,5 +1,6 @@
 /**
  * Process to update user profile.
+ * @deprecated used in Leana project only
  */
 export default class Fl32_Teq_User_Back_Process_Profile_Save {
 
