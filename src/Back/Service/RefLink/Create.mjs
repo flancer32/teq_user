@@ -28,7 +28,9 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
             /** @type {typeof Fl32_Teq_User_Shared_Service_Route_RefLink_Create_Response} */
             Response
         } = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Create']; // ES6 module
-        /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_Create.process} */
+        /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process} */
+        const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$']; // function singleton
+        //   /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_Create.process} */
         const procCreate = spec['Fl32_Teq_User_Back_Process_Referral_Link_Create$']; // function singleton
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
         const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$']; // function singleton
@@ -90,6 +92,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
                     /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
                     const user = shared[DEF.HTTP_SHARE_CTX_USER];
                     if (user) {
+                        await procCleanUp({trx});
                         const {link, dateExp} = await procCreate({trx, userId: user.id});
                         const data = new DRefLink();
                         data.parent = await procLoad({trx, userId: user.id});
