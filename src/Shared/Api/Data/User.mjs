@@ -53,6 +53,8 @@ Fl32_Teq_User_Shared_Api_Data_User.A_PARENT_NAME = 'parentName';
 Fl32_Teq_User_Shared_Api_Data_User.A_PASSWORD = 'password';
 Fl32_Teq_User_Shared_Api_Data_User.A_PHONES = 'phones';
 
-export {
-    Fl32_Teq_User_Shared_Api_Data_User as default
-};
+// freeze class to deny attributes changes
+Object.freeze(Fl32_Teq_User_Shared_Api_Data_User);
+
+// MODULE'S EXPORT
+export default Fl32_Teq_User_Shared_Api_Data_User;
