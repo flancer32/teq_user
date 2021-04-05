@@ -15,12 +15,12 @@ const NS = 'Fl32_Teq_User_Back_Process_User_Load';
  * @memberOf Fl32_Teq_User_Back_Process_User_Load
  */
 function Factory(spec) {
-    /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-    const eIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email$']; // instance singleton
-    /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-    const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$']; // instance singleton
-    /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
-    const eUser = spec['Fl32_Teq_User_Store_RDb_Schema_User$']; // instance singleton
+    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
+    const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
+    const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
+    const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class constructor
     /** @function {@type Fl32_Teq_User_Store_RDb_Query_GetUsers.queryBuilder}*/
     const qbGetUsers = spec['Fl32_Teq_User_Store_RDb_Query_GetUsers$']; // instance singleton
     /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
@@ -37,24 +37,24 @@ function Factory(spec) {
         // DEFINE INNER FUNCTIONS
         async function getEmails(trx, userId) {
             const result = [];
-            const query = trx.from(eIdEmail.ENTITY);
-            query.select([eIdEmail.A_EMAIL]);
-            query.where(eIdEmail.A_USER_REF, userId);
+            const query = trx.from(EIdEmail.ENTITY);
+            query.select([EIdEmail.A_EMAIL]);
+            query.where(EIdEmail.A_USER_REF, userId);
             const rs = await query;
             if (rs.length > 0) {
-                for (const one of rs) result.push(one[eIdEmail.A_EMAIL]);
+                for (const one of rs) result.push(one[EIdEmail.A_EMAIL]);
             }
             return result;
         }
 
         async function getPhones(trx, userId) {
             const result = [];
-            const query = trx.from(eIdPhone.ENTITY);
-            query.select([eIdPhone.A_PHONE]);
-            query.where(eIdPhone.A_USER_REF, userId);
+            const query = trx.from(EIdPhone.ENTITY);
+            query.select([EIdPhone.A_PHONE]);
+            query.where(EIdPhone.A_USER_REF, userId);
             const rs = await query;
             if (rs.length > 0) {
-                for (const one of rs) result.push(one[eIdPhone.A_PHONE]);
+                for (const one of rs) result.push(one[EIdPhone.A_PHONE]);
             }
             return result;
         }
@@ -67,7 +67,7 @@ function Factory(spec) {
         async function getUserById(trx, userId) {
             let result = null;
             const query = qbGetUsers(trx);
-            query.where(eUser.A_ID, userId);
+            query.where(EUser.A_ID, userId);
             const rows = await query;
             if (rows[0]) {
                 /** @type {Fl32_Teq_User_Shared_Api_Data_User} */

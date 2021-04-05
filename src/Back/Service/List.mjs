@@ -6,27 +6,27 @@ export default class Fl32_Teq_User_Back_Service_List {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
+        const DEF = spec['Fl32_Teq_User_Defaults$']; // instance singleton
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];   // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const eIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email$'];         // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$'];         // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const eProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile$'];          // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-        const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$'];         // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
-        const eUser = spec['Fl32_Teq_User_Store_RDb_Schema_User$'];                // instance singleton
+        const rdb = spec['TeqFw_Core_App_Db_Connector$']; // instance singleton
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
+        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
+        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
+        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
+        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
+        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
+        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class constructor
         /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
-        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class constructor
+        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result']; // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Request} */
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_List#Request'];   // class constructor
+        const Request = spec['Fl32_Teq_User_Shared_Service_Route_List#Request']; // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Response} */
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_List#Response'];   // class constructor
+        const Response = spec['Fl32_Teq_User_Shared_Service_Route_List#Response']; // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
         const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class constructor
 
@@ -84,14 +84,14 @@ export default class Fl32_Teq_User_Back_Service_List {
                      */
                     async function populateWithEmails(trx, users) {
                         const ids = Object.keys(users);
-                        const query = trx.from(eIdEmail.ENTITY);
-                        query.select([eIdEmail.A_USER_REF, eIdEmail.A_EMAIL]);
-                        query.whereIn(eIdEmail.A_USER_REF, ids);
+                        const query = trx.from(EIdEmail.ENTITY);
+                        query.select([EIdEmail.A_USER_REF, EIdEmail.A_EMAIL]);
+                        query.whereIn(EIdEmail.A_USER_REF, ids);
                         const rs = await query;
                         if (rs.length > 0) {
                             for (const one of rs) {
-                                const id = one[eIdEmail.A_USER_REF];
-                                const email = one[eIdEmail.A_EMAIL];
+                                const id = one[EIdEmail.A_USER_REF];
+                                const email = one[EIdEmail.A_EMAIL];
                                 if (!Array.isArray(users[id][User.A_EMAILS])) users[id][User.A_EMAILS] = [];
                                 users[id][User.A_EMAILS].push(email);
                             }
@@ -105,14 +105,14 @@ export default class Fl32_Teq_User_Back_Service_List {
                      */
                     async function populateWithPhones(trx, users) {
                         const ids = Object.keys(users);
-                        const query = trx.from(eIdPhone.ENTITY);
-                        query.select([eIdPhone.A_USER_REF, eIdPhone.A_PHONE]);
-                        query.whereIn(eIdPhone.A_USER_REF, ids);
+                        const query = trx.from(EIdPhone.ENTITY);
+                        query.select([EIdPhone.A_USER_REF, EIdPhone.A_PHONE]);
+                        query.whereIn(EIdPhone.A_USER_REF, ids);
                         const rs = await query;
                         if (rs.length > 0) {
                             for (const one of rs) {
-                                const id = one[eIdPhone.A_USER_REF];
-                                const phone = one[eIdPhone.A_PHONE];
+                                const id = one[EIdPhone.A_USER_REF];
+                                const phone = one[EIdPhone.A_PHONE];
                                 if (!Array.isArray(users[id][User.A_PHONES])) users[id][User.A_PHONES] = [];
                                 users[id][User.A_PHONES].push(phone);
                             }
@@ -125,26 +125,26 @@ export default class Fl32_Teq_User_Back_Service_List {
                      */
                     async function getUsers(trx) {
                         const result = {};
-                        const query = trx.from({u: eUser.ENTITY});
+                        const query = trx.from({u: EUser.ENTITY});
                         query.select([
-                            {[User.A_ID]: `u.${eUser.A_ID}`},
-                            {[User.A_DATE_CREATED]: `u.${eUser.A_DATE_CREATED}`},
+                            {[User.A_ID]: `u.${EUser.A_ID}`},
+                            {[User.A_DATE_CREATED]: `u.${EUser.A_DATE_CREATED}`},
                         ]);
                         query.leftOuterJoin(
-                            {p: eProfile.ENTITY},
-                            `p.${eProfile.A_USER_REF}`,
-                            `u.${eUser.A_ID}`);
-                        query.select([{[User.A_NAME]: `p.${eProfile.A_NAME}`}]);
+                            {p: EProfile.ENTITY},
+                            `p.${EProfile.A_USER_REF}`,
+                            `u.${EUser.A_ID}`);
+                        query.select([{[User.A_NAME]: `p.${EProfile.A_NAME}`}]);
                         query.leftOuterJoin(
-                            {a: eAuthPass.ENTITY},
-                            `a.${eAuthPass.A_USER_REF}`,
-                            `u.${eUser.A_ID}`);
-                        query.select([{[User.A_LOGIN]: `a.${eAuthPass.A_LOGIN}`}]);
+                            {a: EAuthPass.ENTITY},
+                            `a.${EAuthPass.A_USER_REF}`,
+                            `u.${EUser.A_ID}`);
+                        query.select([{[User.A_LOGIN]: `a.${EAuthPass.A_LOGIN}`}]);
                         query.leftOuterJoin(
-                            {t: eRefTree.ENTITY},
-                            `t.${eRefTree.A_USER_REF}`,
-                            `u.${eUser.A_ID}`);
-                        query.select([{[User.A_PARENT_ID]: `t.${eRefTree.A_PARENT_REF}`}]);
+                            {t: ERefTree.ENTITY},
+                            `t.${ERefTree.A_USER_REF}`,
+                            `u.${EUser.A_ID}`);
+                        query.select([{[User.A_PARENT_ID]: `t.${ERefTree.A_PARENT_REF}`}]);
 
                         const rows = await query;
                         for (const one of rows) {

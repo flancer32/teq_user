@@ -20,8 +20,8 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
         const utilCookie = spec['TeqFw_Core_App_Util_Back_Cookie$'];    // instance singleton
         /** @type {TeqFw_Http2_Back_Realm_Registry} */
         const regRealms = spec['TeqFw_Http2_Back_Realm_Registry$']; // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const eAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session$'];    // instance singleton
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
+        const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class constructor
         /** @type {typeof TeqFw_Http2_Back_Server_Stream_Report} */
         const Report = spec['TeqFw_Http2_Back_Server_Stream#Report'];   // class constructor
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
@@ -79,9 +79,9 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
 
                     async function getSessionById(trx, sessId) {
                         let result = null;
-                        const query = trx.from(eAuthSess.ENTITY);
-                        query.select([eAuthSess.A_DATE_CREATED, eAuthSess.A_SESSION_ID, eAuthSess.A_USER_REF]);
-                        query.where(eAuthSess.A_SESSION_ID, sessId);
+                        const query = trx.from(EAuthSess.ENTITY);
+                        query.select([EAuthSess.A_DATE_CREATED, EAuthSess.A_SESSION_ID, EAuthSess.A_USER_REF]);
+                        query.where(EAuthSess.A_SESSION_ID, sessId);
                         const rows = await query;
                         if (rows.length) {
                             result = rows[0];
@@ -95,8 +95,8 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
                     try {
                         const sess = await getSessionById(trx, sessId);
                         if (sess) {
-                            const userId = sess[eAuthSess.A_USER_REF];
-                            const dateInit = sess[eAuthSess.A_DATE_CREATED];
+                            const userId = sess[EAuthSess.A_USER_REF];
+                            const dateInit = sess[EAuthSess.A_DATE_CREATED];
                             if (userId) {
                                 /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
                                 const user = await procLoad({trx, userId});

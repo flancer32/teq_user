@@ -15,8 +15,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
         /** @type {TeqFw_Http2_Back_Realm_Registry} */
         const regRealms = spec['TeqFw_Http2_Back_Realm_Registry$']; // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const eAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session$'];   // instance singleton
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
+        const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class constructor
         /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
         const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out_Request} */
@@ -64,14 +64,14 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
                 // DEFINE INNER FUNCTIONS
                 async function deleteAllSessions(trx, sessId) {
                     // get user ID by session ID
-                    const qSelect = trx.from(eAuthSess.ENTITY)
-                        .select([eAuthSess.A_USER_REF])
-                        .where(eAuthSess.A_SESSION_ID, sessId);
+                    const qSelect = trx.from(EAuthSess.ENTITY)
+                        .select([EAuthSess.A_USER_REF])
+                        .where(EAuthSess.A_SESSION_ID, sessId);
                     const rs = await qSelect;
-                    if (rs[0] && rs[0][eAuthSess.A_USER_REF]) {
+                    if (rs[0] && rs[0][EAuthSess.A_USER_REF]) {
                         // remove all sessions for the user
-                        const qDelete = trx.from(eAuthSess.ENTITY)
-                            .where(eAuthSess.A_USER_REF, rs[0][eAuthSess.A_USER_REF]);
+                        const qDelete = trx.from(EAuthSess.ENTITY)
+                            .where(EAuthSess.A_USER_REF, rs[0][EAuthSess.A_USER_REF]);
                         await qDelete.del();
                     }
                 }

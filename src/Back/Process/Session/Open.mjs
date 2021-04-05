@@ -8,8 +8,8 @@ export default class Fl32_Teq_User_Back_Process_Session_Open {
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const eAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session$'];   // instance singleton
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
+        const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class constructor
 
         /**
          * We should use separate classes for data objects in input (not services) to reduce coupling
@@ -22,17 +22,17 @@ export default class Fl32_Teq_User_Back_Process_Session_Open {
         this.exec = async function ({trx, userId}) {
             // DEFINE INNER FUNCTIONS
             async function getSessionById(trx, sessId) {
-                const query = trx.from(eAuthSess.ENTITY);
-                query.select([eAuthSess.A_USER_REF]);
-                query.where(eAuthSess.A_SESSION_ID, sessId);
+                const query = trx.from(EAuthSess.ENTITY);
+                query.select([EAuthSess.A_USER_REF]);
+                query.where(EAuthSess.A_SESSION_ID, sessId);
                 const rs = await query;
                 return rs[0] !== undefined;
             }
 
             async function createSession(trx, userId, sessId) {
-                await trx(eAuthSess.ENTITY).insert({
-                    [eAuthSess.A_USER_REF]: userId,
-                    [eAuthSess.A_SESSION_ID]: sessId,
+                await trx(EAuthSess.ENTITY).insert({
+                    [EAuthSess.A_USER_REF]: userId,
+                    [EAuthSess.A_SESSION_ID]: sessId,
                 });
             }
 

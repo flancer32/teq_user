@@ -16,8 +16,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         const {createCookie} = spec['TeqFw_Http2_Back_Util']; // ES6 module destructing
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
         const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$']; // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];   // instance singleton
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
+        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class constructor
         /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
         const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In_Request} */
@@ -74,14 +74,14 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                  */
                 async function getUserData(trx, login) {
                     const result = {};
-                    const query = trx.from(eAuthPass.ENTITY);
-                    query.select([eAuthPass.A_USER_REF, eAuthPass.A_PASSWORD_HASH]);
+                    const query = trx.from(EAuthPass.ENTITY);
+                    query.select([EAuthPass.A_USER_REF, EAuthPass.A_PASSWORD_HASH]);
                     const norm = login.trim().toLowerCase();
-                    query.where(eAuthPass.A_LOGIN, norm);
+                    query.where(EAuthPass.A_LOGIN, norm);
                     const rs = await query;
                     if (rs[0]) {
-                        result.userId = rs[0][eAuthPass.A_USER_REF];
-                        result.hash = rs[0][eAuthPass.A_PASSWORD_HASH];
+                        result.userId = rs[0][EAuthPass.A_USER_REF];
+                        result.hash = rs[0][EAuthPass.A_PASSWORD_HASH];
                     }
                     return result;
                 }

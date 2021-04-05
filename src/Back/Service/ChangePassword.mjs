@@ -11,8 +11,8 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
         const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];   // instance singleton
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
+        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class constructor
         /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
         const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class constructor
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request} */
@@ -61,14 +61,14 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
 
                 async function isValidPassword(trx, userId, password) {
                     let result = false;
-                    const query = trx.from(eAuthPass.ENTITY)
-                        .select([eAuthPass.A_PASSWORD_HASH])
-                        .where(eAuthPass.A_USER_REF, userId);
+                    const query = trx.from(EAuthPass.ENTITY)
+                        .select([EAuthPass.A_PASSWORD_HASH])
+                        .where(EAuthPass.A_USER_REF, userId);
                     /** @type {TextRow[]} */
                     const rs = await query;
                     if (rs.length) {
                         const [first] = rs;
-                        const hash = first[eAuthPass.A_PASSWORD_HASH];
+                        const hash = first[EAuthPass.A_PASSWORD_HASH];
                         // validate password
                         result = await $bcrypt.compare(password, hash);
                     }
@@ -77,11 +77,11 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
 
                 async function setPassword(trx, userId, password) {
                     const hash = await $bcrypt.hash(password, DEF.BCRYPT_HASH_ROUNDS);
-                    await trx(eAuthPass.ENTITY)
+                    await trx(EAuthPass.ENTITY)
                         .update({
-                            [eAuthPass.A_PASSWORD_HASH]: hash,
+                            [EAuthPass.A_PASSWORD_HASH]: hash,
                         })
-                        .where({[eAuthPass.A_USER_REF]: userId});
+                        .where({[EAuthPass.A_USER_REF]: userId});
                 }
 
                 // MAIN FUNCTIONALITY

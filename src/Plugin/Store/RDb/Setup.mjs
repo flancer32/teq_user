@@ -2,22 +2,22 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
     constructor(spec) {
         const utilFKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForForeignKey'];
         const utilUKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForUniqueKey'];
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const eAuthPassword = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$']; // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const eAuthSession = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session$']; // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const eIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email$']; // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$']; // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const eProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile$']; // instance singleton
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
+        const EAuthPassword = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
+        const EAuthSession = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
+        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
+        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
+        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class constructor
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
         const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#']; // class constructor
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-        const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$']; // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
-        const eUser = spec['Fl32_Teq_User_Store_RDb_Schema_User$']; // instance singleton
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
+        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
+        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class constructor
 
         /**
          * TODO: tables drop should be ordered according to relations between tables (DEM).
@@ -26,17 +26,17 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
          * @param schema
          */
         this.dropTables0 = function (schema) {
-            schema.dropTableIfExists(eUser.ENTITY);
+            schema.dropTableIfExists(EUser.ENTITY);
         };
         this.dropTables1 = function (schema) {
             /* drop related tables (foreign keys) */
-            schema.dropTableIfExists(eAuthPassword.ENTITY);
-            schema.dropTableIfExists(eAuthSession.ENTITY);
-            schema.dropTableIfExists(eIdEmail.ENTITY);
-            schema.dropTableIfExists(eIdPhone.ENTITY);
+            schema.dropTableIfExists(EAuthPassword.ENTITY);
+            schema.dropTableIfExists(EAuthSession.ENTITY);
+            schema.dropTableIfExists(EIdEmail.ENTITY);
+            schema.dropTableIfExists(EIdPhone.ENTITY);
             schema.dropTableIfExists(ERefLink.ENTITY);
-            schema.dropTableIfExists(eRefTree.ENTITY);
-            schema.dropTableIfExists(eProfile.ENTITY);
+            schema.dropTableIfExists(ERefTree.ENTITY);
+            schema.dropTableIfExists(EProfile.ENTITY);
         };
 
         /**
@@ -49,66 +49,66 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
 
             // DEFINE INNER FUNCTIONS
             function createTblAuthPassword(schema, knex) {
-                schema.createTable(eAuthPassword.ENTITY, (table) => {
-                    table.string(eAuthPassword.A_LOGIN).notNullable().primary()
+                schema.createTable(EAuthPassword.ENTITY, (table) => {
+                    table.string(EAuthPassword.A_LOGIN).notNullable().primary()
                         .comment('Login name as user identity.');
-                    table.integer(eAuthPassword.A_USER_REF).unsigned().notNullable();
-                    table.string(eAuthPassword.A_PASSWORD_HASH).notNullable()
+                    table.integer(EAuthPassword.A_USER_REF).unsigned().notNullable();
+                    table.string(EAuthPassword.A_PASSWORD_HASH).notNullable()
                         .comment('Password\'s hash to authenticate user.');
-                    table.unique(eAuthPassword.A_USER_REF, utilUKName(eAuthPassword.ENTITY, eAuthPassword.A_USER_REF));
-                    table.foreign(eAuthPassword.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
+                    table.unique(EAuthPassword.A_USER_REF, utilUKName(EAuthPassword.ENTITY, EAuthPassword.A_USER_REF));
+                    table.foreign(EAuthPassword.A_USER_REF).references(EUser.A_ID).inTable(EUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(eAuthPassword.ENTITY, eAuthPassword.A_USER_REF, eUser.ENTITY, eUser.A_ID));
+                        .withKeyName(utilFKName(EAuthPassword.ENTITY, EAuthPassword.A_USER_REF, EUser.ENTITY, EUser.A_ID));
                     table.comment('Authentication by password.');
                 });
             }
 
             function createTblAuthSession(schema, knex) {
-                schema.createTable(eAuthSession.ENTITY, (table) => {
-                    table.string(eAuthSession.A_SESSION_ID).notNullable().primary()
+                schema.createTable(EAuthSession.ENTITY, (table) => {
+                    table.string(EAuthSession.A_SESSION_ID).notNullable().primary()
                         .comment('Unique ID for user session.');
-                    table.integer(eAuthSession.A_USER_REF).unsigned().notNullable();
-                    table.dateTime(eAuthSession.A_DATE_CREATED).notNullable().defaultTo(knex.fn.now())
+                    table.integer(EAuthSession.A_USER_REF).unsigned().notNullable();
+                    table.dateTime(EAuthSession.A_DATE_CREATED).notNullable().defaultTo(knex.fn.now())
                         .comment('Date-time for session registration.');
-                    table.foreign(eAuthSession.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
+                    table.foreign(EAuthSession.A_USER_REF).references(EUser.A_ID).inTable(EUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(eAuthSession.ENTITY, eAuthSession.A_USER_REF, eUser.ENTITY, eUser.A_ID));
+                        .withKeyName(utilFKName(EAuthSession.ENTITY, EAuthSession.A_USER_REF, EUser.ENTITY, EUser.A_ID));
                     table.comment('Registry for opened sessions.');
                 });
             }
 
             function createTblIdEmail(schema, knex) {
-                schema.createTable(eIdEmail.ENTITY, (table) => {
-                    table.string(eIdEmail.A_EMAIL).notNullable().primary()
+                schema.createTable(EIdEmail.ENTITY, (table) => {
+                    table.string(EIdEmail.A_EMAIL).notNullable().primary()
                         .comment('Email.');
-                    table.integer(eIdEmail.A_USER_REF).unsigned().notNullable();
-                    table.foreign(eIdEmail.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
+                    table.integer(EIdEmail.A_USER_REF).unsigned().notNullable();
+                    table.foreign(EIdEmail.A_USER_REF).references(EUser.A_ID).inTable(EUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(eIdEmail.ENTITY, eIdEmail.A_USER_REF, eUser.ENTITY, eUser.A_ID));
+                        .withKeyName(utilFKName(EIdEmail.ENTITY, EIdEmail.A_USER_REF, EUser.ENTITY, EUser.A_ID));
                     table.comment('Emails as identifiers for users.');
                 });
             }
 
             function createTblIdPhone(schema, knex) {
-                schema.createTable(eIdPhone.ENTITY, (table) => {
-                    table.string(eIdPhone.A_PHONE).notNullable().primary()
+                schema.createTable(EIdPhone.ENTITY, (table) => {
+                    table.string(EIdPhone.A_PHONE).notNullable().primary()
                         .comment('Phone number.');
-                    table.integer(eIdPhone.A_USER_REF).unsigned().notNullable();
-                    table.foreign(eIdPhone.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
+                    table.integer(EIdPhone.A_USER_REF).unsigned().notNullable();
+                    table.foreign(EIdPhone.A_USER_REF).references(EUser.A_ID).inTable(EUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(eIdPhone.ENTITY, eIdPhone.A_USER_REF, eUser.ENTITY, eUser.A_ID));
+                        .withKeyName(utilFKName(EIdPhone.ENTITY, EIdPhone.A_USER_REF, EUser.ENTITY, EUser.A_ID));
                     table.comment('Phones as identifiers for users.');
                 });
             }
 
             function createTblProfile(schema, knex) {
-                schema.createTable(eProfile.ENTITY, (table) => {
-                    table.integer(eProfile.A_USER_REF).unsigned().notNullable().primary();
-                    table.string(eProfile.A_NAME).notNullable()
+                schema.createTable(EProfile.ENTITY, (table) => {
+                    table.integer(EProfile.A_USER_REF).unsigned().notNullable().primary();
+                    table.string(EProfile.A_NAME).notNullable()
                         .comment('Name to display in profile.');
-                    table.foreign(eProfile.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
+                    table.foreign(EProfile.A_USER_REF).references(EUser.A_ID).inTable(EUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(eProfile.ENTITY, eProfile.A_USER_REF, eUser.ENTITY, eUser.A_ID));
+                        .withKeyName(utilFKName(EProfile.ENTITY, EProfile.A_USER_REF, EUser.ENTITY, EUser.A_ID));
                     table.comment('Personal information for users.');
                 });
             }
@@ -120,34 +120,34 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                     table.integer(ERefLink.A_USER_REF).unsigned().notNullable();
                     table.dateTime(ERefLink.A_DATE_EXPIRED).notNullable()
                         .comment('Date-time for referral code expiration.');
-                    table.foreign(ERefLink.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
+                    table.foreign(ERefLink.A_USER_REF).references(EUser.A_ID).inTable(EUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(ERefLink.ENTITY, ERefLink.A_USER_REF, eUser.ENTITY, eUser.A_ID));
+                        .withKeyName(utilFKName(ERefLink.ENTITY, ERefLink.A_USER_REF, EUser.ENTITY, EUser.A_ID));
                     table.comment('Referral links to registration.');
                 });
             }
 
             function createTblRefTree(schema, knex) {
-                schema.createTable(eRefTree.ENTITY, (table) => {
-                    table.integer(eRefTree.A_USER_REF).unsigned().notNullable();
-                    table.integer(eRefTree.A_PARENT_REF).unsigned().notNullable();
-                    table.primary([eRefTree.A_USER_REF]);
-                    table.foreign(eRefTree.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
+                schema.createTable(ERefTree.ENTITY, (table) => {
+                    table.integer(ERefTree.A_USER_REF).unsigned().notNullable();
+                    table.integer(ERefTree.A_PARENT_REF).unsigned().notNullable();
+                    table.primary([ERefTree.A_USER_REF]);
+                    table.foreign(ERefTree.A_USER_REF).references(EUser.A_ID).inTable(EUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(eRefTree.ENTITY, eRefTree.A_USER_REF, eUser.ENTITY, eUser.A_ID));
-                    table.foreign(eRefTree.A_PARENT_REF).references(eRefTree.A_USER_REF).inTable(eRefTree.ENTITY)
+                        .withKeyName(utilFKName(ERefTree.ENTITY, ERefTree.A_USER_REF, EUser.ENTITY, EUser.A_ID));
+                    table.foreign(ERefTree.A_PARENT_REF).references(ERefTree.A_USER_REF).inTable(ERefTree.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
                         .withKeyName(utilFKName(
-                            eRefTree.ENTITY, eRefTree.A_USER_REF, eRefTree.ENTITY, eRefTree.A_USER_REF
+                            ERefTree.ENTITY, ERefTree.A_USER_REF, ERefTree.ENTITY, ERefTree.A_USER_REF
                         ));
                     table.comment('Referrals tree.');
                 });
             }
 
             function createTblUser(schema, knex) {
-                schema.createTable(eUser.ENTITY, (table) => {
-                    table.increments(eUser.A_ID);
-                    table.dateTime(eUser.A_DATE_CREATED).notNullable().defaultTo(knex.fn.now())
+                schema.createTable(EUser.ENTITY, (table) => {
+                    table.increments(EUser.A_ID);
+                    table.dateTime(EUser.A_DATE_CREATED).notNullable().defaultTo(knex.fn.now())
                         .comment('Date-time for registration of the user.');
                     table.comment('User registry.');
                 });

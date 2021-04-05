@@ -5,12 +5,12 @@
 export default class Fl32_Teq_User_Back_Process_Profile_Save {
 
     constructor(spec) {
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const eIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email$']; // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$']; // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const eProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile$']; // instance singleton
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
+        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
+        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
+        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class constructor
 
         /**
          * We should use separate classes for data objects in input (not services) to reduce coupling
@@ -29,32 +29,32 @@ export default class Fl32_Teq_User_Back_Process_Profile_Save {
                 newValue = newValue.toLowerCase().trim();
                 if (newValue.length === 0) {
                     // remove values
-                    await trx.from(eIdEmail.ENTITY)
-                        .where(eIdEmail.A_USER_REF, userId)
+                    await trx.from(EIdEmail.ENTITY)
+                        .where(EIdEmail.A_USER_REF, userId)
                         .del();
                 } else {
                     // select current entries (<=1)
-                    const rs = await trx.from(eIdEmail.ENTITY)
-                        .select([eIdEmail.A_EMAIL])
-                        .where(eIdEmail.A_USER_REF, userId);
+                    const rs = await trx.from(EIdEmail.ENTITY)
+                        .select([EIdEmail.A_EMAIL])
+                        .where(EIdEmail.A_USER_REF, userId);
                     if (rs.length) {
                         const [first] = rs;
-                        const curValue = first[eIdEmail.A_EMAIL];
+                        const curValue = first[EIdEmail.A_EMAIL];
                         if (curValue !== newValue) {
                             // there is value an it is not equal to new value; update it
-                            const query = trx(eIdEmail.ENTITY)
+                            const query = trx(EIdEmail.ENTITY)
                                 .update({
-                                    [eIdEmail.A_EMAIL]: newValue,
+                                    [EIdEmail.A_EMAIL]: newValue,
                                 })
-                                .where({[eIdEmail.A_USER_REF]: userId});
+                                .where({[EIdEmail.A_USER_REF]: userId});
                             await query;
                         }
                     } else {
                         // insert new value
-                        const query = trx(eIdEmail.ENTITY)
+                        const query = trx(EIdEmail.ENTITY)
                             .insert({
-                                [eIdEmail.A_USER_REF]: userId,
-                                [eIdEmail.A_EMAIL]: newValue,
+                                [EIdEmail.A_USER_REF]: userId,
+                                [EIdEmail.A_EMAIL]: newValue,
                             });
                         await query;
                     }
@@ -67,32 +67,32 @@ export default class Fl32_Teq_User_Back_Process_Profile_Save {
                 newValue = newValue.toLowerCase().trim();
                 if (newValue.length === 0) {
                     // remove values
-                    await trx.from(eIdPhone.ENTITY)
-                        .where(eIdPhone.A_USER_REF, userId)
+                    await trx.from(EIdPhone.ENTITY)
+                        .where(EIdPhone.A_USER_REF, userId)
                         .del();
                 } else {
                     // select current entries (<=1)
-                    const rs = await trx.from(eIdPhone.ENTITY)
-                        .select([eIdPhone.A_PHONE])
-                        .where(eIdPhone.A_USER_REF, userId);
+                    const rs = await trx.from(EIdPhone.ENTITY)
+                        .select([EIdPhone.A_PHONE])
+                        .where(EIdPhone.A_USER_REF, userId);
                     if (rs.length) {
                         const [first] = rs;
-                        const curValue = first[eIdPhone.A_PHONE];
+                        const curValue = first[EIdPhone.A_PHONE];
                         if (curValue !== newValue) {
                             // there is value an it is not equal to new value; update it
-                            const query = trx(eIdPhone.ENTITY)
+                            const query = trx(EIdPhone.ENTITY)
                                 .update({
-                                    [eIdPhone.A_PHONE]: newValue,
+                                    [EIdPhone.A_PHONE]: newValue,
                                 })
-                                .where({[eIdPhone.A_USER_REF]: userId});
+                                .where({[EIdPhone.A_USER_REF]: userId});
                             await query;
                         }
                     } else {
                         // insert new value
-                        const query = trx(eIdPhone.ENTITY)
+                        const query = trx(EIdPhone.ENTITY)
                             .insert({
-                                [eIdPhone.A_USER_REF]: userId,
-                                [eIdPhone.A_PHONE]: newValue,
+                                [EIdPhone.A_USER_REF]: userId,
+                                [EIdPhone.A_PHONE]: newValue,
                             });
                         await query;
                     }
@@ -100,9 +100,9 @@ export default class Fl32_Teq_User_Back_Process_Profile_Save {
             }
 
             async function updateProfile(trx, userId, name) {
-                const query = trx(eProfile.ENTITY)
-                    .update({[eProfile.A_NAME]: name})
-                    .where(eProfile.A_USER_REF, userId);
+                const query = trx(EProfile.ENTITY)
+                    .update({[EProfile.A_NAME]: name})
+                    .where(EProfile.A_USER_REF, userId);
                 await query;
             }
 

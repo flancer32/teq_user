@@ -15,14 +15,14 @@ const NS = 'Fl32_Teq_User_Store_RDb_Query_GetUsers';
 function Factory(spec) {
     /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
     const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class constructor
-    /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-    const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$']; // instance singleton
-    /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
-    const eProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile$']; // instance singleton
-    /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-    const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$']; // instance singleton
-    /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
-    const eUser = spec['Fl32_Teq_User_Store_RDb_Schema_User$']; // instance singleton
+    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
+    const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
+    const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
+    const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
+    const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class constructor
 
     // DEFINE INNER FUNCTIONS
     /**
@@ -38,26 +38,26 @@ function Factory(spec) {
         const T_U = 'u';
 
         // select from user
-        const query = trx.from({u: eUser.ENTITY});
+        const query = trx.from({u: EUser.ENTITY});
         query.select([
-            {[User.A_ID]: `${T_U}.${eUser.A_ID}`},
-            {[User.A_DATE_CREATED]: `${T_U}.${eUser.A_DATE_CREATED}`},
+            {[User.A_ID]: `${T_U}.${EUser.A_ID}`},
+            {[User.A_DATE_CREATED]: `${T_U}.${EUser.A_DATE_CREATED}`},
         ]);
         query.leftOuterJoin(
-            {[T_P]: eProfile.ENTITY},
-            `${T_P}.${eProfile.A_USER_REF}`,
-            `${T_U}.${eUser.A_ID}`);
-        query.select([{[User.A_NAME]: `${T_P}.${eProfile.A_NAME}`}]);
+            {[T_P]: EProfile.ENTITY},
+            `${T_P}.${EProfile.A_USER_REF}`,
+            `${T_U}.${EUser.A_ID}`);
+        query.select([{[User.A_NAME]: `${T_P}.${EProfile.A_NAME}`}]);
         query.leftOuterJoin(
-            {[T_AP]: eAuthPass.ENTITY},
-            `${T_AP}.${eAuthPass.A_USER_REF}`,
-            `${T_U}.${eUser.A_ID}`);
-        query.select([{[User.A_LOGIN]: `${T_AP}.${eAuthPass.A_LOGIN}`}]);
+            {[T_AP]: EAuthPass.ENTITY},
+            `${T_AP}.${EAuthPass.A_USER_REF}`,
+            `${T_U}.${EUser.A_ID}`);
+        query.select([{[User.A_LOGIN]: `${T_AP}.${EAuthPass.A_LOGIN}`}]);
         query.leftOuterJoin(
-            {[T_T]: eRefTree.ENTITY},
-            `${T_T}.${eRefTree.A_USER_REF}`,
-            `${T_U}.${eUser.A_ID}`);
-        query.select([{[User.A_PARENT_ID]: `${T_T}.${eRefTree.A_PARENT_REF}`}]);
+            {[T_T]: ERefTree.ENTITY},
+            `${T_T}.${ERefTree.A_USER_REF}`,
+            `${T_U}.${EUser.A_ID}`);
+        query.select([{[User.A_PARENT_ID]: `${T_T}.${ERefTree.A_PARENT_REF}`}]);
 
         return query;
     }

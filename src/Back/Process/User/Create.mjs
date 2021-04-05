@@ -20,18 +20,18 @@ const NS = 'Fl32_Teq_User_Back_Process_User_Create';
 function Factory(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
     const DEF = spec['Fl32_Teq_User_Defaults$'];
-    /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-    const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];   // instance singleton
-    /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-    const eIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email$']; // instance singleton
-    /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-    const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$']; // instance singleton
-    /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
-    const eProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile$'];          // instance singleton
-    /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-    const eRefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$'];         // instance singleton
-    /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
-    const eUser = spec['Fl32_Teq_User_Store_RDb_Schema_User$']; // instance singleton
+    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
+    const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
+    const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
+    const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
+    const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#'];
+    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
+    const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
+    const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class constructor
 
     /**
      * Process to add new user.
@@ -42,44 +42,44 @@ function Factory(spec) {
      */
     async function process({trx, user}) {
         // create new user in registry
-        const rs = await trx(eUser.ENTITY).insert({}, eUser.A_ID);
+        const rs = await trx(EUser.ENTITY).insert({}, EUser.A_ID);
         const userId = rs[0];
         // register login & password
         if (user.login && user.password) {
             const hash = await $bcrypt.hash(user.password, DEF.BCRYPT_HASH_ROUNDS);
-            await trx(eAuthPass.ENTITY).insert({
-                [eAuthPass.A_USER_REF]: userId,
-                [eAuthPass.A_LOGIN]: user.login.trim().toLowerCase(),
-                [eAuthPass.A_PASSWORD_HASH]: hash,
+            await trx(EAuthPass.ENTITY).insert({
+                [EAuthPass.A_USER_REF]: userId,
+                [EAuthPass.A_LOGIN]: user.login.trim().toLowerCase(),
+                [EAuthPass.A_PASSWORD_HASH]: hash,
             });
         }
         // register profile
         if (user.name) {
-            await trx(eProfile.ENTITY).insert({
-                [eProfile.A_USER_REF]: userId,
-                [eProfile.A_NAME]: user.name.trim(),
+            await trx(EProfile.ENTITY).insert({
+                [EProfile.A_USER_REF]: userId,
+                [EProfile.A_NAME]: user.name.trim(),
             });
         }
         // register user in the referrals tree
-        await trx(eRefTree.ENTITY).insert({
-            [eRefTree.A_USER_REF]: userId,
-            [eRefTree.A_PARENT_REF]: user.parentId,
+        await trx(ERefTree.ENTITY).insert({
+            [ERefTree.A_USER_REF]: userId,
+            [ERefTree.A_PARENT_REF]: user.parentId,
         });
         // register email
         if (Array.isArray(user.emails)) {
             for (const one of user.emails) {
-                await trx(eIdEmail.ENTITY).insert({
-                    [eIdEmail.A_USER_REF]: userId,
-                    [eIdEmail.A_EMAIL]: one.trim().toLowerCase(),
+                await trx(EIdEmail.ENTITY).insert({
+                    [EIdEmail.A_USER_REF]: userId,
+                    [EIdEmail.A_EMAIL]: one.trim().toLowerCase(),
                 });
             }
         }
         // register phone
         if (Array.isArray(user.phones)) {
             for (const one of user.phones) {
-                await trx(eIdPhone.ENTITY).insert({
-                    [eIdPhone.A_USER_REF]: userId,
-                    [eIdPhone.A_PHONE]: one.trim().toLowerCase(),
+                await trx(EIdPhone.ENTITY).insert({
+                    [EIdPhone.A_USER_REF]: userId,
+                    [EIdPhone.A_PHONE]: one.trim().toLowerCase(),
                 });
             }
         }

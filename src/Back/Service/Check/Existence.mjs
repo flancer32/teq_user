@@ -9,12 +9,12 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
         const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const eAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];   // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const eIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email$'];         // instance singleton
-        /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const eIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone$'];         // instance singleton
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
+        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
+        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class constructor
+        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
+        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class constructor
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
         const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];         // instance singleton
         /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
@@ -64,25 +64,25 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
                 // DEFINE INNER FUNCTIONS
 
                 async function checkEmail(trx, value) {
-                    const query = trx.from(eIdEmail.ENTITY);
-                    query.select([eIdEmail.A_USER_REF]);
-                    query.where(eIdEmail.A_EMAIL, value);
+                    const query = trx.from(EIdEmail.ENTITY);
+                    query.select([EIdEmail.A_USER_REF]);
+                    query.where(EIdEmail.A_EMAIL, value);
                     const rs = await query;
                     return (rs.length >= 1);
                 }
 
                 async function checkLogin(trx, value) {
-                    const query = trx.from(eAuthPass.ENTITY);
-                    query.select([eAuthPass.A_USER_REF]);
-                    query.where(eAuthPass.A_LOGIN, value);
+                    const query = trx.from(EAuthPass.ENTITY);
+                    query.select([EAuthPass.A_USER_REF]);
+                    query.where(EAuthPass.A_LOGIN, value);
                     const rs = await query;
                     return (rs.length >= 1);
                 }
 
                 async function checkPhone(trx, value) {
-                    const query = trx.from(eIdPhone.ENTITY);
-                    query.select([eIdPhone.A_USER_REF]);
-                    query.where(eIdPhone.A_PHONE, value);
+                    const query = trx.from(EIdPhone.ENTITY);
+                    query.select([EIdPhone.A_USER_REF]);
+                    query.where(EIdPhone.A_PHONE, value);
                     const rs = await query;
                     return (rs.length >= 1);
                 }
