@@ -51,7 +51,7 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     /** @type {Fl32_Teq_User_Front_Gate_Sign_In} */
     const gate = spec['Fl32_Teq_User_Front_Gate_Sign_In$']; // function singleton
     /** @type {TeqFw_Core_App_Front_Widget_Layout_Centered} */
-    const layoutCentered = spec['TeqFw_Core_App_Front_Widget_Layout_Centered$'];    // Vue component singleton
+    const layoutCentered = spec['TeqFw_Core_App_Front_Widget_Layout_Centered$'];    // vue comp tmpl
 
     i18next.addResourceBundle('dev', 'teqUserSignIn', I18N_BUNDLE, true);
 
