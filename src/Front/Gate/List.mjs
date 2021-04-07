@@ -9,9 +9,9 @@ export default function Fl32_Teq_User_Front_Gate_List(spec) {
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
     const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // instance singleton
     /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
-    const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class constructor
+    const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Response} */
-    const Response = spec['Fl32_Teq_User_Shared_Service_Route_List#Response']; // class constructor
+    const Response = spec['Fl32_Teq_User_Shared_Service_Route_List#Response']; // class
 
     /**
      * @param {Fl32_Teq_User_Shared_Service_Route_List_Request} data

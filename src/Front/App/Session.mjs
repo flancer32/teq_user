@@ -8,11 +8,11 @@ export default class Fl32_Teq_User_Front_App_Session {
         /** @type {Fl32_Teq_User_Front_Gate_Sign_Out.gate} */
         const gateSignOut = spec['Fl32_Teq_User_Front_Gate_Sign_Out$']; // function singleton
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Request} */
-        const CurrentRequest = spec['Fl32_Teq_User_Shared_Service_Route_Current#Request']; // class constructor
+        const CurrentRequest = spec['Fl32_Teq_User_Shared_Service_Route_Current#Request']; // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out_Request} */
-        const SignOutRequest = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Request']; // class constructor
+        const SignOutRequest = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Request']; // class
         /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
-        const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class constructor
+        const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
 
         /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
         let user = null;

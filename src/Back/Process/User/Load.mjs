@@ -16,15 +16,15 @@ const NS = 'Fl32_Teq_User_Back_Process_User_Load';
  */
 function Factory(spec) {
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-    const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class constructor
+    const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-    const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class constructor
+    const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
-    const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class constructor
+    const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class
     /** @function {@type Fl32_Teq_User_Store_RDb_Query_GetUsers.queryBuilder}*/
     const qbGetUsers = spec['Fl32_Teq_User_Store_RDb_Query_GetUsers$']; // instance singleton
     /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
-    const DUser = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class constructor
+    const DUser = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
 
     /**
      * Process to load user profile data.

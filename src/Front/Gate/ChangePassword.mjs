@@ -9,7 +9,7 @@ export default function Fl32_Teq_User_Front_Gate_ChangePassword(spec) {
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
     const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // instance singleton
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword_Response} */
-    const Response = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Response']; // class constructor
+    const Response = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Response']; // class
 
     /**
      * @param {Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request} data

@@ -8,9 +8,9 @@ export default class Fl32_Teq_User_Back_Service_Current {
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
         /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
-        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class constructor
+        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Response} */
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_Current#Response'];   // class constructor
+        const Response = spec['Fl32_Teq_User_Shared_Service_Route_Current#Response'];   // class
 
         this.getRoute = () => DEF.SERV_CURRENT;
 

@@ -21,7 +21,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
         /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
-        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result']; // class constructor
+        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result']; // class
         const {
             /** @type {typeof Fl32_Teq_User_Shared_Service_Route_RefLink_Create_Request} */
             Request,
@@ -35,7 +35,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
         const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$']; // function singleton
         /** @type {typeof Fl32_Teq_User_Shared_Api_Data_RefLink} */
-        const DRefLink = spec['Fl32_Teq_User_Shared_Api_Data_RefLink#']; // class constructor
+        const DRefLink = spec['Fl32_Teq_User_Shared_Api_Data_RefLink#']; // class
 
 
         // DEFINE INSTANCE METHODS

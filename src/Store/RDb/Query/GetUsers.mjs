@@ -14,15 +14,15 @@ const NS = 'Fl32_Teq_User_Store_RDb_Query_GetUsers';
  */
 function Factory(spec) {
     /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
-    const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class constructor
+    const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-    const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class constructor
+    const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
-    const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class constructor
+    const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-    const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class constructor
+    const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
-    const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class constructor
+    const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class
 
     // DEFINE INNER FUNCTIONS
     /**

@@ -21,17 +21,17 @@ function Factory(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
     const DEF = spec['Fl32_Teq_User_Defaults$'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-    const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class constructor
+    const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-    const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class constructor
+    const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-    const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class constructor
+    const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
     const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-    const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class constructor
+    const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
-    const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class constructor
+    const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class
 
     /**
      * Process to add new user.

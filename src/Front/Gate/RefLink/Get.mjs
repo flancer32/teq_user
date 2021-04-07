@@ -15,11 +15,11 @@ function Factory(spec) {
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
     const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // instance singleton
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_RefLink_Get_Response} */
-    const Response = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Get#Response']; // class constructor
+    const Response = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Get#Response']; // class
     /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
-    const DUser = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class constructor
+    const DUser = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
     /** @type {typeof Fl32_Teq_User_Shared_Api_Data_RefLink} */
-    const DRefLink = spec['Fl32_Teq_User_Shared_Api_Data_RefLink#']; // class constructor
+    const DRefLink = spec['Fl32_Teq_User_Shared_Api_Data_RefLink#']; // class
     /**
      * @param {Fl32_Teq_User_Shared_Service_Route_RefLink_Get_Request} data
      * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_RefLink_Get_Response|TeqFw_Core_App_Front_Gate_Response_Error>}

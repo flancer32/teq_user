@@ -47,7 +47,7 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     const session = spec[DEF.DI_SESSION];   // named singleton
     const i18next = spec[DEF.MOD_CORE.DI_I18N];   // named singleton
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In_Request} */
-    const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Request'];  // class constructor
+    const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Request'];  // class
     /** @type {Fl32_Teq_User_Front_Gate_Sign_In} */
     const gate = spec['Fl32_Teq_User_Front_Gate_Sign_In$']; // function singleton
     /** @type {TeqFw_Core_App_Front_Widget_Layout_Centered} */

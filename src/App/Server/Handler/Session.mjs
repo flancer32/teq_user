@@ -21,9 +21,9 @@ export default class Fl32_Teq_User_App_Server_Handler_Session {
         /** @type {TeqFw_Http2_Back_Realm_Registry} */
         const regRealms = spec['TeqFw_Http2_Back_Realm_Registry$']; // instance singleton
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class constructor
+        const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class
         /** @type {typeof TeqFw_Http2_Back_Server_Stream_Report} */
-        const Report = spec['TeqFw_Http2_Back_Server_Stream#Report'];   // class constructor
+        const Report = spec['TeqFw_Http2_Back_Server_Stream#Report'];   // class
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
         const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$']; // function singleton
 

@@ -12,13 +12,13 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class constructor
+        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
         /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
-        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class constructor
+        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request} */
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Request'];   // class constructor
+        const Request = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Request'];   // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword_Response} */
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Response'];   // class constructor
+        const Response = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Response'];   // class
 
         this.getRoute = () => DEF.SERV_CHANGE_PASSWORD;
 

@@ -9,7 +9,7 @@ export default function Fl32_Teq_User_Front_Gate_Sign_Out(spec) {
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
     const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // instance singleton
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out_Response} */
-    const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Response']; // class constructor
+    const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Response']; // class
 
     /**
      * @param {Fl32_Teq_User_Shared_Service_Route_Sign_Out_Request} data

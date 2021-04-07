@@ -102,9 +102,9 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     const gateCheckExist = spec['Fl32_Teq_User_Front_Gate_Check_Existence$']; // singleton function
     const gateSignUp = spec['Fl32_Teq_User_Front_Gate_Sign_Up$']; // singleton function
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
-    const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Request'];  // class constructor
+    const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Request'];  // class
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request} */
-    const CheckExistReq = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Request']; // class constructor
+    const CheckExistReq = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Request']; // class
 
     const TIMEOUT = 1000;
     i18next.addResourceBundle('dev', 'teqUser', I18N_BUNDLE, true);

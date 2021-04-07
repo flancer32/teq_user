@@ -15,31 +15,31 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
         const {createCookie} = spec['TeqFw_Http2_Back_Util']; // ES6 module
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class constructor
+        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class constructor
+        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class constructor
+        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class constructor
+        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
         const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];         // instance singleton
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class constructor
+        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
-        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class constructor
+        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
         const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$']; // instance singleton
         /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
-        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class constructor
+        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Request'];   // class constructor
+        const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Request'];   // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up_Response} */
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Response'];   // class constructor
+        const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Response'];   // class
         /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
-        const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
+        const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class
         /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
-        const DUser = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class constructor
+        const DUser = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
 
         this.getRoute = () => DEF.SERV_SIGN_UP;
 

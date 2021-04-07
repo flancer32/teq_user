@@ -16,13 +16,13 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         /** @type {TeqFw_Http2_Back_Realm_Registry} */
         const regRealms = spec['TeqFw_Http2_Back_Realm_Registry$']; // instance singleton
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class constructor
+        const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class
         /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
-        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class constructor
+        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out_Request} */
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Request'];   // class constructor
+        const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Request'];   // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out_Response} */
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Response'];   // class constructor
+        const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Response'];   // class
 
         this.getRoute = () => DEF.SERV_SIGN_OUT;
 

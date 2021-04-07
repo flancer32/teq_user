@@ -3,21 +3,21 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
         const utilFKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForForeignKey'];
         const utilUKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForUniqueKey'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const EAuthPassword = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class constructor
+        const EAuthPassword = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const EAuthSession = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class constructor
+        const EAuthSession = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class constructor
+        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class constructor
+        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class constructor
+        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#']; // class constructor
+        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class constructor
+        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
-        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class constructor
+        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class
 
         /**
          * TODO: tables drop should be ordered according to relations between tables (DEM).
