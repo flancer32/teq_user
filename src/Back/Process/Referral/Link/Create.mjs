@@ -9,6 +9,7 @@ import $crypto from 'crypto';
 // MODULE'S VARS
 const NS = 'Fl32_Teq_User_Back_Process_Referral_Link_Create';
 const CODE_LENGTH = 16;
+const LIFETIME_DAY = 1;
 
 // MODULE'S FUNCTIONS
 /**
@@ -66,7 +67,7 @@ function Factory(spec) {
         // MAIN FUNCTIONALITY
         await procCleanUp({trx});
         const dateExp = new Date();
-        dateExp.setUTCDate(dateExp.getUTCDate() + 1);
+        dateExp.setUTCDate(dateExp.getUTCDate() + LIFETIME_DAY);
         const link = await createLink(trx, userId, dateExp);
         // COMPOSE RESULT
         return {link, dateExp};
