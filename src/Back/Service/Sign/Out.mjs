@@ -89,7 +89,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
                     }
                     await trx.commit();
                     // clear session ID from cookie
-                    const path = result.headers[H2.HTTP2_HEADER_PATH];
+                    const headers = apiCtx.sharedContext[DEF.MOD_HTTP2.HTTP_SHARE_HEADERS];
+                    const path = headers[H2.HTTP2_HEADER_PATH];
                     const addr = regRealms.parseAddress(path);
                     const realm = addr.realm ?? '';
                     result.headers[H2.HTTP2_HEADER_SET_COOKIE] = utilCookie.clear(DEF.SESSION_COOKIE_NAME, realm);

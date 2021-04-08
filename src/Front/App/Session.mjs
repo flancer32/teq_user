@@ -12,7 +12,7 @@ export default class Fl32_Teq_User_Front_App_Session {
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out_Request} */
         const SignOutRequest = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Request']; // class
         /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
-        const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
+        const DUser = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
 
         /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
         let user = null;
@@ -50,7 +50,7 @@ export default class Fl32_Teq_User_Front_App_Session {
             /** @type {Fl32_Teq_User_Shared_Service_Route_Current_Response} */
             const res = await gateCurrent(req);
             if (res.user) {
-                user = Object.assign(new User(), res.user);
+                user = Object.assign(new DUser(), res.user);
             }
         };
 
@@ -59,7 +59,7 @@ export default class Fl32_Teq_User_Front_App_Session {
          * @returns {Boolean} 'true' if user is authenticated.
          */
         this.checkUserAuthenticated = async function (router) {
-            const result = (user instanceof User);
+            const result = (user instanceof DUser);
             if (!result) {
                 const routeCurrent = router.currentRoute.value.path;
                 this.setRouteToRedirect(routeCurrent);

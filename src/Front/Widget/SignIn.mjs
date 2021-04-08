@@ -81,16 +81,13 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
                 const req = new Request();
                 req.user = this.data.user;
                 req.password = this.data.password;
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In_Response} */
                 const res = await gate(req);
                 if (res.constructor.name === 'TeqFw_Core_App_Front_Gate_Response_Error') {
-                    // registration failed
                     this.$emit('onFailure', res.message);
                 } else {
-                    /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In_Response} */
-                    const data = res; // use IDE type hints
                     await session.init();
-                    // registration succeed
-                    this.$emit('onSuccess', data.sessionId);
+                    this.$emit('onSuccess', res.sessionId);
                     this.reset();
                 }
             },
