@@ -1,0 +1,6 @@
+{
+  "autoload": {
+    "ns": "Fl32_Teq_User",
+    "path": "./src"
+  }
+}

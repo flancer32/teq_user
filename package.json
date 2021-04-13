@@ -15,20 +15,9 @@
     "url": "https://github.com/flancer64"
   },
   "repository": "github:flancer32/teq_user",
-  "scripts": {},
   "dependencies": {
     "@teqfw/http2": "github:teqfw/http2",
     "@teqfw/ui-quasar": "github:teqfw/ui-quasar",
     "bcrypt": "*"
-  },
-  "devDependencies": {},
-  "teqfw": {
-    "autoload": {
-      "ns": "Fl32_Teq_User",
-      "path": "./src"
-    },
-    "dependencies": {
-      "@teqfw/core-app": "github:teqfw/core-app"
-    }
   }
 }
