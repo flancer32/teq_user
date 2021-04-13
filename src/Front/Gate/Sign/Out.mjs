@@ -3,7 +3,7 @@
  * Use as "spec['Fl32_Teq_User_Front_Gate_Sign_Out$']".
  * @namespace Fl32_Teq_User_Front_Gate_Sign_Out
  */
-export default function Fl32_Teq_User_Front_Gate_Sign_Out(spec) {
+function Fl32_Teq_User_Front_Gate_Sign_Out(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
@@ -28,4 +28,8 @@ export default function Fl32_Teq_User_Front_Gate_Sign_Out(spec) {
     // COMPOSE RESULT
     Object.defineProperty(gate, 'name', {value: 'Fl32_Teq_User_Front_Gate_Sign_Out.gate'});
     return gate;
+}
+
+export {
+    Fl32_Teq_User_Front_Gate_Sign_Out as default
 }
