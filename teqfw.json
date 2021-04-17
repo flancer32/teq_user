@@ -2,5 +2,13 @@
   "autoload": {
     "ns": "Fl32_Teq_User",
     "path": "./src"
+  },
+  "http2": {
+    "handlers": [
+      {
+        "depId": "Fl32_Teq_User_Plugin_Http2_Handler_Session$",
+        "weight": 1000
+      }
+    ]
   }
 }

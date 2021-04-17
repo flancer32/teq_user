@@ -2,7 +2,7 @@ import $bcrypt from 'bcrypt';
 
 /**
  * Service to get currently authenticated user data.
- * @extends TeqFw_Http2_Back_Server_Handler_Api_Factory
+ * @extends TeqFw_Http2_Api_Service_Factory
  */
 export default class Fl32_Teq_User_Back_Service_ChangePassword {
 
@@ -13,8 +13,8 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
-        /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
-        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class
+        /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
+        const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Request'];   // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword_Response} */
@@ -24,7 +24,7 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
 
         /**
          * Factory to create function to validate and structure incoming data.
-         * @returns {TeqFw_Http2_Back_Server_Handler_Api_Factory.parse}
+         * @returns {TeqFw_Http2_Api_Service_Factory.parse}
          */
         this.createInputParser = function () {
             // DEFINE INNER FUNCTIONS
@@ -32,7 +32,7 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
              * @param {TeqFw_Http2_Back_Server_Stream_Context} context
              * @returns {Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request}
              * @memberOf Fl32_Teq_User_Back_Service_ChangePassword
-             * @implements TeqFw_Http2_Back_Server_Handler_Api_Factory.parse
+             * @implements TeqFw_Http2_Api_Service_Factory.parse
              */
             function parse(context) {
                 const body = JSON.parse(context.body);
@@ -46,15 +46,15 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
 
         /**
          * Factory to create service (handler to process HTTP API request).
-         * @returns {TeqFw_Http2_Back_Server_Handler_Api_Factory.service}
+         * @returns {TeqFw_Http2_Api_Service_Factory.service}
          */
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Handler_Api_Context} apiCtx
-             * @returns {Promise<TeqFw_Http2_Back_Server_Handler_Api_Result>}
+             * @param {TeqFw_Http2_Back_Server_Handler_Api.Context} apiCtx
+             * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
              * @memberOf Fl32_Teq_User_Back_Service_ChangePassword
-             * @implements {TeqFw_Http2_Back_Server_Handler_Api_Factory.service}
+             * @implements {TeqFw_Http2_Api_Service_Factory.service}
              */
             async function service(apiCtx) {
                 // DEFINE INNER FUNCTIONS

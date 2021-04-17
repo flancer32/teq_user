@@ -1,14 +1,14 @@
 /**
  * Service to get currently authenticated user data.
- * @extends TeqFw_Http2_Back_Server_Handler_Api_Factory
+ * @extends TeqFw_Http2_Api_Service_Factory
  */
 export default class Fl32_Teq_User_Back_Service_Current {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
-        /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
-        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result'];    // class
+        /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
+        const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_Current#Response'];   // class
 
@@ -16,15 +16,15 @@ export default class Fl32_Teq_User_Back_Service_Current {
 
         /**
          * Factory to create service (handler to process HTTP API request).
-         * @returns {TeqFw_Http2_Back_Server_Handler_Api_Factory.service}
+         * @returns {TeqFw_Http2_Api_Service_Factory.service}
          */
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Handler_Api_Context} apiCtx
-             * @returns {Promise<TeqFw_Http2_Back_Server_Handler_Api_Result>}
+             * @param {TeqFw_Http2_Back_Server_Handler_Api.Context} apiCtx
+             * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
              * @memberOf Fl32_Teq_User_Back_Service_Current
-             * @implements {TeqFw_Http2_Back_Server_Handler_Api_Factory.service}
+             * @implements {TeqFw_Http2_Api_Service_Factory.service}
              */
             async function service(apiCtx) {
                 // MAIN FUNCTIONALITY

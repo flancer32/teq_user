@@ -11,7 +11,7 @@ const NS = 'Fl32_Teq_User_Back_Service_RefLink_Create';
 
 /**
  * Service to create referral link for the user.
- * @extends TeqFw_Http2_Back_Server_Handler_Api_Factory
+ * @extends TeqFw_Http2_Api_Service_Factory
  */
 class Fl32_Teq_User_Back_Service_RefLink_Create {
 
@@ -20,8 +20,8 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
         const DEF = spec['Fl32_Teq_User_Defaults$']; // instance singleton
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
-        /** @type {typeof TeqFw_Http2_Back_Server_Handler_Api_Result} */
-        const ApiResult = spec['TeqFw_Http2_Back_Server_Handler_Api#Result']; // class
+        /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
+        const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result']; // class
         const {
             /** @type {typeof Fl32_Teq_User_Shared_Service_Route_RefLink_Create_Request} */
             Request,
@@ -44,7 +44,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
 
         /**
          * Factory to create function to validate and structure incoming data.
-         * @returns {TeqFw_Http2_Back_Server_Handler_Api_Factory.parse}
+         * @returns {TeqFw_Http2_Api_Service_Factory.parse}
          */
         this.createInputParser = function () {
             // DEFINE INNER FUNCTIONS
@@ -52,7 +52,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
              * @param {TeqFw_Http2_Back_Server_Stream_Context} context
              * @returns {Fl32_Teq_User_Shared_Service_Route_RefLink_Create_Request}
              * @memberOf Fl32_Teq_User_Back_Service_RefLink_Create
-             * @implements TeqFw_Http2_Back_Server_Handler_Api_Factory.parse
+             * @implements TeqFw_Http2_Api_Service_Factory.parse
              */
             function parse(context) {
                 const body = JSON.parse(context.body);
@@ -67,15 +67,15 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
 
         /**
          * Factory to create service (handler to process HTTP API request).
-         * @returns {TeqFw_Http2_Back_Server_Handler_Api_Factory.service}
+         * @returns {TeqFw_Http2_Api_Service_Factory.service}
          */
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Handler_Api_Context} apiCtx
-             * @returns {Promise<TeqFw_Http2_Back_Server_Handler_Api_Result>}
+             * @param {TeqFw_Http2_Back_Server_Handler_Api.Context} apiCtx
+             * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
              * @memberOf Fl32_Teq_User_Back_Service_RefLink_Create
-             * @implements {TeqFw_Http2_Back_Server_Handler_Api_Factory.service}
+             * @implements {TeqFw_Http2_Api_Service_Factory.service}
              */
             async function service(apiCtx) {
                 // DEFINE INNER FUNCTIONS
