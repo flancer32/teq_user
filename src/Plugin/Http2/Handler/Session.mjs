@@ -31,8 +31,8 @@ async function Factory(spec) {
     const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
     /** @type {TeqFw_Core_App_Util_Back_Cookie} */
     const utilCookie = spec['TeqFw_Core_App_Util_Back_Cookie$'];    // instance singleton
-    /** @type {TeqFw_Http2_Back_Realm_Registry} */
-    const regRealms = spec['TeqFw_Http2_Back_Realm_Registry$']; // instance singleton
+    /** @type {TeqFw_Http2_Back_Model_Realm_Registry} */
+    const regRealms = spec['TeqFw_Http2_Back_Model_Realm_Registry$']; // instance singleton
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
     const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class
     /** @type {typeof TeqFw_Http2_Back_Server_Stream_Report} */

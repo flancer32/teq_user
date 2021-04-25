@@ -4,7 +4,7 @@ import {constants as H2} from 'http2';
 
 /**
  * Service to register new user.
- * @extends TeqFw_Http2_Api_Service_Factory
+ * @implements TeqFw_Http2_Api_Back_Service_Factory
  */
 export default class Fl32_Teq_User_Back_Service_Sign_Up {
 
@@ -13,7 +13,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const DEF = spec['Fl32_Teq_User_Defaults$'];
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
-        const {createCookie} = spec['TeqFw_Http2_Back_Util']; // ES6 module
+        const {cookieCreate} = spec['TeqFw_Http2_Back_Util']; // ES6 module
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
@@ -45,7 +45,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
 
         /**
          * Factory to create function to validate and structure incoming data.
-         * @returns {TeqFw_Http2_Api_Service_Factory.parse}
+         * @returns {TeqFw_Http2_Api_Back_Service_Factory.parse}
          */
         this.createInputParser = function () {
             // DEFINE INNER FUNCTIONS
@@ -53,7 +53,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
              * @param {TeqFw_Http2_Back_Server_Stream_Context} context
              * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request}
              * @memberOf Fl32_Teq_User_Back_Service_Sign_Up
-             * @implements TeqFw_Http2_Api_Service_Factory.parse
+             * @implements TeqFw_Http2_Api_Back_Service_Factory.parse
              */
             function parse(context) {
                 const body = JSON.parse(context.body);
@@ -67,7 +67,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
 
         /**
          * Factory to create service (handler to process HTTP API request).
-         * @returns {TeqFw_Http2_Api_Service_Factory.service}
+         * @returns {TeqFw_Http2_Api_Back_Service_Factory.service}
          */
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
@@ -75,7 +75,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
              * @param {TeqFw_Http2_Back_Server_Handler_Api.Context} apiCtx
              * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
              * @memberOf Fl32_Teq_User_Back_Service_Sign_Up
-             * @implements {TeqFw_Http2_Api_Service_Factory.service}
+             * @implements {TeqFw_Http2_Api_Back_Service_Factory.service}
              */
             async function service(apiCtx) {
                 // DEFINE INNER FUNCTIONS
@@ -258,7 +258,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                         const {output} = await procSessionOpen.exec({trx, userId});
                         result.response.sessionId = output.sessId;
                         // set session cookie
-                        result.headers[H2.HTTP2_HEADER_SET_COOKIE] = createCookie({
+                        result.headers[H2.HTTP2_HEADER_SET_COOKIE] = cookieCreate({
                             name: DEF.SESSION_COOKIE_NAME,
                             value: result.response.sessionId,
                             expires: DEF.SESSION_COOKIE_LIFETIME,
