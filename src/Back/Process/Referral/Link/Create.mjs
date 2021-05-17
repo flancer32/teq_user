@@ -31,7 +31,7 @@ function Factory(spec) {
      * Process to generate referral link.
      * @param trx
      * @param {Number} userId
-     * @returns {Promise<{link: string}>}
+     * @returns {Promise<{link: string, dateExp: Date}>}
      * @memberOf Fl32_Teq_User_Back_Process_Referral_Link_Create
      */
     async function process({trx, userId}) {
