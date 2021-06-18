@@ -3,7 +3,7 @@
  * Use as "spec['Fl32_Teq_User_Front_Gate_Sign_In$']".
  * @namespace Fl32_Teq_User_Front_Gate_Sign_In
  */
-export default function Fl32_Teq_User_Front_Gate_Sign_In(spec) {
+function Fl32_Teq_User_Front_Gate_Sign_In(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
@@ -29,3 +29,5 @@ export default function Fl32_Teq_User_Front_Gate_Sign_In(spec) {
     Object.defineProperty(gate, 'name', {value: 'Fl32_Teq_User_Front_Gate_Sign_In.gate'});
     return gate;
 }
+
+export default Fl32_Teq_User_Front_Gate_Sign_In;

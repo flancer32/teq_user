@@ -1,5 +1,6 @@
 /**
  * Session object for frontend realms. Contains data for authenticated user.
+ * @deprecated replaced with Fl32_Teq_User_Front_Model_Session
  */
 export default class Fl32_Teq_User_Front_App_Session {
     constructor(spec) {

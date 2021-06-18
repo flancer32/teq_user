@@ -94,8 +94,8 @@ class Fl32_Teq_User_Front_Widget_SignUp_Props {
 function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
-    /** @type {Fl32_Teq_User_Front_App_Session} */
-    const session = spec[DEF.DI_SESSION];   // named singleton
+    /** @type {Fl32_Teq_User_Front_Model_Session} */
+    const session = spec['Fl32_Teq_User_Front_Model_Session$']; // singleton
     const i18next = spec[DEF.MOD_CORE.DI_I18N];   // named singleton
     const {isEmpty} = spec['TeqFw_Core_App_Shared_Util'];
     /** @type {Fl32_Teq_User_Front_Gate_Check_Existence} */
@@ -157,6 +157,7 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                     this.$emit('onFailure', res.message);
                 } else {
                     // registration succeed, init new session
+                    debugger
                     await session.init();
                     this.$emit('onSuccess', res.user);
                     // reset data

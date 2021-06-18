@@ -43,8 +43,8 @@ export {
 function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
-    /** @type {Fl32_Teq_User_Front_App_Session} */
-    const session = spec[DEF.DI_SESSION];   // named singleton
+    /** @type {Fl32_Teq_User_Front_Model_Session} */
+    const session = spec['Fl32_Teq_User_Front_Model_Session$']; // singleton
     const i18next = spec[DEF.MOD_CORE.DI_I18N];   // named singleton
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In_Request} */
     const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Request'];  // class
@@ -86,6 +86,7 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
                 if (res.constructor.name === 'TeqFw_Core_App_Front_Gate_Response_Error') {
                     this.$emit('onFailure', res.message);
                 } else {
+                    debugger
                     await session.init();
                     this.$emit('onSuccess', res.sessionId);
                     this.reset();

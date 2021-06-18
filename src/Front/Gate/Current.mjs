@@ -3,7 +3,7 @@
  * Use as spec['Fl32_Teq_User_Front_Gate_Current$'].
  * @namespace Fl32_Teq_User_Front_Gate_Current
  */
-export default function Fl32_Teq_User_Front_Gate_Current(spec) {
+function Fl32_Teq_User_Front_Gate_Current(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
@@ -29,3 +29,5 @@ export default function Fl32_Teq_User_Front_Gate_Current(spec) {
     Object.defineProperty(gate, 'name', {value: 'Fl32_Teq_User_Front_Gate_Current.gate'});
     return gate;
 }
+
+export default Fl32_Teq_User_Front_Gate_Current;
