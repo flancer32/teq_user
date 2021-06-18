@@ -2,10 +2,6 @@
  * Request and response for 'Check Existence' service.
  */
 class Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request {
-    static TYPE_EMAIL = 'email';
-    static TYPE_LOGIN = 'login';
-    static TYPE_PHONE = 'phone';
-    static TYPE_REF_CODE = 'refCode';
     /**
      * Type for value to be checked (see static 'TYPE_...' props for available types).
      * @type {String}
@@ -17,6 +13,12 @@ class Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request {
      */
     value;
 }
+
+// static properties (compatible with Safari "< 14.1", "iOS < 14.5" form)
+Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request.TYPE_EMAIL = 'email';
+Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request.TYPE_LOGIN = 'login';
+Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request.TYPE_PHONE = 'phone';
+Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request.TYPE_REF_CODE = 'refCode';
 
 class Fl32_Teq_User_Shared_Service_Route_Check_Existence_Response {
     /** @type {Boolean} */
