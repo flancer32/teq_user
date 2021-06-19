@@ -70,7 +70,7 @@ class Factory {
          */
         this.createRes = function (data = null) {
             const res = new Response();
-            res.user = (data?.user instanceof DUser) ? data.user : fUser.create(data.user);
+            res.user = (data?.user instanceof DUser) ? data.user : fUser.create(data?.user);
             return res;
         }
     }

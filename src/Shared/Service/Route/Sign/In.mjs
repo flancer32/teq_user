@@ -31,7 +31,7 @@ class Response {
 class Factory {
     constructor() {
         /**
-         * @param {Request|null} data
+         * @param {Request|Object|null} data
          * @return {Fl32_Teq_User_Shared_Service_Route_Sign_In.Request}
          */
         this.createReq = function (data = null) {
@@ -42,7 +42,7 @@ class Factory {
         }
 
         /**
-         * @param {Response|null} data
+         * @param {Response|Object|null} data
          * @return {Fl32_Teq_User_Shared_Service_Route_Sign_In.Response}
          */
         this.createRes = function (data = null) {

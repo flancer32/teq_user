@@ -44,7 +44,7 @@ class Factory {
                 ? (data.dateExpired instanceof Date) ? data.dateExpired : new Date(data.dateExpired)
                 : null;
             res.parent = data?.parent
-                ? (data.parent instanceof DUser) ? data.parent : fUser.create(data.parent)
+                ? (data.parent instanceof DUser) ? data.parent : fUser.create(data?.parent)
                 : null;
             res.refCode = data?.refCode;
             return res;

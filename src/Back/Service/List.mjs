@@ -23,12 +23,12 @@ export default class Fl32_Teq_User_Back_Service_List {
         const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result']; // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List.Request} */
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_List#Request']; // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List.Response} */
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_List#Response']; // class
+        /** @type {Fl32_Teq_User_Shared_Service_Route_List.Factory} */
+        const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_List#Factory$']; // singleton
         /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
         const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
+
+        // DEFINE INSTANCE METHODS
 
         this.getRoute = () => DEF.SERV_LIST;
 
@@ -46,7 +46,7 @@ export default class Fl32_Teq_User_Back_Service_List {
              */
             function parse(context) {
                 const body = JSON.parse(context.body);
-                return Object.assign(new Request(), body.data); // clone HTTP body into API request object
+                return factRoute.createReq(body.data);
             }
 
             // COMPOSE RESULT
@@ -166,12 +166,13 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                 // MAIN FUNCTIONALITY
                 const result = new ApiResult();
-                result.response = new Response();
+                const response = factRoute.createRes();
+                result.response = response;
                 const trx = await rdb.startTransaction();
 
                 try {
                     const users = await selectUsers(trx);
-                    result.response.items = Object.values(users);
+                    response.items = Object.values(users);
                     trx.commit();
                 } catch (error) {
                     trx.rollback();

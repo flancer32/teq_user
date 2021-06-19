@@ -11,12 +11,8 @@ export default class Fl32_Teq_User_Front_Model_Session {
         const fUser = spec['Fl32_Teq_User_Front_Dto_User#Factory$']; // instance singleton
         /** @type {Function|Fl32_Teq_User_Front_Gate_Current.gate} */
         const gateCurrent = spec['Fl32_Teq_User_Front_Gate_Current$']; // function singleton
-        /** @type {Fl32_Teq_User_Front_Gate_Sign_Out.gate} */
-        // const gateSignOut = spec['Fl32_Teq_User_Front_Gate_Sign_Out$']; // function singleton
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current.Request} */
-        const CurrentRequest = spec['Fl32_Teq_User_Shared_Service_Route_Current#Request']; // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out.Request} */
-        // const SignOutRequest = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Request']; // class
+        /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
+        const fCurrent = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$']; // singleton
 
         // DEFINE WORKING VARS
         /** @type {Fl32_Teq_User_Front_Dto_User} */
@@ -45,7 +41,7 @@ export default class Fl32_Teq_User_Front_Model_Session {
          * @return {Promise<void>}
          */
         this.init = async function () {
-            const req = new CurrentRequest();
+            const req = fCurrent.createReq();
             /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Response} */
             const res = await gateCurrent(req);
             this.parseDataSource(res);

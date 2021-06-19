@@ -3,15 +3,21 @@
  * Use as spec['Fl32_Teq_User_Front_Gate_List$'].
  * @namespace Fl32_Teq_User_Front_Gate_List
  */
-export default function Fl32_Teq_User_Front_Gate_List(spec) {
+// MODULE'S VARS
+const NS = 'Fl32_Teq_User_Front_Gate_List';
+
+/**
+ * Factory to create frontend gate.
+ * @return function(Fl32_Teq_User_Shared_Service_Route_List.Request): boolean
+ * @memberOf Fl32_Teq_User_Front_Gate_List
+ */
+function Factory(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
     const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // instance singleton
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
-    const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List.Response} */
-    const Response = spec['Fl32_Teq_User_Shared_Service_Route_List#Response']; // class
+    /** @type {Fl32_Teq_User_Shared_Service_Route_List.Factory} */
+    const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_List#Factory$']; // singleton
 
     /**
      * @param {Fl32_Teq_User_Shared_Service_Route_List.Request} data
@@ -21,19 +27,15 @@ export default function Fl32_Teq_User_Front_Gate_List(spec) {
     async function gate(data) {
         let result = false;
         const res = await backConnect.send(data, DEF.BACK_REALM, DEF.SERV_LIST);
-        if (res && res.items) {
-            result = new Response();
-            result.items = {};
-            for (const one of Object.values(res.items)) {
-                /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
-                const item = Object.assign(new User, one);
-                result.items[item.id] = item;
-            }
-        }
+        if (res) result = factRoute.createRes(res);
         return result;
     }
 
     // COMPOSE RESULT
-    Object.defineProperty(gate, 'name', {value: 'Fl32_Teq_User_Front_Gate_List.gate'});
+    Object.defineProperty(gate, 'name', {value: `${NS}.${gate.name}`});
     return gate;
 }
+
+// MODULE'S EXPORT
+Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.name}`});
+export default Factory;

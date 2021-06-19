@@ -21,12 +21,8 @@ class Fl32_Teq_User_Back_Service_RefLink_Get {
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result']; // class
-        const {
-            /** @type {typeof Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Request} */
-            Request,
-            /** @type {typeof Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Response} */
-            Response
-        } = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Get']; // ES6 module
+        /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Factory} */
+        const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Get#Factory$']; // singleton
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process} */
         const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$']; // function singleton
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_Get.process} */
@@ -54,8 +50,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Get {
              */
             function parse(context) {
                 const body = JSON.parse(context.body);
-                /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Request} */
-                return Object.assign(new Request(), body.data); // clone HTTP body into API request object
+                return factRoute.createReq(body.data);
             }
 
             // COMPOSE RESULT
@@ -77,7 +72,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Get {
              */
             async function service(apiCtx) {
                 const result = new ApiResult();
-                const response = new Response();
+                const response = factRoute.createRes();
                 result.response = response;
                 const trx = await rdb.startTransaction();
                 /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Request} */

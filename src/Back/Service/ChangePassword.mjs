@@ -15,10 +15,10 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
         const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword.Request} */
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Request'];   // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword.Response} */
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Response'];   // class
+        /** @type {Fl32_Teq_User_Shared_Service_Route_ChangePassword.Factory} */
+        const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Factory$']; // singleton
+
+        // DEFINE INSTANCE METHODS
 
         this.getRoute = () => DEF.SERV_CHANGE_PASSWORD;
 
@@ -36,7 +36,7 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
              */
             function parse(context) {
                 const body = JSON.parse(context.body);
-                return Object.assign(new Request(), body.data); // clone HTTP body into API request object
+                return factRoute.createReq(body.data);
             }
 
             // COMPOSE RESULT
@@ -86,12 +86,13 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
 
                 // MAIN FUNCTIONALITY
                 const result = new ApiResult();
-                result.response = new Response();
+                const response = factRoute.createRes();
+                result.response = response;
                 const trx = await rdb.startTransaction();
                 /** @type {Fl32_Teq_User_Shared_Service_Route_ChangePassword.Request} */
                 const apiReq = apiCtx.request;
                 const sharedCtx = apiCtx.sharedContext;
-                result.response.success = false;
+                response.success = false;
 
                 try {
                     if (sharedCtx && sharedCtx[DEF.HTTP_SHARE_CTX_USER]) {
@@ -100,7 +101,7 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
                         const isValid = await isValidPassword(trx, user.id, apiReq.passwordCurrent);
                         if (isValid) {
                             await setPassword(trx, user.id, apiReq.passwordNew);
-                            result.response.success = true;
+                            response.success = true;
                         }
                     }
                     await trx.commit();

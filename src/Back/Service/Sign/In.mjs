@@ -20,16 +20,16 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In.Request} */
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Request'];   // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In.Response} */
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Response'];   // class
+        /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Factory} */
+        const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Factory$']; // singleton
+
+        // DEFINE INSTANCE METHODS
 
         this.getRoute = () => DEF.SERV_SIGN_IN;
 
         /**
          * Factory to create function to validate and structure incoming data.
-         * @returns {TeqFw_Http2_Api_Back_Service_Factory.parse}
+         * @returns {function(TeqFw_Http2_Back_Server_Stream_Context): Fl32_Teq_User_Shared_Service_Route_Sign_In.Request}
          */
         this.createInputParser = function () {
             // DEFINE INNER FUNCTIONS
@@ -43,7 +43,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
              */
             function parse(context) {
                 const body = JSON.parse(context.body);
-                return Object.assign(new Request(), body.data);  // clone HTTP body data into API request object
+                return factRoute.createReq(body.data);
             }
 
             // COMPOSE RESULT
@@ -88,7 +88,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
 
                 // MAIN FUNCTIONALITY
                 const result = new ApiResult();
-                result.response = new Response();
+                const response = factRoute.createRes();
+                result.response = response;
                 const trx = await rdb.startTransaction();
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Request} */
                 const apiReq = apiCtx.request;
@@ -102,7 +103,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                         if (equal) {
                             // generate user session
                             const {output} = await procSessionOpen.exec({trx, userId});
-                            result.response.sessionId = output.sessId;
+                            response.sessionId = output.sessId;
                             // set session cookie
                             const headers = apiCtx.sharedContext[DEF.MOD_HTTP2.HTTP_SHARE_HEADERS];
                             const pathSrv = $path.join('/', DEF.MOD_CORE.AREA_API, DEF.BACK_REALM, DEF.SERV_SIGN_IN);

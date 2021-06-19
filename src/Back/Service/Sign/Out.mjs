@@ -19,10 +19,10 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out.Request} */
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Request'];   // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out.Response} */
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Response'];   // class
+        /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Factory} */
+        const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Factory$']; // singleton
+
+        // DEFINE INSTANCE METHODS
 
         this.getRoute = () => DEF.SERV_SIGN_OUT;
 
@@ -40,7 +40,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
              */
             function parse(context) {
                 const body = JSON.parse(context.body);
-                return Object.assign(new Request(), body.data); // clone HTTP body data into API request object
+                return factRoute.createReq(body.data);
             }
 
             // COMPOSE RESULT
@@ -78,7 +78,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
 
                 // MAIN FUNCTIONALITY
                 const result = new ApiResult();
-                result.response = new Response();
+                const response = factRoute.createRes();
+                result.response = response;
                 const sharedCtx = apiCtx.sharedContext;
                 const trx = await rdb.startTransaction();
 

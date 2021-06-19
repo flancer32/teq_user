@@ -9,9 +9,10 @@ export default class Fl32_Teq_User_Back_Service_Current {
         const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current.Response} */
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_Current#Response'];   // class
+        /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
+        const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$']; // singleton
 
+        // DEFINE INSTANCE METHODS
         this.getRoute = () => DEF.SERV_CURRENT;
 
         /**
@@ -29,10 +30,11 @@ export default class Fl32_Teq_User_Back_Service_Current {
             async function service(apiCtx) {
                 // MAIN FUNCTIONALITY
                 const result = new ApiResult();
-                result.response = new Response();
+                const response = factRoute.createRes();
+                result.response = response;
                 const sharedCtx = apiCtx.sharedContext;
                 if (sharedCtx && sharedCtx[DEF.HTTP_SHARE_CTX_USER]) {
-                    result.response.user = sharedCtx[DEF.HTTP_SHARE_CTX_USER];
+                    response.user = sharedCtx[DEF.HTTP_SHARE_CTX_USER];
                 }
                 return result;
             }

@@ -22,21 +22,16 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result']; // class
-        const {
-            /** @type {typeof Fl32_Teq_User_Shared_Service_Route_RefLink_Create.Request} */
-            Request,
-            /** @type {typeof Fl32_Teq_User_Shared_Service_Route_RefLink_Create.Response} */
-            Response
-        } = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Create']; // ES6 module
+        /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Create.Factory} */
+        const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Create#Factory$']; // singleton
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process} */
         const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$']; // function singleton
-        //   /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_Create.process} */
+        /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_Create.process} */
         const procCreate = spec['Fl32_Teq_User_Back_Process_Referral_Link_Create$']; // function singleton
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
         const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$']; // function singleton
         /** @type {Fl32_Teq_User_Shared_Service_Dto_RefLink.Factory} */
         const fRefLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#Factory$']; // singleton
-
 
         // DEFINE INSTANCE METHODS
 
@@ -56,8 +51,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
              */
             function parse(context) {
                 const body = JSON.parse(context.body);
-                /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Create.Request} */
-                return Object.assign(new Request(), body.data); // clone HTTP body into API request object
+                return factRoute.createReq(body.data);
             }
 
             // COMPOSE RESULT
@@ -82,7 +76,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
 
                 // MAIN FUNCTIONALITY
                 const result = new ApiResult();
-                const response = new Response();
+                const response = factRoute.createRes();
                 result.response = response;
                 const trx = await rdb.startTransaction();
                 // /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Create.Request} */

@@ -50,7 +50,7 @@ class Factory {
          */
         this.createRes = function (data = null) {
             const res = new Response();
-            res.link = (data?.link instanceof DLink) ? data.link : fLink.create(data.link);
+            res.link = (data?.link instanceof DLink) ? data.link : fLink.create(data?.link);
             return res;
         }
     }

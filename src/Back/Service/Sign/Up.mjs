@@ -32,14 +32,14 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$']; // instance singleton
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request} */
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Request'];   // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up.Response} */
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Response'];   // class
+        /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Factory} */
+        const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Factory$']; // singleton
         /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
         const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
         const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
+
+        // DEFINE INSTANCE METHODS
 
         this.getRoute = () => DEF.SERV_SIGN_UP;
 
@@ -57,7 +57,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
              */
             function parse(context) {
                 const body = JSON.parse(context.body);
-                return Object.assign(new Request(), body.data); // clone HTTP body into API request object
+                return factRoute.createReq(body.data);
             }
 
             // COMPOSE RESULT
@@ -243,7 +243,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
 
                 // MAIN FUNCTIONALITY
                 const result = new ApiResult();
-                result.response = new Response();
+                const response = factRoute.createRes();
+                result.response = response;
                 const trx = await rdb.startTransaction();
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request} */
                 const apiReq = apiCtx.request;
@@ -254,9 +255,9 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                         // register new user in the tables
                         const userId = await addUser(trx, apiReq, parentId);
                         // select user data to compose API response
-                        result.response.user = await selectUser(trx, userId);
+                        response.user = await selectUser(trx, userId);
                         const {output} = await procSessionOpen.exec({trx, userId});
-                        result.response.sessionId = output.sessId;
+                        response.sessionId = output.sessId;
                         // set session cookie
                         result.headers[H2.HTTP2_HEADER_SET_COOKIE] = cookieCreate({
                             name: DEF.SESSION_COOKIE_NAME,

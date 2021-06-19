@@ -3,14 +3,23 @@
  * Use as spec['Fl32_Teq_User_Front_Gate_Current$'].
  * @namespace Fl32_Teq_User_Front_Gate_Current
  */
-function Fl32_Teq_User_Front_Gate_Current(spec) {
+// MODULE'S VARS
+const NS = 'Fl32_Teq_User_Front_Gate_Current';
+
+/**
+ * Factory to create frontend gate.
+ * @return function(Fl32_Teq_User_Shared_Service_Route_Current.Request): boolean
+ * @memberOf Fl32_Teq_User_Front_Gate_Current
+ */
+function Factory(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
     const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // instance singleton
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current.Response} */
-    const Response = spec['Fl32_Teq_User_Shared_Service_Route_Current#Response']; // class
+    /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
+    const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$']; // singleton
 
+    // DEFINE INNER FUNCTIONS
     /**
      * @param {Fl32_Teq_User_Shared_Service_Route_Current.Request} data
      * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_Current.Response|Boolean>}
@@ -19,15 +28,15 @@ function Fl32_Teq_User_Front_Gate_Current(spec) {
     async function gate(data) {
         let result = false;
         const res = await backConnect.send(data, DEF.BACK_REALM, DEF.SERV_CURRENT);
-        if (res) {
-            result = Object.assign(new Response(), res);
-        }
+        if (res) result = factRoute.createRes(res);
         return result;
     }
 
     // COMPOSE RESULT
-    Object.defineProperty(gate, 'name', {value: 'Fl32_Teq_User_Front_Gate_Current.gate'});
+    Object.defineProperty(gate, 'name', {value: `${NS}.${gate.name}`});
     return gate;
 }
 
-export default Fl32_Teq_User_Front_Gate_Current;
+// MODULE'S EXPORT
+Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.name}`});
+export default Factory;
