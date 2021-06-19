@@ -18,7 +18,7 @@ class Request {
  * @memberOf Fl32_Teq_User_Shared_Service_Route_RefLink_Get
  */
 class Response {
-    /** @type {Fl32_Teq_User_Shared_Dto_RefLink} */
+    /** @type {Fl32_Teq_User_Shared_Service_Dto_RefLink} */
     link
 }
 
@@ -29,10 +29,10 @@ class Response {
 class Factory {
     constructor(spec) {
         // EXTRACT DEPS
-        /** @type {typeof Fl32_Teq_User_Shared_Dto_RefLink} */
-        const DLink = spec['Fl32_Teq_User_Shared_Dto_RefLink#']; // class
-        /** @type {Fl32_Teq_User_Shared_Dto_RefLink.Factory} */
-        const fLink = spec['Fl32_Teq_User_Shared_Dto_RefLink#Factory$']; // singleton
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_RefLink} */
+        const DLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#']; // class
+        /** @type {Fl32_Teq_User_Shared_Service_Dto_RefLink.Factory} */
+        const fLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#Factory$']; // singleton
 
         /**
          * @param {Request|null} data

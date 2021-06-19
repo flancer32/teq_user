@@ -27,8 +27,8 @@ export default class Fl32_Teq_User_Back_Service_List {
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_List#Request']; // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List.Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_List#Response']; // class
-        /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
-        const User = spec['Fl32_Teq_User_Shared_Dto_User#']; // class
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
+        const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
 
         this.getRoute = () => DEF.SERV_LIST;
 
@@ -71,7 +71,7 @@ export default class Fl32_Teq_User_Back_Service_List {
                 /**
                  * Select data for all users w/o conditions.
                  * @param trx
-                 * @returns {Promise<Object<Number, Fl32_Teq_User_Shared_Dto_User>>}
+                 * @returns {Promise<Object<Number, Fl32_Teq_User_Shared_Service_Dto_User>>}
                  */
                 async function selectUsers(trx) {
 
@@ -79,7 +79,7 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                     /**
                      * @param trx
-                     * @param {Object.<Number, Fl32_Teq_User_Shared_Dto_User>} users
+                     * @param {Object.<Number, Fl32_Teq_User_Shared_Service_Dto_User>} users
                      * @returns {Promise<void>}
                      */
                     async function populateWithEmails(trx, users) {
@@ -100,7 +100,7 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                     /**
                      * @param trx
-                     * @param {Object.<Number, Fl32_Teq_User_Shared_Dto_User>} users
+                     * @param {Object.<Number, Fl32_Teq_User_Shared_Service_Dto_User>} users
                      * @returns {Promise<void>}
                      */
                     async function populateWithPhones(trx, users) {
@@ -121,7 +121,7 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                     /**
                      * @param trx
-                     * @returns {Promise<Object.<Number, Fl32_Teq_User_Shared_Dto_User>>}
+                     * @returns {Promise<Object.<Number, Fl32_Teq_User_Shared_Service_Dto_User>>}
                      */
                     async function getUsers(trx) {
                         const result = {};
@@ -148,7 +148,7 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                         const rows = await query;
                         for (const one of rows) {
-                            /** @type {Fl32_Teq_User_Shared_Dto_User} */
+                            /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
                             const item = Object.assign(new User(), one);
                             result[item.id] = item;
                         }

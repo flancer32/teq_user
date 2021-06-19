@@ -95,7 +95,7 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
 
                 try {
                     if (sharedCtx && sharedCtx[DEF.HTTP_SHARE_CTX_USER]) {
-                        /** @type {Fl32_Teq_User_Shared_Dto_User} */
+                        /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
                         const user = sharedCtx && sharedCtx[DEF.HTTP_SHARE_CTX_USER];
                         const isValid = await isValidPassword(trx, user.id, apiReq.passwordCurrent);
                         if (isValid) {

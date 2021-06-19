@@ -33,8 +33,8 @@ class Fl32_Teq_User_Back_Service_RefLink_Get {
         const procGet = spec['Fl32_Teq_User_Back_Process_Referral_Link_Get$']; // function singleton
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
         const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$']; // function singleton
-        /** @type {Fl32_Teq_User_Shared_Dto_RefLink.Factory} */
-        const fRefLink = spec['Fl32_Teq_User_Shared_Dto_RefLink#Factory$']; // singleton
+        /** @type {Fl32_Teq_User_Shared_Service_Dto_RefLink.Factory} */
+        const fRefLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#Factory$']; // singleton
 
         // DEFINE INSTANCE METHODS
 

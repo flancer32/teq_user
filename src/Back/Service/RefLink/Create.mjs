@@ -34,8 +34,8 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
         const procCreate = spec['Fl32_Teq_User_Back_Process_Referral_Link_Create$']; // function singleton
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
         const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$']; // function singleton
-        /** @type {Fl32_Teq_User_Shared_Dto_RefLink.Factory} */
-        const fRefLink = spec['Fl32_Teq_User_Shared_Dto_RefLink#Factory$']; // singleton
+        /** @type {Fl32_Teq_User_Shared_Service_Dto_RefLink.Factory} */
+        const fRefLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#Factory$']; // singleton
 
 
         // DEFINE INSTANCE METHODS
@@ -89,7 +89,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
                 // const apiReq = apiCtx.request;
                 const shared = apiCtx.sharedContext;
                 try {
-                    /** @type {Fl32_Teq_User_Shared_Dto_User} */
+                    /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
                     const user = shared[DEF.HTTP_SHARE_CTX_USER];
                     if (user) {
                         await procCleanUp({trx});

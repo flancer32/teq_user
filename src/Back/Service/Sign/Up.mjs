@@ -38,8 +38,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Response'];   // class
         /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
         const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class
-        /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
-        const DUser = spec['Fl32_Teq_User_Shared_Dto_User#']; // class
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
+        const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
 
         this.getRoute = () => DEF.SERV_SIGN_UP;
 
@@ -169,7 +169,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                  * Select data for newly registered user.
                  * @param trx
                  * @param {Number} userId
-                 * @returns {Promise<Fl32_Teq_User_Shared_Dto_User>}
+                 * @returns {Promise<Fl32_Teq_User_Shared_Service_Dto_User>}
                  */
                 async function selectUser(trx, userId) {
 
@@ -204,7 +204,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                     /**
                      * @param trx
                      * @param {Number} userId
-                     * @returns {Promise<Fl32_Teq_User_Shared_Dto_User>}
+                     * @returns {Promise<Fl32_Teq_User_Shared_Service_Dto_User>}
                      */
                     async function getUser(trx, userId) {
                         const query = trx.from({u: EUser.ENTITY});

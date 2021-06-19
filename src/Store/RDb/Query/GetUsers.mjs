@@ -13,8 +13,8 @@ const NS = 'Fl32_Teq_User_Store_RDb_Query_GetUsers';
  * @returns {function(*): *}
  */
 function Factory(spec) {
-    /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
-    const User = spec['Fl32_Teq_User_Shared_Dto_User#']; // class
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
+    const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
     const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */

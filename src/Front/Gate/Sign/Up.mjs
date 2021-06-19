@@ -8,8 +8,8 @@ export default function Fl32_Teq_User_Front_Gate_Sign_Up(spec) {
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
     const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // instance singleton
-    /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
-    const User = spec['Fl32_Teq_User_Shared_Dto_User#']; // class
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
+    const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up.Response} */
     const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Response']; // class
 

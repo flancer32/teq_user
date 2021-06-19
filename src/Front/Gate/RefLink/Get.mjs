@@ -16,10 +16,10 @@ function Factory(spec) {
     const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // instance singleton
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Response} */
     const Response = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Get#Response']; // class
-    /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
-    const DUser = spec['Fl32_Teq_User_Shared_Dto_User#']; // class
-    /** @type {Fl32_Teq_User_Shared_Dto_RefLink.Factory} */
-    const fRefLink = spec['Fl32_Teq_User_Shared_Dto_RefLink#Factory$']; // singleton
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
+    const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
+    /** @type {Fl32_Teq_User_Shared_Service_Dto_RefLink.Factory} */
+    const fRefLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#Factory$']; // singleton
     /**
      * @param {Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Request} data
      * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Response|TeqFw_Core_App_Front_Gate_Response_Error>}

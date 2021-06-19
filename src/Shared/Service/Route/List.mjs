@@ -21,7 +21,7 @@ class Request {
  * @memberOf Fl32_Teq_User_Shared_Service_Route_List
  */
 class Response {
-    /** @type {Fl32_Teq_User_Shared_Dto_User[]} */
+    /** @type {Fl32_Teq_User_Shared_Service_Dto_User[]} */
     items;
 }
 
@@ -32,10 +32,10 @@ class Response {
 class Factory {
     constructor(spec) {
         // EXTRACT DEPS
-        /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
-        const DUser = spec['Fl32_Teq_User_Shared_Dto_User#']; // class
-        /** @type {Fl32_Teq_User_Shared_Dto_User.Factory} */
-        const fUser = spec['Fl32_Teq_User_Shared_Dto_User#Factory$']; // singleton
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
+        const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
+        /** @type {Fl32_Teq_User_Shared_Service_Dto_User.Factory} */
+        const fUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#Factory$']; // singleton
 
         /**
          * @param {Request|null} data
