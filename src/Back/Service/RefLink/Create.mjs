@@ -23,9 +23,9 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result']; // class
         const {
-            /** @type {typeof Fl32_Teq_User_Shared_Service_Route_RefLink_Create_Request} */
+            /** @type {typeof Fl32_Teq_User_Shared_Service_Route_RefLink_Create.Request} */
             Request,
-            /** @type {typeof Fl32_Teq_User_Shared_Service_Route_RefLink_Create_Response} */
+            /** @type {typeof Fl32_Teq_User_Shared_Service_Route_RefLink_Create.Response} */
             Response
         } = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Create']; // ES6 module
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process} */
@@ -34,8 +34,8 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
         const procCreate = spec['Fl32_Teq_User_Back_Process_Referral_Link_Create$']; // function singleton
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
         const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$']; // function singleton
-        /** @type {typeof Fl32_Teq_User_Shared_Api_Data_RefLink} */
-        const DRefLink = spec['Fl32_Teq_User_Shared_Api_Data_RefLink#']; // class
+        /** @type {Fl32_Teq_User_Shared_Dto_RefLink.Factory} */
+        const fRefLink = spec['Fl32_Teq_User_Shared_Dto_RefLink#Factory$']; // singleton
 
 
         // DEFINE INSTANCE METHODS
@@ -50,13 +50,13 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
             // DEFINE INNER FUNCTIONS
             /**
              * @param {TeqFw_Http2_Back_Server_Stream_Context} context
-             * @returns {Fl32_Teq_User_Shared_Service_Route_RefLink_Create_Request}
+             * @returns {Fl32_Teq_User_Shared_Service_Route_RefLink_Create.Request}
              * @memberOf Fl32_Teq_User_Back_Service_RefLink_Create
              * @implements TeqFw_Http2_Api_Back_Service_Factory.parse
              */
             function parse(context) {
                 const body = JSON.parse(context.body);
-                /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Create_Request} */
+                /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Create.Request} */
                 return Object.assign(new Request(), body.data); // clone HTTP body into API request object
             }
 
@@ -72,7 +72,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Handler_Api.Context} apiCtx
+             * @param {TeqFw_Http2_Plugin_Handler_Service.Context} apiCtx
              * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
              * @memberOf Fl32_Teq_User_Back_Service_RefLink_Create
              * @implements {TeqFw_Http2_Api_Back_Service_Factory.service}
@@ -85,16 +85,16 @@ class Fl32_Teq_User_Back_Service_RefLink_Create {
                 const response = new Response();
                 result.response = response;
                 const trx = await rdb.startTransaction();
-                // /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Create_Request} */
+                // /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Create.Request} */
                 // const apiReq = apiCtx.request;
                 const shared = apiCtx.sharedContext;
                 try {
-                    /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
+                    /** @type {Fl32_Teq_User_Shared_Dto_User} */
                     const user = shared[DEF.HTTP_SHARE_CTX_USER];
                     if (user) {
                         await procCleanUp({trx});
                         const {link, dateExp} = await procCreate({trx, userId: user.id});
-                        const data = new DRefLink();
+                        const data = fRefLink.create();
                         data.parent = await procLoad({trx, userId: user.id});
                         data.refCode = link;
                         data.dateExpired = dateExp;

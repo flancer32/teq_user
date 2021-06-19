@@ -46,7 +46,7 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     /** @type {Fl32_Teq_User_Front_Model_Session} */
     const session = spec['Fl32_Teq_User_Front_Model_Session$']; // singleton
     const i18next = spec[DEF.MOD_CORE.DI_I18N];   // named singleton
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In_Request} */
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In.Request} */
     const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Request'];  // class
     /** @type {Fl32_Teq_User_Front_Gate_Sign_In} */
     const gate = spec['Fl32_Teq_User_Front_Gate_Sign_In$']; // function singleton
@@ -77,11 +77,11 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
         },
         methods: {
             async actSubmit() {
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In_Request} */
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Request} */
                 const req = new Request();
                 req.user = this.data.user;
                 req.password = this.data.password;
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In_Response} */
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Response} */
                 const res = await gate(req);
                 if (res.constructor.name === 'TeqFw_Core_App_Front_Gate_Response_Error') {
                     this.$emit('onFailure', res.message);

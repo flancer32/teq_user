@@ -8,12 +8,12 @@ function Fl32_Teq_User_Front_Gate_Sign_Out(spec) {
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
     const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // instance singleton
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out_Response} */
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out.Response} */
     const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Response']; // class
 
     /**
-     * @param {Fl32_Teq_User_Shared_Service_Route_Sign_Out_Request} data
-     * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_Sign_Out_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
+     * @param {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Request} data
+     * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_Sign_Out.Response|TeqFw_Core_App_Front_Gate_Response_Error>}
      * @memberOf Fl32_Teq_User_Front_Gate_Sign_Out
      */
     async function gate(data) {

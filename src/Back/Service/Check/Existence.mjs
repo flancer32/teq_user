@@ -19,10 +19,10 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
         const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];         // instance singleton
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence.Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Request'];   // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence_Response} */
-        const Response = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Response'];   // class
+        /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Factory} */
+        const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Factory$']; // singleton
 
         this.getRoute = () => DEF.SERV_CHECK_EXISTENCE;
 
@@ -34,13 +34,13 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
             // DEFINE INNER FUNCTIONS
             /**
              * @param {TeqFw_Http2_Back_Server_Stream_Context} context
-             * @returns {Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request}
+             * @returns {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Request}
              * @memberOf Fl32_Teq_User_Back_Service_Check_Existence
              * @implements TeqFw_Http2_Api_Back_Service_Factory.parse
              */
             function parse(context) {
                 const body = JSON.parse(context.body);
-                return Object.assign(new Request(), body.data); // clone HTTP body into API request object
+                return factRoute.createReq(body.data);
             }
 
             // COMPOSE RESULT
@@ -55,7 +55,7 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Handler_Api.Context} apiCtx
+             * @param {TeqFw_Http2_Plugin_Handler_Service.Context} apiCtx
              * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
              * @memberOf Fl32_Teq_User_Back_Service_Check_Existence
              * @implements {TeqFw_Http2_Api_Back_Service_Factory.service}
@@ -97,15 +97,16 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
 
                 // MAIN FUNCTIONALITY
                 const result = new ApiResult();
-                result.response = new Response();
+                result.response = factRoute.createRes();
                 const trx = await rdb.startTransaction();
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request} */
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Request} */
                 const apiReq = apiCtx.request;
 
                 try {
                     const type = apiReq.type;
                     if (apiReq.value) {
                         const value = apiReq.value.trim().toLowerCase();
+                        // TODO: types are not navigable in IDEA on ctrl+click
                         if (type === Request.TYPE_EMAIL) {
                             result.response.exist = await checkEmail(trx, value);
                         } else if (type === Request.TYPE_LOGIN) {

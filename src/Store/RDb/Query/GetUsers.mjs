@@ -13,8 +13,8 @@ const NS = 'Fl32_Teq_User_Store_RDb_Query_GetUsers';
  * @returns {function(*): *}
  */
 function Factory(spec) {
-    /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
-    const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
+    /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
+    const User = spec['Fl32_Teq_User_Shared_Dto_User#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
     const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
@@ -40,24 +40,24 @@ function Factory(spec) {
         // select from user
         const query = trx.from({u: EUser.ENTITY});
         query.select([
-            {[User.A_ID]: `${T_U}.${EUser.A_ID}`},
-            {[User.A_DATE_CREATED]: `${T_U}.${EUser.A_DATE_CREATED}`},
+            {[User.ID]: `${T_U}.${EUser.A_ID}`},
+            {[User.DATE_CREATED]: `${T_U}.${EUser.A_DATE_CREATED}`},
         ]);
         query.leftOuterJoin(
             {[T_P]: EProfile.ENTITY},
             `${T_P}.${EProfile.A_USER_REF}`,
             `${T_U}.${EUser.A_ID}`);
-        query.select([{[User.A_NAME]: `${T_P}.${EProfile.A_NAME}`}]);
+        query.select([{[User.NAME]: `${T_P}.${EProfile.A_NAME}`}]);
         query.leftOuterJoin(
             {[T_AP]: EAuthPass.ENTITY},
             `${T_AP}.${EAuthPass.A_USER_REF}`,
             `${T_U}.${EUser.A_ID}`);
-        query.select([{[User.A_LOGIN]: `${T_AP}.${EAuthPass.A_LOGIN}`}]);
+        query.select([{[User.LOGIN]: `${T_AP}.${EAuthPass.A_LOGIN}`}]);
         query.leftOuterJoin(
             {[T_T]: ERefTree.ENTITY},
             `${T_T}.${ERefTree.A_USER_REF}`,
             `${T_U}.${EUser.A_ID}`);
-        query.select([{[User.A_PARENT_ID]: `${T_T}.${ERefTree.A_PARENT_REF}`}]);
+        query.select([{[User.PARENT_ID]: `${T_T}.${ERefTree.A_PARENT_REF}`}]);
 
         return query;
     }

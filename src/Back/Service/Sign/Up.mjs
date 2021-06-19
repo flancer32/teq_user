@@ -32,14 +32,14 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$']; // instance singleton
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Request'];   // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up_Response} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up.Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Response'];   // class
         /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
         const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class
-        /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
-        const DUser = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
+        /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
+        const DUser = spec['Fl32_Teq_User_Shared_Dto_User#']; // class
 
         this.getRoute = () => DEF.SERV_SIGN_UP;
 
@@ -51,7 +51,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
             // DEFINE INNER FUNCTIONS
             /**
              * @param {TeqFw_Http2_Back_Server_Stream_Context} context
-             * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request}
+             * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request}
              * @memberOf Fl32_Teq_User_Back_Service_Sign_Up
              * @implements TeqFw_Http2_Api_Back_Service_Factory.parse
              */
@@ -72,7 +72,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Handler_Api.Context} apiCtx
+             * @param {TeqFw_Http2_Plugin_Handler_Service.Context} apiCtx
              * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
              * @memberOf Fl32_Teq_User_Back_Service_Sign_Up
              * @implements {TeqFw_Http2_Api_Back_Service_Factory.service}
@@ -82,7 +82,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                 /**
                  * Register new user and return ID.
                  * @param trx
-                 * @param {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} req
+                 * @param {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request} req
                  * @param {Number} parentId
                  * @returns {Promise<Number>}
                  */
@@ -169,7 +169,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                  * Select data for newly registered user.
                  * @param trx
                  * @param {Number} userId
-                 * @returns {Promise<Fl32_Teq_User_Shared_Api_Data_User>}
+                 * @returns {Promise<Fl32_Teq_User_Shared_Dto_User>}
                  */
                 async function selectUser(trx, userId) {
 
@@ -204,29 +204,29 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                     /**
                      * @param trx
                      * @param {Number} userId
-                     * @returns {Promise<Fl32_Teq_User_Shared_Api_Data_User>}
+                     * @returns {Promise<Fl32_Teq_User_Shared_Dto_User>}
                      */
                     async function getUser(trx, userId) {
                         const query = trx.from({u: EUser.ENTITY});
                         query.select([
-                            {[DUser.A_ID]: `u.${EUser.A_ID}`},
-                            {[DUser.A_DATE_CREATED]: `u.${EUser.A_DATE_CREATED}`},
+                            {[DUser.ID]: `u.${EUser.A_ID}`},
+                            {[DUser.DATE_CREATED]: `u.${EUser.A_DATE_CREATED}`},
                         ]);
                         query.leftOuterJoin(
                             {p: EProfile.ENTITY},
                             `p.${EProfile.A_USER_REF}`,
                             `u.${EUser.A_ID}`);
-                        query.select([{[DUser.A_NAME]: `p.${EProfile.A_NAME}`}]);
+                        query.select([{[DUser.NAME]: `p.${EProfile.A_NAME}`}]);
                         query.leftOuterJoin(
                             {a: EAuthPass.ENTITY},
                             `a.${EAuthPass.A_USER_REF}`,
                             `u.${EUser.A_ID}`);
-                        query.select([{[DUser.A_LOGIN]: `a.${EAuthPass.A_LOGIN}`}]);
+                        query.select([{[DUser.LOGIN]: `a.${EAuthPass.A_LOGIN}`}]);
                         query.leftOuterJoin(
                             {t: ERefTree.ENTITY},
                             `t.${ERefTree.A_USER_REF}`,
                             `u.${EUser.A_ID}`);
-                        query.select([{[DUser.A_PARENT_ID]: `t.${ERefTree.A_PARENT_REF}`}]);
+                        query.select([{[DUser.PARENT_ID]: `t.${ERefTree.A_PARENT_REF}`}]);
 
                         query.where(`u.${EUser.A_ID}`, userId);
                         const rows = await query;
@@ -245,7 +245,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                 const result = new ApiResult();
                 result.response = new Response();
                 const trx = await rdb.startTransaction();
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request} */
                 const apiReq = apiCtx.request;
 
                 try {

@@ -8,14 +8,14 @@ export default function Fl32_Teq_User_Front_Gate_Sign_Up(spec) {
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
     const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // instance singleton
-    /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
-    const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up_Response} */
+    /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
+    const User = spec['Fl32_Teq_User_Shared_Dto_User#']; // class
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up.Response} */
     const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Response']; // class
 
     /**
-     * @param {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} data
-     * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_Sign_Up_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
+     * @param {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request} data
+     * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_Sign_Up.Response|TeqFw_Core_App_Front_Gate_Response_Error>}
      * @memberOf Fl32_Teq_User_Front_Gate_Sign_Up
      */
     async function gate(data) {

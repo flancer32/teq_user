@@ -8,14 +8,14 @@ export default function Fl32_Teq_User_Front_Gate_List(spec) {
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
     const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // instance singleton
-    /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
-    const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Response} */
+    /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
+    const User = spec['Fl32_Teq_User_Shared_Dto_User#']; // class
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List.Response} */
     const Response = spec['Fl32_Teq_User_Shared_Service_Route_List#Response']; // class
 
     /**
-     * @param {Fl32_Teq_User_Shared_Service_Route_List_Request} data
-     * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_List_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
+     * @param {Fl32_Teq_User_Shared_Service_Route_List.Request} data
+     * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_List.Response|TeqFw_Core_App_Front_Gate_Response_Error>}
      * @memberOf Fl32_Teq_User_Front_Gate_List
      */
     async function gate(data) {
@@ -25,7 +25,7 @@ export default function Fl32_Teq_User_Front_Gate_List(spec) {
             result = new Response();
             result.items = {};
             for (const one of Object.values(res.items)) {
-                /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
+                /** @type {Fl32_Teq_User_Shared_Dto_User} */
                 const item = Object.assign(new User, one);
                 result.items[item.id] = item;
             }

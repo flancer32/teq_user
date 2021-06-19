@@ -1,19 +1,67 @@
 /**
- * Request and response for 'Change Password' service.
+ * Request and response DTO for 'Change Password' service.
+ * @namespace Fl32_Teq_User_Shared_Service_Route_ChangePassword
  */
-class Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request {
+// MODULE'S VARS
+const NS = 'Fl32_Teq_User_Shared_Service_Route_ChangePassword';
+
+// MODULE'S CLASSES
+/**
+ * @memberOf Fl32_Teq_User_Shared_Service_Route_ChangePassword
+ */
+class Request {
     /** @type {String} */
     passwordCurrent;
     /** @type {String} */
     passwordNew;
 }
 
-class Fl32_Teq_User_Shared_Service_Route_ChangePassword_Response {
+/**
+ * @memberOf Fl32_Teq_User_Shared_Service_Route_ChangePassword
+ */
+class Response {
     /** @type {Boolean} */
     success;
 }
 
+/**
+ * Factory to create new DTOs.
+ * @memberOf Fl32_Teq_User_Shared_Service_Route_ChangePassword
+ */
+class Factory {
+    constructor() {
+        /**
+         * @param {Request|null} data
+         * @return {Fl32_Teq_User_Shared_Service_Route_ChangePassword.Request}
+         */
+        this.createReq = function (data = null) {
+            const res = new Request();
+            res.passwordCurrent = data?.passwordCurrent;
+            res.passwordNew = data?.passwordNew;
+            return res;
+        }
+
+        /**
+         * @param {Response|null} data
+         * @return {Fl32_Teq_User_Shared_Service_Route_ChangePassword.Response}
+         */
+        this.createRes = function (data = null) {
+            const res = new Response();
+            res.success = data?.success;
+            return res;
+        }
+    }
+}
+
+// freeze class to deny attributes changes then export classes
+Object.defineProperty(Request, 'name', {value: `${NS}.${Request.name}`});
+Object.defineProperty(Response, 'name', {value: `${NS}.${Response.name}`});
+Object.freeze(Request);
+Object.freeze(Response);
+Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.name}`});
+
 export {
-    Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request as Request,
-    Fl32_Teq_User_Shared_Service_Route_ChangePassword_Response as Response,
+    Factory,
+    Request,
+    Response,
 };

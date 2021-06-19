@@ -101,9 +101,9 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     /** @type {Fl32_Teq_User_Front_Gate_Check_Existence} */
     const gateCheckExist = spec['Fl32_Teq_User_Front_Gate_Check_Existence$']; // singleton function
     const gateSignUp = spec['Fl32_Teq_User_Front_Gate_Sign_Up$']; // singleton function
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request} */
     const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Request'];  // class
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence_Request} */
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence.Request} */
     const CheckExistReq = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Request']; // class
 
     const TIMEOUT = 1000;
@@ -189,7 +189,7 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                         const req = new CheckExistReq();
                         req.type = type;
                         req.value = value;
-                        /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence_Response} */
+                        /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Response} */
                         const res = await gateCheckExist(req);
                         me.loading[type] = false;
                         if (res.exist === fireError) {
@@ -217,10 +217,10 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
             },
             /**
              * Create service request. This method can be overwrote in parent components.
-             * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request}
+             * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request}
              */
             createSignUpRequest() {
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up_Request} */
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request} */
                 const result = new Request();
                 result.email = this.fldEmail;
                 result.login = this.fldLogin;

@@ -8,12 +8,12 @@ function Fl32_Teq_User_Front_Gate_Current(spec) {
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
     const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // instance singleton
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Response} */
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current.Response} */
     const Response = spec['Fl32_Teq_User_Shared_Service_Route_Current#Response']; // class
 
     /**
-     * @param {Fl32_Teq_User_Shared_Service_Route_Current_Request} data
-     * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_Current_Response|Boolean>}
+     * @param {Fl32_Teq_User_Shared_Service_Route_Current.Request} data
+     * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_Current.Response|Boolean>}
      * @memberOf Fl32_Teq_User_Front_Gate_Current
      */
     async function gate(data) {

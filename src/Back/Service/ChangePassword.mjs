@@ -15,9 +15,9 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
         const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword.Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Request'];   // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword_Response} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword.Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Response'];   // class
 
         this.getRoute = () => DEF.SERV_CHANGE_PASSWORD;
@@ -30,7 +30,7 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
             // DEFINE INNER FUNCTIONS
             /**
              * @param {TeqFw_Http2_Back_Server_Stream_Context} context
-             * @returns {Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request}
+             * @returns {Fl32_Teq_User_Shared_Service_Route_ChangePassword.Request}
              * @memberOf Fl32_Teq_User_Back_Service_ChangePassword
              * @implements TeqFw_Http2_Api_Back_Service_Factory.parse
              */
@@ -51,7 +51,7 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Handler_Api.Context} apiCtx
+             * @param {TeqFw_Http2_Plugin_Handler_Service.Context} apiCtx
              * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
              * @memberOf Fl32_Teq_User_Back_Service_ChangePassword
              * @implements {TeqFw_Http2_Api_Back_Service_Factory.service}
@@ -88,14 +88,14 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
                 const result = new ApiResult();
                 result.response = new Response();
                 const trx = await rdb.startTransaction();
-                /** @type {Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request} */
+                /** @type {Fl32_Teq_User_Shared_Service_Route_ChangePassword.Request} */
                 const apiReq = apiCtx.request;
                 const sharedCtx = apiCtx.sharedContext;
                 result.response.success = false;
 
                 try {
                     if (sharedCtx && sharedCtx[DEF.HTTP_SHARE_CTX_USER]) {
-                        /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
+                        /** @type {Fl32_Teq_User_Shared_Dto_User} */
                         const user = sharedCtx && sharedCtx[DEF.HTTP_SHARE_CTX_USER];
                         const isValid = await isValidPassword(trx, user.id, apiReq.passwordCurrent);
                         if (isValid) {

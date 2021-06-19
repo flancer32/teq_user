@@ -107,7 +107,7 @@ async function Factory(spec) {
                     const userId = sess[EAuthSess.A_USER_REF];
                     const dateInit = sess[EAuthSess.A_DATE_CREATED];
                     if (userId) {
-                        /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
+                        /** @type {Fl32_Teq_User_Shared_Dto_User} */
                         const user = await procLoad({trx, userId});
                         user.dateLoggedIn = dateInit;
                         // get parent data

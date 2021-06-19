@@ -13,9 +13,9 @@ export default class Fl32_Teq_User_Front_Model_Session {
         const gateCurrent = spec['Fl32_Teq_User_Front_Gate_Current$']; // function singleton
         /** @type {Fl32_Teq_User_Front_Gate_Sign_Out.gate} */
         // const gateSignOut = spec['Fl32_Teq_User_Front_Gate_Sign_Out$']; // function singleton
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Request} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current.Request} */
         const CurrentRequest = spec['Fl32_Teq_User_Shared_Service_Route_Current#Request']; // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out_Request} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out.Request} */
         // const SignOutRequest = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Request']; // class
 
         // DEFINE WORKING VARS
@@ -46,7 +46,7 @@ export default class Fl32_Teq_User_Front_Model_Session {
          */
         this.init = async function () {
             const req = new CurrentRequest();
-            /** @type {Fl32_Teq_User_Shared_Service_Route_Current_Response} */
+            /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Response} */
             const res = await gateCurrent(req);
             this.parseDataSource(res);
         };
@@ -54,7 +54,7 @@ export default class Fl32_Teq_User_Front_Model_Session {
         /**
          * Convert service response DTO to model DTO and make it reactive.
          *
-         * @param {Fl32_Teq_User_Shared_Service_Route_Current_Response} data
+         * @param {Fl32_Teq_User_Shared_Service_Route_Current.Response} data
          */
         this.parseDataSource = function (data) {
             if (data.user) {

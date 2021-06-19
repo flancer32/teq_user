@@ -20,9 +20,9 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In_Request} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In.Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Request'];   // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In_Response} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_In.Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Response'];   // class
 
         this.getRoute = () => DEF.SERV_SIGN_IN;
@@ -37,7 +37,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
              * Parser to structure HTTP request data.
              *
              * @param {TeqFw_Http2_Back_Server_Stream_Context} context
-             * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_In_Request}
+             * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_In.Request}
              * @memberOf Fl32_Teq_User_Back_Service_Sign_In
              * @implements TeqFw_Http2_Api_Back_Service_Factory.parse
              */
@@ -58,7 +58,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Handler_Api.Context} apiCtx
+             * @param {TeqFw_Http2_Plugin_Handler_Service.Context} apiCtx
              * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
              * @memberOf Fl32_Teq_User_Back_Service_Sign_In
              * @implements {TeqFw_Http2_Api_Back_Service_Factory.service}
@@ -90,7 +90,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                 const result = new ApiResult();
                 result.response = new Response();
                 const trx = await rdb.startTransaction();
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In_Request} */
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Request} */
                 const apiReq = apiCtx.request;
 
                 try {

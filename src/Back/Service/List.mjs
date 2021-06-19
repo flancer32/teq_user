@@ -23,12 +23,12 @@ export default class Fl32_Teq_User_Back_Service_List {
         const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result']; // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Request} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List.Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_List#Request']; // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Response} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List.Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_List#Response']; // class
-        /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
-        const User = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
+        /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
+        const User = spec['Fl32_Teq_User_Shared_Dto_User#']; // class
 
         this.getRoute = () => DEF.SERV_LIST;
 
@@ -40,7 +40,7 @@ export default class Fl32_Teq_User_Back_Service_List {
             // DEFINE INNER FUNCTIONS
             /**
              * @param {TeqFw_Http2_Back_Server_Stream_Context} context
-             * @returns {Fl32_Teq_User_Shared_Service_Route_List_Request}
+             * @returns {Fl32_Teq_User_Shared_Service_Route_List.Request}
              * @memberOf Fl32_Teq_User_Back_Service_List
              * @implements TeqFw_Http2_Api_Back_Service_Factory.parse
              */
@@ -61,7 +61,7 @@ export default class Fl32_Teq_User_Back_Service_List {
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Handler_Api.Context} apiCtx
+             * @param {TeqFw_Http2_Plugin_Handler_Service.Context} apiCtx
              * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
              * @memberOf Fl32_Teq_User_Back_Service_List
              * @implements {TeqFw_Http2_Api_Back_Service_Factory.service}
@@ -71,7 +71,7 @@ export default class Fl32_Teq_User_Back_Service_List {
                 /**
                  * Select data for all users w/o conditions.
                  * @param trx
-                 * @returns {Promise<Fl32_Teq_User_Shared_Api_Data_User[]>}
+                 * @returns {Promise<Object<Number, Fl32_Teq_User_Shared_Dto_User>>}
                  */
                 async function selectUsers(trx) {
 
@@ -79,7 +79,7 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                     /**
                      * @param trx
-                     * @param {Object.<Number, Fl32_Teq_User_Shared_Api_Data_User>} users
+                     * @param {Object.<Number, Fl32_Teq_User_Shared_Dto_User>} users
                      * @returns {Promise<void>}
                      */
                     async function populateWithEmails(trx, users) {
@@ -92,15 +92,15 @@ export default class Fl32_Teq_User_Back_Service_List {
                             for (const one of rs) {
                                 const id = one[EIdEmail.A_USER_REF];
                                 const email = one[EIdEmail.A_EMAIL];
-                                if (!Array.isArray(users[id][User.A_EMAILS])) users[id][User.A_EMAILS] = [];
-                                users[id][User.A_EMAILS].push(email);
+                                if (!Array.isArray(users[id][User.EMAILS])) users[id][User.EMAILS] = [];
+                                users[id][User.EMAILS].push(email);
                             }
                         }
                     }
 
                     /**
                      * @param trx
-                     * @param {Object.<Number, Fl32_Teq_User_Shared_Api_Data_User>} users
+                     * @param {Object.<Number, Fl32_Teq_User_Shared_Dto_User>} users
                      * @returns {Promise<void>}
                      */
                     async function populateWithPhones(trx, users) {
@@ -113,42 +113,42 @@ export default class Fl32_Teq_User_Back_Service_List {
                             for (const one of rs) {
                                 const id = one[EIdPhone.A_USER_REF];
                                 const phone = one[EIdPhone.A_PHONE];
-                                if (!Array.isArray(users[id][User.A_PHONES])) users[id][User.A_PHONES] = [];
-                                users[id][User.A_PHONES].push(phone);
+                                if (!Array.isArray(users[id][User.PHONES])) users[id][User.PHONES] = [];
+                                users[id][User.PHONES].push(phone);
                             }
                         }
                     }
 
                     /**
                      * @param trx
-                     * @returns {Promise<Object.<Number, Fl32_Teq_User_Shared_Api_Data_User>>}
+                     * @returns {Promise<Object.<Number, Fl32_Teq_User_Shared_Dto_User>>}
                      */
                     async function getUsers(trx) {
                         const result = {};
                         const query = trx.from({u: EUser.ENTITY});
                         query.select([
-                            {[User.A_ID]: `u.${EUser.A_ID}`},
-                            {[User.A_DATE_CREATED]: `u.${EUser.A_DATE_CREATED}`},
+                            {[User.ID]: `u.${EUser.A_ID}`},
+                            {[User.DATE_CREATED]: `u.${EUser.A_DATE_CREATED}`},
                         ]);
                         query.leftOuterJoin(
                             {p: EProfile.ENTITY},
                             `p.${EProfile.A_USER_REF}`,
                             `u.${EUser.A_ID}`);
-                        query.select([{[User.A_NAME]: `p.${EProfile.A_NAME}`}]);
+                        query.select([{[User.NAME]: `p.${EProfile.A_NAME}`}]);
                         query.leftOuterJoin(
                             {a: EAuthPass.ENTITY},
                             `a.${EAuthPass.A_USER_REF}`,
                             `u.${EUser.A_ID}`);
-                        query.select([{[User.A_LOGIN]: `a.${EAuthPass.A_LOGIN}`}]);
+                        query.select([{[User.LOGIN]: `a.${EAuthPass.A_LOGIN}`}]);
                         query.leftOuterJoin(
                             {t: ERefTree.ENTITY},
                             `t.${ERefTree.A_USER_REF}`,
                             `u.${EUser.A_ID}`);
-                        query.select([{[User.A_PARENT_ID]: `t.${ERefTree.A_PARENT_REF}`}]);
+                        query.select([{[User.PARENT_ID]: `t.${ERefTree.A_PARENT_REF}`}]);
 
                         const rows = await query;
                         for (const one of rows) {
-                            /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
+                            /** @type {Fl32_Teq_User_Shared_Dto_User} */
                             const item = Object.assign(new User(), one);
                             result[item.id] = item;
                         }
@@ -170,7 +170,8 @@ export default class Fl32_Teq_User_Back_Service_List {
                 const trx = await rdb.startTransaction();
 
                 try {
-                    result.response.items = await selectUsers(trx);
+                    const users = await selectUsers(trx);
+                    result.response.items = Object.values(users);
                     trx.commit();
                 } catch (error) {
                     trx.rollback();

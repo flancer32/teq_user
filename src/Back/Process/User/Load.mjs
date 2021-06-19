@@ -23,14 +23,14 @@ function Factory(spec) {
     const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class
     /** @function {@type Fl32_Teq_User_Store_RDb_Query_GetUsers.queryBuilder}*/
     const qbGetUsers = spec['Fl32_Teq_User_Store_RDb_Query_GetUsers$']; // instance singleton
-    /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
-    const DUser = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
+    /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
+    const DUser = spec['Fl32_Teq_User_Shared_Dto_User#']; // class
 
     /**
      * Process to load user profile data.
      * @param trx
      * @param {Number} userId
-     * @returns {Promise<Fl32_Teq_User_Shared_Api_Data_User>}
+     * @returns {Promise<Fl32_Teq_User_Shared_Dto_User>}
      * @memberOf Fl32_Teq_User_Back_Process_User_Load
      */
     async function process({trx, userId}) {
@@ -62,7 +62,7 @@ function Factory(spec) {
         /**
          * @param trx
          * @param {Number} userId
-         * @returns {Promise<Fl32_Teq_User_Shared_Api_Data_User|null>}
+         * @returns {Promise<Fl32_Teq_User_Shared_Dto_User|null>}
          */
         async function getUserById(trx, userId) {
             let result = null;
@@ -70,7 +70,7 @@ function Factory(spec) {
             query.where(EUser.A_ID, userId);
             const rows = await query;
             if (rows[0]) {
-                /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
+                /** @type {Fl32_Teq_User_Shared_Dto_User} */
                 const user = new DUser();
                 result = Object.assign(user, rows[0]);
             }
@@ -78,7 +78,7 @@ function Factory(spec) {
         }
 
         // MAIN FUNCTIONALITY
-        /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
+        /** @type {Fl32_Teq_User_Shared_Dto_User} */
         const user = await getUserById(trx, userId);
         // get parent data
         if (user.parentId !== user.id) {

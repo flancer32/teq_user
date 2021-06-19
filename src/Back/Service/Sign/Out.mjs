@@ -19,9 +19,9 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out_Request} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out.Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Request'];   // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out_Response} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out.Response} */
         const Response = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Response'];   // class
 
         this.getRoute = () => DEF.SERV_SIGN_OUT;
@@ -34,7 +34,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
             // DEFINE INNER FUNCTIONS
             /**
              * @param {TeqFw_Http2_Back_Server_Stream_Context} context
-             * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_Out_Request}
+             * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Request}
              * @memberOf Fl32_Teq_User_Back_Service_Sign_In
              * @implements TeqFw_Http2_Api_Back_Service_Factory.parse
              */
@@ -55,7 +55,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Handler_Api.Context} apiCtx
+             * @param {TeqFw_Http2_Plugin_Handler_Service.Context} apiCtx
              * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
              * @memberOf Fl32_Teq_User_Back_Service_Sign_Out
              * @implements {TeqFw_Http2_Api_Back_Service_Factory.service}

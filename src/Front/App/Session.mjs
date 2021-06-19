@@ -8,14 +8,14 @@ export default class Fl32_Teq_User_Front_App_Session {
         const gateCurrent = spec['Fl32_Teq_User_Front_Gate_Current$']; // function singleton
         /** @type {Fl32_Teq_User_Front_Gate_Sign_Out.gate} */
         const gateSignOut = spec['Fl32_Teq_User_Front_Gate_Sign_Out$']; // function singleton
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Request} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current.Request} */
         const CurrentRequest = spec['Fl32_Teq_User_Shared_Service_Route_Current#Request']; // class
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out_Request} */
+        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Sign_Out.Request} */
         const SignOutRequest = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Request']; // class
-        /** @type {typeof Fl32_Teq_User_Shared_Api_Data_User} */
-        const DUser = spec['Fl32_Teq_User_Shared_Api_Data_User#']; // class
+        /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
+        const DUser = spec['Fl32_Teq_User_Shared_Dto_User#']; // class
 
-        /** @type {Fl32_Teq_User_Shared_Api_Data_User} */
+        /** @type {Fl32_Teq_User_Shared_Dto_User} */
         let user = null;
         /** @type {String} route to redirect after authentication  */
         let routeToRedirect = null;
@@ -24,7 +24,7 @@ export default class Fl32_Teq_User_Front_App_Session {
 
         this.close = async function () {
             const req = new SignOutRequest();
-            /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out_Response} */
+            /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Response} */
             const res = await gateSignOut(req);
             if (res) {
                 user = null;
@@ -40,7 +40,7 @@ export default class Fl32_Teq_User_Front_App_Session {
         };
 
         /**
-         * @returns {Fl32_Teq_User_Shared_Api_Data_User}
+         * @returns {Fl32_Teq_User_Shared_Dto_User}
          */
         this.getUser = function () {
             return user;
@@ -48,7 +48,7 @@ export default class Fl32_Teq_User_Front_App_Session {
 
         this.init = async function () {
             const req = new CurrentRequest();
-            /** @type {Fl32_Teq_User_Shared_Service_Route_Current_Response} */
+            /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Response} */
             const res = await gateCurrent(req);
             if (res.user) {
                 user = Object.assign(new DUser(), res.user);
