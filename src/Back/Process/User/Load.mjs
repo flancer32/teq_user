@@ -22,7 +22,7 @@ function Factory(spec) {
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
     const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class
     /** @function {@type Fl32_Teq_User_Store_RDb_Query_GetUsers.queryBuilder}*/
-    const qbGetUsers = spec['Fl32_Teq_User_Store_RDb_Query_GetUsers$']; // instance singleton
+    const qbGetUsers = spec['Fl32_Teq_User_Store_RDb_Query_GetUsers$']; // singleton
     /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
     const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
 

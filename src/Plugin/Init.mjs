@@ -6,7 +6,7 @@ export default class Fl32_Teq_User_Plugin_Init {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
+        const DEF = spec['Fl32_Teq_User_Defaults$'];    // singleton
 
         this.getCommands = function () {
             return [];

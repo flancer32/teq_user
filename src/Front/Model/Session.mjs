@@ -6,11 +6,11 @@ export default class Fl32_Teq_User_Front_Model_Session {
         // EXTRACT DEPS
         /** @type {Fl32_Bwl_Defaults} */
         const DEF = spec['Fl32_Bwl_Defaults$'];
-        const {reactive} = spec[DEF.MOD_VUE.DI_VUE]; // named singleton destructuring
+        const {reactive} = spec[DEF.MOD_VUE.DI_VUE]; // singleton destructuring
         /** @type {Fl32_Teq_User_Front_Dto_User.Factory} */
-        const fUser = spec['Fl32_Teq_User_Front_Dto_User#Factory$']; // instance singleton
+        const fUser = spec['Fl32_Teq_User_Front_Dto_User#Factory$']; // singleton
         /** @type {Function|Fl32_Teq_User_Front_Gate_Current.gate} */
-        const gateCurrent = spec['Fl32_Teq_User_Front_Gate_Current$']; // function singleton
+        const gateCurrent = spec['Fl32_Teq_User_Front_Gate_Current$']; // singleton
         /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
         const fCurrent = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$']; // singleton
 

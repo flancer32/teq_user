@@ -7,7 +7,7 @@ export default class Fl32_Teq_User_Back_Process_Session_Open {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
+        const DEF = spec['Fl32_Teq_User_Defaults$'];    // singleton
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
         const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class
 

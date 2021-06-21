@@ -6,9 +6,9 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
+        const DEF = spec['Fl32_Teq_User_Defaults$'];    // singleton
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
+        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
@@ -16,7 +16,7 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
         const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];         // instance singleton
+        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];         // singleton
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence.Request} */

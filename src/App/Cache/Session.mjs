@@ -1,7 +1,7 @@
 /**
  * Cache for user data with sessionId as a keys.
  * This class is wrapper for the Map with JSDoc hints.
- * We can use simple Map instance as named singleton in this case (w/o JSDoc hints, of cause).
+ * We can use simple Map instance as singleton in this case (w/o JSDoc hints, of cause).
  */
 export default class Fl32_Teq_User_App_Cache_Session {
 

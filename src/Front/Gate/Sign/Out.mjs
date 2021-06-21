@@ -13,9 +13,9 @@ const NS = 'Fl32_Teq_User_Front_Gate_Sign_Out';
  */
 function Factory(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
-    const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
+    const DEF = spec['Fl32_Teq_User_Defaults$'];    // singleton
     /** @type {TeqFw_Core_App_Front_Gate_Connect} */
-    const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // instance singleton
+    const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // singleton
     /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Factory} */
     const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Factory$']; // singleton
 

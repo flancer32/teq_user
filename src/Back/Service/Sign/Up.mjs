@@ -12,7 +12,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF = spec['Fl32_Teq_User_Defaults$'];
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
+        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton
         const {cookieCreate} = spec['TeqFw_Http2_Back_Util']; // ES6 module
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
@@ -23,13 +23,13 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
         const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];         // instance singleton
+        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];         // singleton
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
         const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
         const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
-        const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$']; // instance singleton
+        const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$']; // singleton
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
         /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Factory} */

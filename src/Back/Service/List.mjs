@@ -6,9 +6,9 @@ export default class Fl32_Teq_User_Back_Service_List {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Defaults$']; // instance singleton
+        const DEF = spec['Fl32_Teq_User_Defaults$']; // singleton
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec['TeqFw_Core_App_Db_Connector$']; // instance singleton
+        const rdb = spec['TeqFw_Core_App_Db_Connector$']; // singleton
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */

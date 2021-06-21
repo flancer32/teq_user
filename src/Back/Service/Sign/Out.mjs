@@ -10,11 +10,11 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF = spec['Fl32_Teq_User_Defaults$'];
         /** @type {TeqFw_Core_App_Util_Back_Cookie} */
-        const utilCookie = spec['TeqFw_Core_App_Util_Back_Cookie$'];  // instance singleton
+        const utilCookie = spec['TeqFw_Core_App_Util_Back_Cookie$'];  // singleton
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
+        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton
         /** @type {TeqFw_Http2_Back_Model_Realm_Registry} */
-        const regRealms = spec['TeqFw_Http2_Back_Model_Realm_Registry$']; // instance singleton
+        const regRealms = spec['TeqFw_Http2_Back_Model_Realm_Registry$']; // singleton
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
         const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */

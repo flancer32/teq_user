@@ -5,9 +5,9 @@
 export default class Fl32_Teq_User_Front_App_Session {
     constructor(spec) {
         /** @type {Fl32_Teq_User_Front_Gate_Current.gate} */
-        const gateCurrent = spec['Fl32_Teq_User_Front_Gate_Current$']; // function singleton
+        const gateCurrent = spec['Fl32_Teq_User_Front_Gate_Current$']; // singleton
         /** @type {Fl32_Teq_User_Front_Gate_Sign_Out.gate} */
-        const gateSignOut = spec['Fl32_Teq_User_Front_Gate_Sign_Out$']; // function singleton
+        const gateSignOut = spec['Fl32_Teq_User_Front_Gate_Sign_Out$']; // singleton
         /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
         const fCurrent = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$']; // singleton
         /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Factory} */

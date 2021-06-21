@@ -10,12 +10,12 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Defaults$'];    // instance singleton
+        const DEF = spec['Fl32_Teq_User_Defaults$'];    // singleton
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // instance singleton
+        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton
         const {cookieCreate} = spec['TeqFw_Http2_Back_Util']; // ES6 module destructing
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
-        const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$']; // instance singleton
+        const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$']; // singleton
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
