@@ -1,5 +1,5 @@
 /**
- * User DTO for frontend realms.
+ * User DTO for frontend areas.
  */
 // MODULE'S VARS
 const NS = 'Fl32_Teq_User_Front_Dto_User';

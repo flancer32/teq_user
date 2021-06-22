@@ -1,5 +1,5 @@
 /**
- * User session model for frontend realms.
+ * User session model for frontend areas.
  */
 export default class Fl32_Teq_User_Front_Model_Session {
     constructor(spec) {
