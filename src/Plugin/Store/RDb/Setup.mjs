@@ -1,7 +1,9 @@
 export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
     constructor(spec) {
-        const utilFKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForForeignKey'];
-        const utilUKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForUniqueKey'];
+        /** @function {@type TeqFw_Core_App_Back_Util_RDb.nameFK} */
+        const nameFK = spec['TeqFw_Core_App_Back_Util_RDb#nameFK'];
+        /** @function {@type TeqFw_Core_App_Back_Util_RDb.nameUQ} */
+        const nameUQ = spec['TeqFw_Core_App_Back_Util_RDb#nameUQ'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const EAuthPassword = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
@@ -55,10 +57,10 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                     table.integer(EAuthPassword.A_USER_REF).unsigned().notNullable();
                     table.string(EAuthPassword.A_PASSWORD_HASH).notNullable()
                         .comment('Password\'s hash to authenticate user.');
-                    table.unique(EAuthPassword.A_USER_REF, utilUKName(EAuthPassword.ENTITY, EAuthPassword.A_USER_REF));
+                    table.unique(EAuthPassword.A_USER_REF, nameUQ(EAuthPassword.ENTITY, EAuthPassword.A_USER_REF));
                     table.foreign(EAuthPassword.A_USER_REF).references(EUser.A_ID).inTable(EUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(EAuthPassword.ENTITY, EAuthPassword.A_USER_REF, EUser.ENTITY, EUser.A_ID));
+                        .withKeyName(nameFK(EAuthPassword.ENTITY, EAuthPassword.A_USER_REF, EUser.ENTITY, EUser.A_ID));
                     table.comment('Authentication by password.');
                 });
             }
@@ -72,7 +74,7 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                         .comment('Date-time for session registration.');
                     table.foreign(EAuthSession.A_USER_REF).references(EUser.A_ID).inTable(EUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(EAuthSession.ENTITY, EAuthSession.A_USER_REF, EUser.ENTITY, EUser.A_ID));
+                        .withKeyName(nameFK(EAuthSession.ENTITY, EAuthSession.A_USER_REF, EUser.ENTITY, EUser.A_ID));
                     table.comment('Registry for opened sessions.');
                 });
             }
@@ -84,7 +86,7 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                     table.integer(EIdEmail.A_USER_REF).unsigned().notNullable();
                     table.foreign(EIdEmail.A_USER_REF).references(EUser.A_ID).inTable(EUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(EIdEmail.ENTITY, EIdEmail.A_USER_REF, EUser.ENTITY, EUser.A_ID));
+                        .withKeyName(nameFK(EIdEmail.ENTITY, EIdEmail.A_USER_REF, EUser.ENTITY, EUser.A_ID));
                     table.comment('Emails as identifiers for users.');
                 });
             }
@@ -96,7 +98,7 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                     table.integer(EIdPhone.A_USER_REF).unsigned().notNullable();
                     table.foreign(EIdPhone.A_USER_REF).references(EUser.A_ID).inTable(EUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(EIdPhone.ENTITY, EIdPhone.A_USER_REF, EUser.ENTITY, EUser.A_ID));
+                        .withKeyName(nameFK(EIdPhone.ENTITY, EIdPhone.A_USER_REF, EUser.ENTITY, EUser.A_ID));
                     table.comment('Phones as identifiers for users.');
                 });
             }
@@ -108,7 +110,7 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                         .comment('Name to display in profile.');
                     table.foreign(EProfile.A_USER_REF).references(EUser.A_ID).inTable(EUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(EProfile.ENTITY, EProfile.A_USER_REF, EUser.ENTITY, EUser.A_ID));
+                        .withKeyName(nameFK(EProfile.ENTITY, EProfile.A_USER_REF, EUser.ENTITY, EUser.A_ID));
                     table.comment('Personal information for users.');
                 });
             }
@@ -122,7 +124,7 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                         .comment('Date-time for referral code expiration.');
                     table.foreign(ERefLink.A_USER_REF).references(EUser.A_ID).inTable(EUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(ERefLink.ENTITY, ERefLink.A_USER_REF, EUser.ENTITY, EUser.A_ID));
+                        .withKeyName(nameFK(ERefLink.ENTITY, ERefLink.A_USER_REF, EUser.ENTITY, EUser.A_ID));
                     table.comment('Referral links to registration.');
                 });
             }
@@ -134,10 +136,10 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
                     table.primary([ERefTree.A_USER_REF]);
                     table.foreign(ERefTree.A_USER_REF).references(EUser.A_ID).inTable(EUser.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(ERefTree.ENTITY, ERefTree.A_USER_REF, EUser.ENTITY, EUser.A_ID));
+                        .withKeyName(nameFK(ERefTree.ENTITY, ERefTree.A_USER_REF, EUser.ENTITY, EUser.A_ID));
                     table.foreign(ERefTree.A_PARENT_REF).references(ERefTree.A_USER_REF).inTable(ERefTree.ENTITY)
                         .onDelete('CASCADE').onUpdate('CASCADE')
-                        .withKeyName(utilFKName(
+                        .withKeyName(nameFK(
                             ERefTree.ENTITY, ERefTree.A_USER_REF, ERefTree.ENTITY, ERefTree.A_USER_REF
                         ));
                     table.comment('Referrals tree.');

@@ -9,8 +9,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF = spec['Fl32_Teq_User_Defaults$'];
-        /** @type {TeqFw_Core_App_Util_Back_Cookie} */
-        const utilCookie = spec['TeqFw_Core_App_Util_Back_Cookie$'];  // singleton
+        /** @type {TeqFw_Core_App_Back_Util_Cookie} */
+        const utilCookie = spec['TeqFw_Core_App_Back_Util_Cookie$'];  // singleton
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton
         /** @type {TeqFw_Http2_Back_Model_Realm_Registry} */
@@ -93,7 +93,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
                     const headers = apiCtx.sharedContext[DEF.MOD_HTTP2.HTTP_SHARE_HEADERS];
                     const path = headers[H2.HTTP2_HEADER_PATH];
                     const addr = regRealms.parseAddress(path);
-                    const realm = addr.realm ?? '';
+                    const realm = addr.area ?? '';
                     result.headers[H2.HTTP2_HEADER_SET_COOKIE] = utilCookie.clear(DEF.SESSION_COOKIE_NAME, realm);
                 } catch (error) {
                     await trx.rollback();

@@ -29,8 +29,8 @@ async function Factory(spec) {
     const cache = spec['Fl32_Teq_User_App_Cache_Session$']; // singleton
     /** @type {TeqFw_Core_App_Db_Connector} */
     const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton
-    /** @type {TeqFw_Core_App_Util_Back_Cookie} */
-    const utilCookie = spec['TeqFw_Core_App_Util_Back_Cookie$'];    // singleton
+    /** @type {TeqFw_Core_App_Back_Util_Cookie} */
+    const utilCookie = spec['TeqFw_Core_App_Back_Util_Cookie$'];    // singleton
     /** @type {TeqFw_Http2_Back_Model_Realm_Registry} */
     const regRealms = spec['TeqFw_Http2_Back_Model_Realm_Registry$']; // singleton
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
@@ -124,7 +124,7 @@ async function Factory(spec) {
                 } else {
                     // clear session id from cookies
                     const addr = regRealms.parseAddress(path);
-                    const realm = addr.realm ?? '';
+                    const realm = addr.area ?? '';
                     result.headers[H2.HTTP2_HEADER_SET_COOKIE] = utilCookie.clear(DEF.SESSION_COOKIE_NAME, realm);
                     result.headers[H2.HTTP2_HEADER_STATUS] = H2.HTTP_STATUS_UNAUTHORIZED;
                     result.complete = true;
