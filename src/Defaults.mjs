@@ -8,7 +8,7 @@ export default class Fl32_Teq_User_Defaults {
     HTTP_SHARE_CTX_SESSION_ID = `${this.BACK_REALM}/sessionId`;  // Attribute of the HTTP request to share session ID.
     HTTP_SHARE_CTX_USER = `${this.BACK_REALM}/data`; // Attribute of the HTTP request to share authenticated user data.
 
-    /** @type {TeqFw_Core_App_Defaults} */
+    /** @type {TeqFw_Core_Defaults} */
     MOD_CORE;
     /** @type {TeqFw_Http2_Defaults} */
     MOD_HTTP2;
@@ -28,8 +28,8 @@ export default class Fl32_Teq_User_Defaults {
     SESSION_ID_BYTES = 20;  // Number of bytes for generated session ID.
 
     constructor(spec) {
-        /** @type {TeqFw_Core_App_Defaults} */
-        this.MOD_CORE = spec['TeqFw_Core_App_Defaults$']; // pin 'core' defaults
+        /** @type {TeqFw_Core_Defaults} */
+        this.MOD_CORE = spec['TeqFw_Core_Defaults$']; // pin 'core' defaults
         this.MOD_HTTP2 = spec['TeqFw_Http2_Defaults$']; // pin 'http2' defaults
         Object.freeze(this);
     }

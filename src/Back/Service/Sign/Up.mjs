@@ -11,8 +11,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF = spec['Fl32_Teq_User_Defaults$'];
-        /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton
+        /** @type {TeqFw_Core_Db_Connector} */
+        const rdb = spec['TeqFw_Core_Db_Connector$'];  // singleton
         const {cookieCreate} = spec['TeqFw_Http2_Back_Util']; // ES6 module
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class

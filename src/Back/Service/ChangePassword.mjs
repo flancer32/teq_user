@@ -9,8 +9,8 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
     constructor(spec) {
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF = spec['Fl32_Teq_User_Defaults$'];    // singleton
-        /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton
+        /** @type {TeqFw_Core_Db_Connector} */
+        const rdb = spec['TeqFw_Core_Db_Connector$'];  // singleton
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */

@@ -1,9 +1,9 @@
 export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
     constructor(spec) {
-        /** @function {@type TeqFw_Core_App_Back_Util_RDb.nameFK} */
-        const nameFK = spec['TeqFw_Core_App_Back_Util_RDb#nameFK'];
-        /** @function {@type TeqFw_Core_App_Back_Util_RDb.nameUQ} */
-        const nameUQ = spec['TeqFw_Core_App_Back_Util_RDb#nameUQ'];
+        /** @function {@type TeqFw_Core_Back_Util_RDb.nameFK} */
+        const nameFK = spec['TeqFw_Core_Back_Util_RDb#nameFK'];
+        /** @function {@type TeqFw_Core_Back_Util_RDb.nameUQ} */
+        const nameUQ = spec['TeqFw_Core_Back_Util_RDb#nameUQ'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const EAuthPassword = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */

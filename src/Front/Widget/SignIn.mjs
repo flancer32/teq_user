@@ -50,8 +50,8 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Factory$'];  // singleton
     /** @type {Fl32_Teq_User_Front_Gate_Sign_In} */
     const gate = spec['Fl32_Teq_User_Front_Gate_Sign_In$']; // singleton
-    /** @type {TeqFw_Core_App_Front_Widget_Layout_Centered} */
-    const layoutCentered = spec['TeqFw_Core_App_Front_Widget_Layout_Centered$'];    // vue comp tmpl
+    /** @type {TeqFw_Core_Front_Widget_Layout_Centered} */
+    const layoutCentered = spec['TeqFw_Core_Front_Widget_Layout_Centered$'];    // vue comp tmpl
 
     i18next.addResourceBundle('dev', 'teqUserSignIn', I18N_BUNDLE, true);
 

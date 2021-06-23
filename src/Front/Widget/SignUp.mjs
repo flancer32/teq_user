@@ -97,7 +97,7 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     /** @type {Fl32_Teq_User_Front_Model_Session} */
     const session = spec['Fl32_Teq_User_Front_Model_Session$']; // singleton
     const i18next = spec[DEF.MOD_CORE.DI_I18N];   // singleton
-    const {isEmpty} = spec['TeqFw_Core_App_Shared_Util'];
+    const {isEmpty} = spec['TeqFw_Core_Shared_Util'];
     /** @type {Fl32_Teq_User_Front_Gate_Check_Existence} */
     const gateCheckExist = spec['Fl32_Teq_User_Front_Gate_Check_Existence$']; // singleton function
     const gateSignUp = spec['Fl32_Teq_User_Front_Gate_Sign_Up$']; // singleton function
