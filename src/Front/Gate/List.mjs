@@ -14,14 +14,14 @@ const NS = 'Fl32_Teq_User_Front_Gate_List';
 function Factory(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
     const DEF = spec['Fl32_Teq_User_Defaults$'];    // singleton
-    /** @type {TeqFw_Core_App_Front_Gate_Connect} */
-    const backConnect = spec['TeqFw_Core_App_Front_Gate_Connect$']; // singleton
+    /** @type {TeqFw_Http2_Front_Gate_Connect} */
+    const backConnect = spec['TeqFw_Http2_Front_Gate_Connect$']; // singleton
     /** @type {Fl32_Teq_User_Shared_Service_Route_List.Factory} */
     const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_List#Factory$']; // singleton
 
     /**
      * @param {Fl32_Teq_User_Shared_Service_Route_List.Request} data
-     * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_List.Response|TeqFw_Core_App_Front_Gate_Response_Error>}
+     * @returns {Promise<Fl32_Teq_User_Shared_Service_Route_List.Response|TeqFw_Http2_Front_Gate_Response_Error>}
      * @memberOf Fl32_Teq_User_Front_Gate_List
      */
     async function gate(data) {

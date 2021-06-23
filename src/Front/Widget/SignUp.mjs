@@ -152,7 +152,7 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
             async actSubmit() {
                 const req = this.createSignUpRequest();
                 const res = await gateSignUp(req);
-                if (res.constructor.name === 'TeqFw_Core_App_Front_Gate_Response_Error') {
+                if (res.constructor.name === 'TeqFw_Http2_Front_Gate_Response_Error') {
                     // registration failed
                     this.$emit('onFailure', res.message);
                 } else {

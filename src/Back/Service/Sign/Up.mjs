@@ -34,8 +34,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
         /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Factory} */
         const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Factory$']; // singleton
-        /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
-        const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class
+        /** @type {typeof TeqFw_Http2_Front_Gate_Response_Error} */
+        const GateError = spec['TeqFw_Http2_Front_Gate_Response_Error#'];    // class
         /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
         const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
 

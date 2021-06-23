@@ -81,7 +81,7 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
                 const req = factRoute.createReq(this.data);
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Response} */
                 const res = await gate(req);
-                if (res.constructor.name === 'TeqFw_Core_App_Front_Gate_Response_Error') {
+                if (res.constructor.name === 'TeqFw_Http2_Front_Gate_Response_Error') {
                     this.$emit('onFailure', res.message);
                 } else {
                     debugger
