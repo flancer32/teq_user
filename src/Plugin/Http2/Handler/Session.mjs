@@ -172,5 +172,5 @@ async function Factory(spec) {
 // MODULE'S FUNCTIONALITY
 
 // MODULE'S EXPORT
-Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.name}`});
+Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
 export default Factory;

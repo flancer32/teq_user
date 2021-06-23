@@ -54,7 +54,7 @@ class Factory {
 
 // freeze class to deny attributes changes then export class
 Object.freeze(Fl32_Teq_User_Shared_Service_Dto_RefLink);
-Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.name}`});
+Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
 export {
     Fl32_Teq_User_Shared_Service_Dto_RefLink as default,
     Factory

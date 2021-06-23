@@ -67,11 +67,11 @@ class Factory {
 }
 
 // freeze class to deny attributes changes then export classes
-Object.defineProperty(Request, 'name', {value: `${NS}.${Request.name}`});
-Object.defineProperty(Response, 'name', {value: `${NS}.${Response.name}`});
+Object.defineProperty(Request, 'name', {value: `${NS}.${Request.constructor.name}`});
+Object.defineProperty(Response, 'name', {value: `${NS}.${Response.constructor.name}`});
 Object.freeze(Request);
 Object.freeze(Response);
-Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.name}`});
+Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
 
 export {
     Factory,
