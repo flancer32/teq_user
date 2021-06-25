@@ -10,7 +10,7 @@ const NS = 'Fl32_Teq_User_Back_Service_RefLink_Get';
 
 /**
  * Service to get referral link data (exp. date and parent data).
- * @implements TeqFw_Http2_Api_Back_Service_Factory
+ * @implements TeqFw_Http2_Back_Api_Service_Factory
  */
 class Fl32_Teq_User_Back_Service_RefLink_Get {
 
@@ -38,7 +38,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Get {
 
         /**
          * Factory to create function to validate and structure incoming data.
-         * @returns {TeqFw_Http2_Api_Back_Service_Factory.parse}
+         * @returns {TeqFw_Http2_Back_Api_Service_Factory.parse}
          */
         this.createInputParser = function () {
             // DEFINE INNER FUNCTIONS
@@ -46,7 +46,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Get {
              * @param {TeqFw_Http2_Back_Server_Stream_Context} context
              * @returns {Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Request}
              * @memberOf Fl32_Teq_User_Back_Service_RefLink_Get
-             * @implements TeqFw_Http2_Api_Back_Service_Factory.parse
+             * @implements TeqFw_Http2_Back_Api_Service_Factory.parse
              */
             function parse(context) {
                 const body = JSON.parse(context.body);
@@ -60,7 +60,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Get {
 
         /**
          * Factory to create service (handler to process HTTP API request).
-         * @returns {TeqFw_Http2_Api_Back_Service_Factory.service}
+         * @returns {TeqFw_Http2_Back_Api_Service_Factory.service}
          */
         this.createService = function () {
             // DEFINE INNER FUNCTIONS
@@ -68,7 +68,7 @@ class Fl32_Teq_User_Back_Service_RefLink_Get {
              * @param {TeqFw_Http2_Plugin_Handler_Service.Context} apiCtx
              * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
              * @memberOf Fl32_Teq_User_Back_Service_RefLink_Get
-             * @implements {TeqFw_Http2_Api_Back_Service_Factory.service}
+             * @implements {TeqFw_Http2_Back_Api_Service_Factory.service}
              */
             async function service(apiCtx) {
                 const result = new ApiResult();

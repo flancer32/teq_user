@@ -7,7 +7,7 @@
     "realm": "user",
     "handlers": [
       {
-        "depId": "Fl32_Teq_User_Plugin_Http2_Handler_Session$",
+        "factoryId": "Fl32_Teq_User_Plugin_Http2_Handler_Session",
         "weight": 1000
       }
     ],
