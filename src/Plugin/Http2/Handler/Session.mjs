@@ -124,7 +124,7 @@ async function Factory(spec) {
                 } else {
                     // clear session id from cookies
                     const addr = regRealms.parseAddress(path);
-                    const realm = addr.area ?? '';
+                    const realm = addr.door ?? '';
                     result.headers[H2.HTTP2_HEADER_SET_COOKIE] = utilCookie.clear(DEF.SESSION_COOKIE_NAME, realm);
                     result.headers[H2.HTTP2_HEADER_STATUS] = H2.HTTP_STATUS_UNAUTHORIZED;
                     result.complete = true;
