@@ -12,8 +12,8 @@ const NS = 'Fl32_Teq_User_Front_Gate_Sign_In';
  * @memberOf Fl32_Teq_User_Front_Gate_Sign_In
  */
 function Factory(spec) {
-    /** @type {Fl32_Teq_User_Defaults} */
-    const DEF = spec['Fl32_Teq_User_Defaults$'];    // singleton
+    /** @type {Fl32_Teq_User_Back_Defaults} */
+    const DEF = spec['Fl32_Teq_User_Back_Defaults$'];    // singleton
     /** @type {TeqFw_Http2_Front_Gate_Connect} */
     const backConnect = spec['TeqFw_Http2_Front_Gate_Connect$']; // singleton
     /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Factory} */

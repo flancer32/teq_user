@@ -1,5 +1,5 @@
 /**
- * Request and response DTO for 'Get Current User' service.
+ * Route data for service to get profile for currently authenticated user.
  * @namespace Fl32_Teq_User_Shared_Service_Route_Current
  */
 // MODULE'S VARS
@@ -9,8 +9,7 @@ const NS = 'Fl32_Teq_User_Shared_Service_Route_Current';
 /**
  * @memberOf Fl32_Teq_User_Shared_Service_Route_Current
  */
-class Request {
-}
+class Request {}
 
 /**
  * @memberOf Fl32_Teq_User_Shared_Service_Route_Current
@@ -21,17 +20,21 @@ class Response {
 }
 
 /**
- * Factory to create new DTOs.
+ * Factory to create new DTOs and get route address.
  * @memberOf Fl32_Teq_User_Shared_Service_Route_Current
+ * @implements TeqFw_Web_Back_Api_Service_Factory_IRoute
  */
 class Factory {
     constructor(spec) {
         // EXTRACT DEPS
+        /** @type {Fl32_Teq_User_Shared_Defaults} */
+        const DEF = spec['Fl32_Teq_User_Shared_Defaults$'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
-        const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
+        const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
         /** @type {Fl32_Teq_User_Shared_Service_Dto_User.Factory} */
-        const fUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#Factory$']; // singleton
+        const fUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#Factory$'];
 
+        // DEFINE INSTANCE METHODS
         /**
          * @param {Request|null} data
          * @return {Fl32_Teq_User_Shared_Service_Route_Current.Request}
@@ -49,16 +52,15 @@ class Factory {
             res.user = (data?.user instanceof DUser) ? data.user : fUser.create(data?.user);
             return res;
         }
+
+        this.getRoute = () => DEF.API.CURRENT;
     }
 }
 
-// freeze class to deny attributes changes then export classes
+// MODULE'S EXPORT
+Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
 Object.defineProperty(Request, 'name', {value: `${NS}.${Request.constructor.name}`});
 Object.defineProperty(Response, 'name', {value: `${NS}.${Response.constructor.name}`});
-Object.freeze(Request);
-Object.freeze(Response);
-Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
-
 export {
     Factory,
     Request,

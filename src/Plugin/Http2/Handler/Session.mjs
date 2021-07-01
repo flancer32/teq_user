@@ -21,8 +21,8 @@ const NS = 'Fl32_Teq_User_Plugin_Http2_Handler_Session';
  */
 async function Factory(spec) {
     // EXTRACT DEPS
-    /** @type {Fl32_Teq_User_Defaults} */
-    const DEF = spec['Fl32_Teq_User_Defaults$'];  // singleton
+    /** @type {Fl32_Teq_User_Back_Defaults} */
+    const DEF = spec['Fl32_Teq_User_Back_Defaults$'];  // singleton
     /** @type {TeqFw_Core_Logger} */
     const logger = spec['TeqFw_Core_Logger$'];  // singleton
     /** @type {Fl32_Teq_User_App_Cache_Session} */

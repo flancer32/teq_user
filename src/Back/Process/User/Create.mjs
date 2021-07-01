@@ -18,8 +18,8 @@ const NS = 'Fl32_Teq_User_Back_Process_User_Create';
  * @memberOf Fl32_Teq_User_Back_Process_User_Create
  */
 function Factory(spec) {
-    /** @type {Fl32_Teq_User_Defaults} */
-    const DEF = spec['Fl32_Teq_User_Defaults$'];
+    /** @type {Fl32_Teq_User_Back_Defaults} */
+    const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
     const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */

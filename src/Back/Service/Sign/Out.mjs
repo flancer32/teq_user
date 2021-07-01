@@ -7,8 +7,8 @@ import {constants as H2} from 'http2';
 export default class Fl32_Teq_User_Back_Service_Sign_Out {
 
     constructor(spec) {
-        /** @type {Fl32_Teq_User_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Defaults$'];
+        /** @type {Fl32_Teq_User_Back_Defaults} */
+        const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
         /** @type {TeqFw_Core_Back_Util_Cookie} */
         const utilCookie = spec['TeqFw_Core_Back_Util_Cookie$'];  // singleton
         /** @type {TeqFw_Core_Back_RDb_Connector} */

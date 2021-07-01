@@ -9,8 +9,8 @@ import {constants as H2} from 'http2';
 export default class Fl32_Teq_User_Back_Service_Sign_Up {
 
     constructor(spec) {
-        /** @type {Fl32_Teq_User_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Defaults$'];
+        /** @type {Fl32_Teq_User_Back_Defaults} */
+        const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
         /** @type {TeqFw_Core_Back_RDb_Connector} */
         const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];  // singleton
         const {cookieCreate} = spec['TeqFw_Http2_Back_Util']; // ES6 module

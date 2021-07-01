@@ -16,8 +16,8 @@ const NS = 'Fl32_Teq_User_Back_Service_RefLink_Create';
 class Fl32_Teq_User_Back_Service_RefLink_Create {
 
     constructor(spec) {
-        /** @type {Fl32_Teq_User_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Defaults$']; // singleton
+        /** @type {Fl32_Teq_User_Back_Defaults} */
+        const DEF = spec['Fl32_Teq_User_Back_Defaults$']; // singleton
         /** @type {TeqFw_Core_Back_RDb_Connector} */
         const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];  // singleton
         /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */

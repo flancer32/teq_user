@@ -5,8 +5,8 @@
 export default class Fl32_Teq_User_Back_Service_Check_Existence {
 
     constructor(spec) {
-        /** @type {Fl32_Teq_User_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Defaults$'];    // singleton
+        /** @type {Fl32_Teq_User_Back_Defaults} */
+        const DEF = spec['Fl32_Teq_User_Back_Defaults$'];    // singleton
         /** @type {TeqFw_Core_Back_RDb_Connector} */
         const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];  // singleton
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */

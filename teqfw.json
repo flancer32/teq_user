@@ -22,5 +22,20 @@
       "Fl32_Teq_User_Back_Service_Sign_Out$",
       "Fl32_Teq_User_Back_Service_Sign_Up$"
     ]
+  },
+  "web": {
+    "api": {
+      "realm": "user",
+      "services": [
+        "Fl32_Teq_User_Back_Service_Current"
+      ]
+    },
+    "handlers": [
+      {
+        "factoryId": "Fl32_Teq_User_Plugin_Web_Handler_Session",
+        "before": "TeqFw_Web_Plugin_Web_Handler_Service",
+        "weight": 1000
+      }
+    ]
   }
 }

@@ -92,8 +92,8 @@ class Fl32_Teq_User_Front_Widget_SignUp_Props {
 }
 
 function Fl32_Teq_User_Front_Widget_SignUp(spec) {
-    /** @type {Fl32_Teq_User_Defaults} */
-    const DEF = spec['Fl32_Teq_User_Defaults$'];    // singleton
+    /** @type {Fl32_Teq_User_Back_Defaults} */
+    const DEF = spec['Fl32_Teq_User_Back_Defaults$'];    // singleton
     /** @type {Fl32_Teq_User_Front_Model_Session} */
     const session = spec['Fl32_Teq_User_Front_Model_Session$']; // singleton
     const i18next = spec[DEF.MOD_I18N.DI.I18N];   // singleton
