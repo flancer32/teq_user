@@ -16,7 +16,7 @@ function Factory(spec) {
     /** @type {TeqFw_Web_Front_Service_Gate} */
     const serviceGate = spec['TeqFw_Web_Front_Service_Gate$'];
     /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
-    const fRoute = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$'];
+    const route = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$'];
 
     // DEFINE INNER FUNCTIONS
     /**
@@ -25,7 +25,7 @@ function Factory(spec) {
      * @memberOf Fl32_Teq_User_Front_Gate_Current
      */
     async function gate(data) {
-        return await serviceGate.send(data, fRoute);
+        return await serviceGate.send(data, route);
     }
 
     // COMPOSE RESULT

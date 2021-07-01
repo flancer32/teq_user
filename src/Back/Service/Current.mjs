@@ -15,10 +15,10 @@ export default class Fl32_Teq_User_Back_Service_Current {
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
-        const fRoute = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$'];
+        const route = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$'];
 
         // DEFINE INSTANCE METHODS
-        this.getRouteFactory = () => fRoute;
+        this.getRouteFactory = () => route;
 
         this.getService = function () {
             // DEFINE INNER FUNCTIONS
