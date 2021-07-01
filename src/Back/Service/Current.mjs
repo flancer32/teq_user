@@ -14,8 +14,6 @@ export default class Fl32_Teq_User_Back_Service_Current {
     constructor(spec) {
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
-        /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
-        const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
         const fRoute = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$'];
 

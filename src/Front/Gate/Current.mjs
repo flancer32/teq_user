@@ -12,12 +12,11 @@ const NS = 'Fl32_Teq_User_Front_Gate_Current';
  * @memberOf Fl32_Teq_User_Front_Gate_Current
  */
 function Factory(spec) {
-    /** @type {Fl32_Teq_User_Back_Defaults} */
-    const DEF = spec['Fl32_Teq_User_Back_Defaults$'];    // singleton
-    /** @type {TeqFw_Http2_Front_Gate_Connect} */
-    const backConnect = spec['TeqFw_Http2_Front_Gate_Connect$']; // singleton
+    // EXTRACT DEPS
+    /** @type {TeqFw_Web_Front_Service_Gate} */
+    const serviceGate = spec['TeqFw_Web_Front_Service_Gate$'];
     /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
-    const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$']; // singleton
+    const fRoute = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$'];
 
     // DEFINE INNER FUNCTIONS
     /**
@@ -26,10 +25,7 @@ function Factory(spec) {
      * @memberOf Fl32_Teq_User_Front_Gate_Current
      */
     async function gate(data) {
-        let result = false;
-        const res = await backConnect.send(data, DEF.BACK_REALM, DEF.SERV_CURRENT);
-        if (res) result = factRoute.createRes(res);
-        return result;
+        return await serviceGate.send(data, fRoute);
     }
 
     // COMPOSE RESULT

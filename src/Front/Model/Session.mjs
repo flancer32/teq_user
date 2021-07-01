@@ -4,15 +4,16 @@
 export default class Fl32_Teq_User_Front_Model_Session {
     constructor(spec) {
         // EXTRACT DEPS
-        /** @type {Fl32_Bwl_Defaults} */
-        const DEF = spec['Fl32_Bwl_Defaults$'];
+        /** @type {Fl32_Bwl_Shared_Defaults} */
+        const DEF = spec['Fl32_Bwl_Shared_Defaults$'];
         const {reactive} = spec[DEF.MOD_VUE.DI_VUE]; // singleton destructuring
         /** @type {Fl32_Teq_User_Front_Dto_User.Factory} */
         const fUser = spec['Fl32_Teq_User_Front_Dto_User#Factory$']; // singleton
-        /** @type {Function|Fl32_Teq_User_Front_Gate_Current.gate} */
-        const gateCurrent = spec['Fl32_Teq_User_Front_Gate_Current$']; // singleton
+        /** @type {TeqFw_Web_Front_Service_Gate} */
+        const gate = spec['TeqFw_Web_Front_Service_Gate$'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
-        const fCurrent = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$']; // singleton
+        const routeCurrent = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$'];
+
 
         // DEFINE WORKING VARS
         /** @type {Fl32_Teq_User_Front_Dto_User} */
@@ -41,10 +42,12 @@ export default class Fl32_Teq_User_Front_Model_Session {
          * @return {Promise<void>}
          */
         this.init = async function () {
-            const req = fCurrent.createReq();
+            /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Request} */
+            const req = routeCurrent.createReq();
+            // noinspection JSValidateTypes
             /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Response} */
-            const res = await gateCurrent(req);
-            this.parseDataSource(res);
+            const res = await gate.send(req, routeCurrent);
+            if (res) this.parseDataSource(res);
         };
 
         /**

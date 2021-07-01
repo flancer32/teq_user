@@ -53,7 +53,7 @@ class Factory {
             return res;
         }
 
-        this.getRoute = () => DEF.API.CURRENT;
+        this.getRoute = () => `/${DEF.NAME}${DEF.SRV.CURRENT}`;
     }
 }
 
