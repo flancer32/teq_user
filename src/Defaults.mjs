@@ -15,6 +15,9 @@ export default class Fl32_Teq_User_Defaults {
     /** @type {TeqFw_Http2_Defaults} */
     MOD_HTTP2;
 
+    SERV = {
+        CURRENT: '/current'
+    };
     SERV_CHANGE_PASSWORD = '/changePassword';
     SERV_CHECK_EXISTENCE = '/check/existence';
     SERV_CURRENT = '/current';
@@ -30,7 +33,7 @@ export default class Fl32_Teq_User_Defaults {
     SESSION_ID_BYTES = 20;  // Number of bytes for generated session ID.
 
     constructor(spec) {
-        this.MOD_CORE = spec['TeqFw_Core_Defaults$']; // pin 'core' defaults
+        // this.MOD_CORE = spec['TeqFw_Core_Defaults$']; // pin 'core' defaults
         this.MOD_I18N = spec['TeqFw_I18n_Defaults$'];
         this.MOD_HTTP2 = spec['TeqFw_Http2_Defaults$'];
         Object.freeze(this);
