@@ -93,18 +93,17 @@ class Fl32_Teq_User_Front_Widget_SignUp_Props {
 
 function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     /** @type {Fl32_Teq_User_Back_Defaults} */
-    const DEF = spec['Fl32_Teq_User_Back_Defaults$'];    // singleton
+    const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
     /** @type {Fl32_Teq_User_Front_Model_Session} */
-    const session = spec['Fl32_Teq_User_Front_Model_Session$']; // singleton
-    const i18next = spec[DEF.MOD_I18N.DI.I18N];   // singleton
+    const session = spec['Fl32_Teq_User_Front_Model_Session$'];
+    const i18next = spec[DEF.MOD_I18N.DI.I18N];
     const {isEmpty} = spec['TeqFw_Core_Shared_Util'];
-    /** @type {Fl32_Teq_User_Front_Gate_Check_Existence} */
-    const gateCheckExist = spec['Fl32_Teq_User_Front_Gate_Check_Existence$']; // singleton function
-    const gateSignUp = spec['Fl32_Teq_User_Front_Gate_Sign_Up$']; // singleton function
-    /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Factory} */
-    const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Factory$'];  // singleton
+    /** @type {TeqFw_Web_Front_Service_Gate} */
+    const gate = spec['TeqFw_Web_Front_Service_Gate$'];
     /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Factory} */
-    const fCheckExist = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Factory$']; // singleton
+    const routeExist = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Factory$'];
+    /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Factory} */
+    const routeSignUp = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Factory$'];
 
     const TIMEOUT = 1000;
     i18next.addResourceBundle('dev', 'teqUser', I18N_BUNDLE, true);
@@ -151,13 +150,9 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
         methods: {
             async actSubmit() {
                 const req = this.createSignUpRequest();
-                const res = await gateSignUp(req);
-                if (res.constructor.name === 'TeqFw_Http2_Front_Gate_Response_Error') {
-                    // registration failed
-                    this.$emit('onFailure', res.message);
-                } else {
+                const res = await gate.send(req, routeSignUp);
+                if (res && res.user) {
                     // registration succeed, init new session
-                    debugger
                     await session.init();
                     this.$emit('onSuccess', res.user);
                     // reset data
@@ -168,6 +163,9 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                     this.fldPasswordAgain = null;
                     this.fldRefCode = null;
                     for (const one of Object.keys(this.invalid)) this.invalid[one] = false;
+                } else {
+                    // registration failed
+                    this.$emit('onFailure', 'User sign up is failed.');
                 }
             },
             /**
@@ -186,11 +184,13 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                 const fn = async function () {
                     if (value) {
                         me.loading[type] = true;
-                        const req = fCheckExist.createReq();
+                        /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Request} */
+                        const req = routeExist.createReq();
                         req.type = type;
                         req.value = value;
+                        // noinspection JSValidateTypes
                         /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Response} */
-                        const res = await gateCheckExist(req);
+                        const res = await gate.send(req, routeExist);
                         me.loading[type] = false;
                         if (res.exist === fireError) {
                             me.invalid[type] = true;
@@ -221,7 +221,7 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
              */
             createSignUpRequest() {
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request} */
-                const res = factRoute.createReq();
+                const res = routeSignUp.createReq();
                 res.email = this.fldEmail;
                 res.login = this.fldLogin;
                 res.name = this.fldName;
@@ -233,10 +233,10 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
         },
         watch: {
             fldEmail(current) {
-                this.checkExistence(current, fCheckExist.TYPE_EMAIL, true, 'errEmailExists');
+                this.checkExistence(current, routeExist.TYPE_EMAIL, true, 'errEmailExists');
             },
             fldLogin(current) {
-                this.checkExistence(current, fCheckExist.TYPE_LOGIN, true, 'errLoginExists');
+                this.checkExistence(current, routeExist.TYPE_LOGIN, true, 'errLoginExists');
             },
             fldPassword() {
                 this.checkPassword();
@@ -245,14 +245,14 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
                 this.checkPassword();
             },
             fldPhone(current) {
-                this.checkExistence(current, fCheckExist.TYPE_PHONE, true, 'errPhoneExists');
+                this.checkExistence(current, routeExist.TYPE_PHONE, true, 'errPhoneExists');
             },
             fldRefCode(current) {
-                this.checkExistence(current, fCheckExist.TYPE_REF_CODE, false, 'errUnknownRefCode');
+                this.checkExistence(current, routeExist.TYPE_REF_CODE, false, 'errUnknownRefCode');
             },
             input(current) {
                 this.fldRefCode = current.refCode;
-                this.invalid[fCheckExist.TYPE_REF_CODE] = false;
+                this.invalid[routeExist.TYPE_REF_CODE] = false;
             },
         },
         mounted() {

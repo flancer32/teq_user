@@ -1,111 +1,80 @@
-import {constants as H2} from 'http2';
-
 /**
  * Service to get referral link data (exp. date and parent data).
  *
  * @namespace Fl32_Teq_User_Back_Service_RefLink_Get
  */
+// MODULE'S IMPORT
+import {constants as H2} from 'http2';
 // MODULE'S VARS
 const NS = 'Fl32_Teq_User_Back_Service_RefLink_Get';
 
 /**
- * Service to get referral link data (exp. date and parent data).
- * @implements TeqFw_Http2_Back_Api_Service_Factory
+ * @implements TeqFw_Web_Back_Api_Service_IFactory
  */
-class Fl32_Teq_User_Back_Service_RefLink_Get {
+export default class Fl32_Teq_User_Back_Service_RefLink_Get {
 
     constructor(spec) {
+        // EXTRACT DEPS
         /** @type {Fl32_Teq_User_Back_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Back_Defaults$']; // singleton
+        const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
         /** @type {TeqFw_Core_Back_RDb_Connector} */
-        const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];  // singleton
-        /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
-        const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result']; // class
+        const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Factory} */
-        const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Get#Factory$']; // singleton
+        const route = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Get#Factory$'];
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process} */
-        const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$']; // singleton
+        const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$'];
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_Get.process} */
-        const procGet = spec['Fl32_Teq_User_Back_Process_Referral_Link_Get$']; // singleton
+        const procGet = spec['Fl32_Teq_User_Back_Process_Referral_Link_Get$'];
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
-        const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$']; // singleton
+        const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$'];
         /** @type {Fl32_Teq_User_Shared_Service_Dto_RefLink.Factory} */
-        const fRefLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#Factory$']; // singleton
+        const fRefLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#Factory$'];
 
         // DEFINE INSTANCE METHODS
 
-        this.getRoute = () => DEF.SERV_REF_LINK_GET;
+        this.getRouteFactory = () => route;
 
-        /**
-         * Factory to create function to validate and structure incoming data.
-         * @returns {TeqFw_Http2_Back_Api_Service_Factory.parse}
-         */
-        this.createInputParser = function () {
+        this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Stream_Context} context
-             * @returns {Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Request}
-             * @memberOf Fl32_Teq_User_Back_Service_RefLink_Get
-             * @implements TeqFw_Http2_Back_Api_Service_Factory.parse
+             * @param {TeqFw_Web_Back_Api_Service_IContext} context
+             * @return Promise<void>
              */
-            function parse(context) {
-                const body = JSON.parse(context.body);
-                return factRoute.createReq(body.data);
-            }
+            async function service(context) {
+                // DEFINE INNER FUNCTIONS
 
-            // COMPOSE RESULT
-            Object.defineProperty(parse, 'name', {value: `${NS}.${parse.name}`});
-            return parse;
-        };
-
-        /**
-         * Factory to create service (handler to process HTTP API request).
-         * @returns {TeqFw_Http2_Back_Api_Service_Factory.service}
-         */
-        this.createService = function () {
-            // DEFINE INNER FUNCTIONS
-            /**
-             * @param {TeqFw_Http2_Plugin_Handler_Service.Context} apiCtx
-             * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
-             * @memberOf Fl32_Teq_User_Back_Service_RefLink_Get
-             * @implements {TeqFw_Http2_Back_Api_Service_Factory.service}
-             */
-            async function service(apiCtx) {
-                const result = new ApiResult();
-                const response = factRoute.createRes();
-                result.response = response;
-                const trx = await rdb.startTransaction();
+                // MAIN FUNCTIONALITY
                 /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Request} */
-                const apiReq = apiCtx.request;
+                const req = context.getInData();
+                /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Response} */
+                const res = context.getOutData();
+                //
+                const trx = await rdb.startTransaction();
                 try {
                     // clean up expired links
                     await procCleanUp({trx});
                     // load link data by code
-                    const code = apiReq.code;
+                    const code = req.code;
                     const linkData = await procGet({trx, code});
                     if (linkData) {
                         const link = fRefLink.create();
                         link.parent = await procLoad({trx, userId: linkData.user_ref});
                         link.refCode = linkData.code;
                         link.dateExpired = new Date(linkData.date_expired);
-                        response.link = link;
+                        res.link = link;
                     } else {
-                        result.headers[H2.HTTP2_HEADER_STATUS] = H2.HTTP_STATUS_NOT_FOUND;
+                        context.setOutHeader(DEF.MOD.WEB.HTTP.HEADER.STATUS, H2.HTTP_STATUS_NOT_FOUND);
                     }
                     await trx.commit();
                 } catch (error) {
                     await trx.rollback();
                     throw error;
                 }
-                return result;
             }
 
-            // COMPOSE RESULT
+            // MAIN FUNCTIONALITY
             Object.defineProperty(service, 'name', {value: `${NS}.${service.name}`});
             return service;
-        };
+        }
     }
-
 }
-
-export default Fl32_Teq_User_Back_Service_RefLink_Get;

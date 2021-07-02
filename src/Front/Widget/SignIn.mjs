@@ -36,22 +36,18 @@ class Fl32_Teq_User_Front_Widget_SignIn_Props {
     user
 }
 
-export {
-    Fl32_Teq_User_Front_Widget_SignIn_Props as Props
-};
-
 function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     /** @type {Fl32_Teq_User_Back_Defaults} */
-    const DEF = spec['Fl32_Teq_User_Back_Defaults$'];    // singleton
+    const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
     /** @type {Fl32_Teq_User_Front_Model_Session} */
-    const session = spec['Fl32_Teq_User_Front_Model_Session$']; // singleton
-    const i18next = spec[DEF.MOD_I18N.DI.I18N];   // singleton
+    const session = spec['Fl32_Teq_User_Front_Model_Session$'];
+    const i18next = spec[DEF.MOD_I18N.DI.I18N];
+    /** @type {TeqFw_Web_Front_Service_Gate} */
+    const gate = spec['TeqFw_Web_Front_Service_Gate$'];
     /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Factory} */
-    const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Factory$'];  // singleton
-    /** @type {Fl32_Teq_User_Front_Gate_Sign_In} */
-    const gate = spec['Fl32_Teq_User_Front_Gate_Sign_In$']; // singleton
+    const route = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Factory$'];
     /** @type {TeqFw_Core_Front_Widget_Layout_Centered} */
-    const layoutCentered = spec['TeqFw_Core_Front_Widget_Layout_Centered$'];    // vue comp tmpl
+    const layoutCentered = spec['TeqFw_Core_Front_Widget_Layout_Centered$'];
 
     i18next.addResourceBundle('dev', 'teqUserSignIn', I18N_BUNDLE, true);
 
@@ -78,16 +74,16 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
         methods: {
             async actSubmit() {
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Request} */
-                const req = factRoute.createReq(this.data);
+                const req = route.createReq(this.data);
+                // noinspection JSValidateTypes
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Response} */
-                const res = await gate(req);
-                if (res.constructor.name === 'TeqFw_Http2_Front_Gate_Response_Error') {
-                    this.$emit('onFailure', res.message);
-                } else {
-                    debugger
+                const res = await gate.send(req, route);
+                if (res) {
                     await session.init();
                     this.$emit('onSuccess', res.sessionId);
                     this.reset();
+                } else {
+                    this.$emit('onFailure', 'Sign in is failed.');
                 }
             },
             reset() {
@@ -97,4 +93,7 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     };
 }
 
-export default Fl32_Teq_User_Front_Widget_SignIn;
+export {
+    Fl32_Teq_User_Front_Widget_SignIn as default,
+    Fl32_Teq_User_Front_Widget_SignIn_Props as Props
+}

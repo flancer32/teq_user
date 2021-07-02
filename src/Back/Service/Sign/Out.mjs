@@ -1,66 +1,44 @@
+/**
+ *  Service to close session for authenticated user.
+ *
+ * @namespace Fl32_Teq_User_Back_Service_Sign_Out
+ */
+// MODULE'S IMPORT
 import {constants as H2} from 'http2';
 
+// MODULE'S VARS
+const NS = 'Fl32_Teq_User_Back_Service_Sign_Out';
+
 /**
- * Service to close session for authenticated user.
- * @implements TeqFw_Http2_Back_Api_Service_Factory
+ * @implements TeqFw_Web_Back_Api_Service_IFactory
  */
 export default class Fl32_Teq_User_Back_Service_Sign_Out {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
-        /** @type {TeqFw_Core_Back_Util_Cookie} */
-        const utilCookie = spec['TeqFw_Core_Back_Util_Cookie$'];  // singleton
         /** @type {TeqFw_Core_Back_RDb_Connector} */
-        const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];  // singleton
-        /** @type {TeqFw_Http2_Back_Model_Realm_Registry} */
-        const regRealms = spec['TeqFw_Http2_Back_Model_Realm_Registry$']; // singleton
+        const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class
-        /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
-        const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
+        const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Factory} */
-        const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Factory$']; // singleton
+        const route = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Factory$'];
+        /** @type {Function|TeqFw_Http2_Back_Util.cookieClear} */
+        const cookieClear = spec['TeqFw_Http2_Back_Util#cookieClear'];
+        /** @type {TeqFw_Web_Back_Model_Address} */
+        const mAddr = spec['TeqFw_Web_Back_Model_Address$'];
 
         // DEFINE INSTANCE METHODS
 
-        this.getRoute = () => DEF.SERV_SIGN_OUT;
+        this.getRouteFactory = () => route;
 
-        /**
-         * Factory to create function to validate and structure incoming data.
-         * @returns {TeqFw_Http2_Back_Api_Service_Factory.parse}
-         */
-        this.createInputParser = function () {
+        this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Stream_Context} context
-             * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Request}
-             * @memberOf Fl32_Teq_User_Back_Service_Sign_In
-             * @implements TeqFw_Http2_Back_Api_Service_Factory.parse
+             * @param {TeqFw_Web_Back_Api_Service_IContext} context
+             * @return Promise<void>
              */
-            function parse(context) {
-                const body = JSON.parse(context.body);
-                return factRoute.createReq(body.data);
-            }
-
-            // COMPOSE RESULT
-            Object.defineProperty(parse, 'name', {value: `${this.constructor.name}.${parse.name}`});
-            return parse;
-        };
-
-        /**
-         * Factory to create service (handler to process HTTP API request).
-         * @returns {TeqFw_Http2_Back_Api_Service_Factory.service}
-         */
-        this.createService = function () {
-            // DEFINE INNER FUNCTIONS
-            /**
-             * @param {TeqFw_Http2_Plugin_Handler_Service.Context} apiCtx
-             * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
-             * @memberOf Fl32_Teq_User_Back_Service_Sign_Out
-             * @implements {TeqFw_Http2_Back_Api_Service_Factory.service}
-             */
-            async function service(apiCtx) {
+            async function service(context) {
                 // DEFINE INNER FUNCTIONS
                 async function deleteAllSessions(trx, sessId) {
                     // get user ID by session ID
@@ -77,35 +55,30 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
                 }
 
                 // MAIN FUNCTIONALITY
-                const result = new ApiResult();
-                const response = factRoute.createRes();
-                result.response = response;
-                const sharedCtx = apiCtx.sharedContext;
+                const shared = context.getHandlersShare();
+                //
                 const trx = await rdb.startTransaction();
-
                 try {
-                    const sessId = sharedCtx[DEF.HTTP_SHARE_CTX_SESSION_ID];
+                    const sessId = shared[DEF.HTTP_SHARE_CTX_SESSION_ID];
                     if (sessId) {
                         await deleteAllSessions(trx, sessId);
                     }
                     await trx.commit();
                     // clear session ID from cookie
-                    const headers = apiCtx.sharedContext[DEF.MOD_HTTP2.HTTP_SHARE_HEADERS];
-                    const path = headers[H2.HTTP2_HEADER_PATH];
-                    const addr = regRealms.parseAddress(path);
-                    const realm = addr.door ?? '';
-                    result.headers[H2.HTTP2_HEADER_SET_COOKIE] = utilCookie.clear(DEF.SESSION_COOKIE_NAME, realm);
+                    const pathHttp = context.getRequestContext().getPath();
+                    const parts = mAddr.parsePath(pathHttp);
+                    const path = (parts.root) ? `/${parts.root}/${parts.door}` : `/${parts.door}`;
+                    const cookie = cookieClear({name: DEF.SESSION_COOKIE_NAME, path});
+                    context.setOutHeader(H2.HTTP2_HEADER_SET_COOKIE, cookie);
                 } catch (error) {
                     await trx.rollback();
                     throw error;
                 }
-                return result;
             }
 
-            // COMPOSE RESULT
-            Object.defineProperty(service, 'name', {value: `${this.constructor.name}.${service.name}`});
+            // MAIN FUNCTIONALITY
+            Object.defineProperty(service, 'name', {value: `${NS}.${service.name}`});
             return service;
-        };
+        }
     }
-
 }

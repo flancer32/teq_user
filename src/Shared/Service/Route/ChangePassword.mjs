@@ -1,5 +1,6 @@
 /**
- * Request and response DTO for 'Change Password' service.
+ * Route data for service to change user password.
+ *
  * @namespace Fl32_Teq_User_Shared_Service_Route_ChangePassword
  */
 // MODULE'S VARS
@@ -10,9 +11,9 @@ const NS = 'Fl32_Teq_User_Shared_Service_Route_ChangePassword';
  * @memberOf Fl32_Teq_User_Shared_Service_Route_ChangePassword
  */
 class Request {
-    /** @type {String} */
+    /** @type {string} */
     passwordCurrent;
-    /** @type {String} */
+    /** @type {string} */
     passwordNew;
 }
 
@@ -20,16 +21,24 @@ class Request {
  * @memberOf Fl32_Teq_User_Shared_Service_Route_ChangePassword
  */
 class Response {
-    /** @type {Boolean} */
+    /** @type {boolean} */
     success;
 }
 
 /**
- * Factory to create new DTOs.
+ * Factory to create new DTOs and get route address.
+ * @implements TeqFw_Web_Back_Api_Service_Factory_IRoute
  * @memberOf Fl32_Teq_User_Shared_Service_Route_ChangePassword
  */
 class Factory {
-    constructor() {
+    constructor(spec) {
+        // EXTRACT DEPS
+        /** @type {Fl32_Teq_User_Shared_Defaults} */
+        const DEF = spec['Fl32_Teq_User_Shared_Defaults$'];
+
+        // DEFINE INSTANCE METHODS
+        this.getRoute = () => `/${DEF.NAME}${DEF.SRV.CHANGE_PASSWORD}`;
+
         /**
          * @param {Request|null} data
          * @return {Fl32_Teq_User_Shared_Service_Route_ChangePassword.Request}
@@ -53,13 +62,10 @@ class Factory {
     }
 }
 
-// freeze class to deny attributes changes then export classes
+// MODULE'S EXPORT
+Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
 Object.defineProperty(Request, 'name', {value: `${NS}.${Request.constructor.name}`});
 Object.defineProperty(Response, 'name', {value: `${NS}.${Response.constructor.name}`});
-Object.freeze(Request);
-Object.freeze(Response);
-Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
-
 export {
     Factory,
     Request,

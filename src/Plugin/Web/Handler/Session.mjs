@@ -27,8 +27,6 @@ export default function Factory(spec) {
     const cache = spec['Fl32_Teq_User_App_Cache_Session$'];
     /** @type {TeqFw_Core_Back_RDb_Connector} */
     const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];
-    /** @type {TeqFw_Core_Back_Util_Cookie} */
-    const utilCookie = spec['TeqFw_Core_Back_Util_Cookie$'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
     const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#'];
     /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
@@ -37,8 +35,6 @@ export default function Factory(spec) {
     const mAddr = spec['TeqFw_Web_Back_Model_Address$'];
     /** @type {Function|TeqFw_Http2_Back_Util.cookieClear} */
     const cookieClear = spec['TeqFw_Http2_Back_Util#cookieClear'];
-
-    // PARSE INPUT & DEFINE WORKING VARS
 
     // DEFINE INNER FUNCTIONS
     /**
@@ -170,9 +166,7 @@ export default function Factory(spec) {
      * Process plugins descriptions and setup static resources mapping.
      */
     function initHandler() {
-        logger.debug('Map plugins folders for static resources:');
-
-        logger.debug('All static resources are mapped.');
+        logger.debug(`Handler '${NS}' is initialized.`);
     }
 
     // MAIN FUNCTIONALITY

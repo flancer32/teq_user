@@ -1,72 +1,48 @@
 /**
- * Service to get users listing.
- * @implements TeqFw_Http2_Back_Api_Service_Factory
+ * List users.
+ *
+ * @namespace Fl32_Teq_User_Back_Service_List
+ */
+// MODULE'S VARS
+const NS = 'Fl32_Teq_User_Back_Service_List';
+
+/**
+ * @implements TeqFw_Web_Back_Api_Service_IFactory
  */
 export default class Fl32_Teq_User_Back_Service_List {
 
     constructor(spec) {
-        /** @type {Fl32_Teq_User_Back_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Back_Defaults$']; // singleton
+        // EXTRACT DEPS
         /** @type {TeqFw_Core_Back_RDb_Connector} */
-        const rdb = spec['TeqFw_Core_Back_RDb_Connector$']; // singleton
+        const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
+        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class
+        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class
+        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class
+        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class
+        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
-        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class
-        /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
-        const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result']; // class
+        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_List.Factory} */
-        const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_List#Factory$']; // singleton
+        const route = spec['Fl32_Teq_User_Shared_Service_Route_List#Factory$'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
-        const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
+        const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
 
         // DEFINE INSTANCE METHODS
 
-        this.getRoute = () => DEF.SERV_LIST;
+        this.getRouteFactory = () => route;
 
-        /**
-         * Factory to create function to validate and structure incoming data.
-         * @returns {TeqFw_Http2_Back_Api_Service_Factory.parse}
-         */
-        this.createInputParser = function () {
+        this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Stream_Context} context
-             * @returns {Fl32_Teq_User_Shared_Service_Route_List.Request}
-             * @memberOf Fl32_Teq_User_Back_Service_List
-             * @implements TeqFw_Http2_Back_Api_Service_Factory.parse
+             * @param {TeqFw_Web_Back_Api_Service_IContext} context
+             * @return Promise<void>
              */
-            function parse(context) {
-                const body = JSON.parse(context.body);
-                return factRoute.createReq(body.data);
-            }
-
-            // COMPOSE RESULT
-            Object.defineProperty(parse, 'name', {value: `${this.constructor.name}.${parse.name}`});
-            return parse;
-        };
-
-        /**
-         * Factory to create service (handler to process HTTP API request).
-         * @returns {TeqFw_Http2_Back_Api_Service_Factory.service}
-         */
-        this.createService = function () {
-            // DEFINE INNER FUNCTIONS
-            /**
-             * @param {TeqFw_Http2_Plugin_Handler_Service.Context} apiCtx
-             * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
-             * @memberOf Fl32_Teq_User_Back_Service_List
-             * @implements {TeqFw_Http2_Back_Api_Service_Factory.service}
-             */
-            async function service(apiCtx) {
+            async function service(context) {
                 // DEFINE INNER FUNCTIONS
                 /**
                  * Select data for all users w/o conditions.
@@ -165,14 +141,16 @@ export default class Fl32_Teq_User_Back_Service_List {
                 }
 
                 // MAIN FUNCTIONALITY
-                const result = new ApiResult();
-                const response = factRoute.createRes();
-                result.response = response;
+                /** @type {Fl32_Teq_User_Shared_Service_Route_List.Request} */
+                const req = context.getInData();
+                /** @type {Fl32_Teq_User_Shared_Service_Route_List.Response} */
+                const res = context.getOutData();
+                //
                 const trx = await rdb.startTransaction();
 
                 try {
                     const users = await selectUsers(trx);
-                    response.items = Object.values(users);
+                    res.items = Object.values(users);
                     trx.commit();
                 } catch (error) {
                     trx.rollback();
@@ -181,10 +159,9 @@ export default class Fl32_Teq_User_Back_Service_List {
                 return result;
             }
 
-            // COMPOSE RESULT
-            Object.defineProperty(service, 'name', {value: `${this.constructor.name}.${service.name}`});
+            // MAIN FUNCTIONALITY
+            Object.defineProperty(service, 'name', {value: `${NS}.${service.name}`});
             return service;
-        };
+        }
     }
-
 }

@@ -1,5 +1,6 @@
 /**
- * Request and response DTO for 'Sign Up' service.
+ * Route data for service to sign up users.
+ *
  * @namespace Fl32_Teq_User_Shared_Service_Route_Sign_Up
  */
 // MODULE'S VARS
@@ -15,17 +16,17 @@ const NS = 'Fl32_Teq_User_Shared_Service_Route_Sign_Up';
  * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_Up
  */
 class Request {
-    /** @type {String} */
+    /** @type {string} */
     email;
-    /** @type {String} */
+    /** @type {string} */
     login;
-    /** @type {String} */
+    /** @type {string} */
     name;
-    /** @type {String} */
+    /** @type {string} */
     password;
-    /** @type {String} */
+    /** @type {string} */
     phone;
-    /** @type {String} */
+    /** @type {string} */
     referralCode;
 }
 
@@ -33,21 +34,31 @@ class Request {
  * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_Up
  */
 class Response {
+    /** @type {string} */
+    error;
+    /** @type {string} */
+    sessionId;
     /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
     user;
 }
 
 /**
- * Factory to create new DTOs.
+ * Factory to create new DTOs and get route address.
+ * @implements TeqFw_Web_Back_Api_Service_Factory_IRoute
  * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_Up
  */
 class Factory {
     constructor(spec) {
         // EXTRACT DEPS
+        /** @type {Fl32_Teq_User_Shared_Defaults} */
+        const DEF = spec['Fl32_Teq_User_Shared_Defaults$'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
         const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
         /** @type {Fl32_Teq_User_Shared_Service_Dto_User.Factory} */
         const fUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#Factory$']; // singleton
+
+        // DEFINE INSTANCE METHODS
+        this.getRoute = () => `/${DEF.NAME}${DEF.SRV.SIGN.UP}`;
 
         /**
          * @param {Request|null} data
@@ -70,19 +81,18 @@ class Factory {
          */
         this.createRes = function (data = null) {
             const res = new Response();
+            res.error = data?.error;
+            res.sessionId = data?.sessionId;
             res.user = (data?.user instanceof DUser) ? data.user : fUser.create(data?.user);
             return res;
         }
     }
 }
 
-// freeze class to deny attributes changes then export classes
+// MODULE'S EXPORT
+Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
 Object.defineProperty(Request, 'name', {value: `${NS}.${Request.constructor.name}`});
 Object.defineProperty(Response, 'name', {value: `${NS}.${Response.constructor.name}`});
-Object.freeze(Request);
-Object.freeze(Response);
-Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
-
 export {
     Factory,
     Request,

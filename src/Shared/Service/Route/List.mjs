@@ -1,5 +1,5 @@
 /**
- * Request and response DTO for 'List Users' service.
+ * Route data for service to list users data.
  *
  * This request should contain standard grid listing structure (filters, order, limit).
  *
@@ -26,16 +26,22 @@ class Response {
 }
 
 /**
- * Factory to create new DTOs.
+ * Factory to create new DTOs and get route address.
+ * @implements TeqFw_Web_Back_Api_Service_Factory_IRoute
  * @memberOf Fl32_Teq_User_Shared_Service_Route_List
  */
 class Factory {
     constructor(spec) {
         // EXTRACT DEPS
+        /** @type {Fl32_Teq_User_Shared_Defaults} */
+        const DEF = spec['Fl32_Teq_User_Shared_Defaults$'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
         const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
         /** @type {Fl32_Teq_User_Shared_Service_Dto_User.Factory} */
         const fUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#Factory$']; // singleton
+
+        // DEFINE INSTANCE METHODS
+        this.getRoute = () => `/${DEF.NAME}${DEF.SRV.LIST}`;
 
         /**
          * @param {Request|null} data
@@ -61,13 +67,10 @@ class Factory {
     }
 }
 
-// freeze class to deny attributes changes then export classes
+// MODULE'S EXPORT
+Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
 Object.defineProperty(Request, 'name', {value: `${NS}.${Request.constructor.name}`});
 Object.defineProperty(Response, 'name', {value: `${NS}.${Response.constructor.name}`});
-Object.freeze(Request);
-Object.freeze(Response);
-Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
-
 export {
     Factory,
     Request,

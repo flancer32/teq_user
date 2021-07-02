@@ -1,83 +1,63 @@
+/**
+ * Register new user.
+ *
+ * @namespace Fl32_Teq_User_Back_Service_Sign_Up
+ */
+// MODULE'S IMPORT
 import $bcrypt from 'bcrypt';
 import $crypto from 'crypto';
 import {constants as H2} from 'http2';
 
+// MODULE'S VARS
+const NS = 'Fl32_Teq_User_Back_Service_Sign_Up';
+
 /**
- * Service to register new user.
- * @implements TeqFw_Http2_Back_Api_Service_Factory
+ * @implements TeqFw_Web_Back_Api_Service_IFactory
  */
 export default class Fl32_Teq_User_Back_Service_Sign_Up {
 
     constructor(spec) {
+        // EXTRACT DEPS
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
         /** @type {TeqFw_Core_Back_RDb_Connector} */
-        const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];  // singleton
-        const {cookieCreate} = spec['TeqFw_Http2_Back_Util']; // ES6 module
+        const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];
+        /** @type {Function|TeqFw_Http2_Back_Util.cookieCreate} */
+        const cookieCreate = spec['TeqFw_Http2_Back_Util#cookieCreate'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
+        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class
+        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class
+        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class
+        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];         // singleton
+        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class
+        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
-        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class
+        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#'];
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
-        const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$']; // singleton
-        /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
-        const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
+        const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Factory} */
-        const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Factory$']; // singleton
-        /** @type {typeof TeqFw_Http2_Front_Gate_Response_Error} */
-        const GateError = spec['TeqFw_Http2_Front_Gate_Response_Error#'];    // class
+        const route = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Factory$'];
+        /** @type {TeqFw_Web_Back_Model_Address} */
+        const mAddr = spec['TeqFw_Web_Back_Model_Address$'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
-        const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
+        const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
 
         // DEFINE INSTANCE METHODS
 
-        this.getRoute = () => DEF.SERV_SIGN_UP;
+        this.getRouteFactory = () => route;
 
-        /**
-         * Factory to create function to validate and structure incoming data.
-         * @returns {TeqFw_Http2_Back_Api_Service_Factory.parse}
-         */
-        this.createInputParser = function () {
+        this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Stream_Context} context
-             * @returns {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request}
-             * @memberOf Fl32_Teq_User_Back_Service_Sign_Up
-             * @implements TeqFw_Http2_Back_Api_Service_Factory.parse
+             * @param {TeqFw_Web_Back_Api_Service_IContext} context
+             * @return Promise<void>
              */
-            function parse(context) {
-                const body = JSON.parse(context.body);
-                return factRoute.createReq(body.data);
-            }
-
-            // COMPOSE RESULT
-            Object.defineProperty(parse, 'name', {value: `${this.constructor.name}.${parse.name}`});
-            return parse;
-        };
-
-        /**
-         * Factory to create service (handler to process HTTP API request).
-         * @returns {TeqFw_Http2_Back_Api_Service_Factory.service}
-         */
-        this.createService = function () {
-            // DEFINE INNER FUNCTIONS
-            /**
-             * @param {TeqFw_Http2_Plugin_Handler_Service.Context} apiCtx
-             * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
-             * @memberOf Fl32_Teq_User_Back_Service_Sign_Up
-             * @implements {TeqFw_Http2_Back_Api_Service_Factory.service}
-             */
-            async function service(apiCtx) {
+            async function service(context) {
                 // DEFINE INNER FUNCTIONS
                 /**
                  * Register new user and return ID.
@@ -242,33 +222,34 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                 }
 
                 // MAIN FUNCTIONALITY
-                const result = new ApiResult();
-                const response = factRoute.createRes();
-                result.response = response;
-                const trx = await rdb.startTransaction();
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request} */
-                const apiReq = apiCtx.request;
-
+                const req = context.getInData();
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Response} */
+                const res = context.getOutData();
+                //
+                const trx = await rdb.startTransaction();
                 try {
-                    const parentId = await getUserIdByRefCode(trx, apiReq.referralCode);
+                    const parentId = await getUserIdByRefCode(trx, req.referralCode);
                     if (parentId) {
                         // register new user in the tables
-                        const userId = await addUser(trx, apiReq, parentId);
+                        const userId = await addUser(trx, req, parentId);
                         // select user data to compose API response
-                        response.user = await selectUser(trx, userId);
+                        res.user = await selectUser(trx, userId);
                         const {output} = await procSessionOpen.exec({trx, userId});
-                        response.sessionId = output.sessId;
+                        res.sessionId = output.sessId;
                         // set session cookie
-                        result.headers[H2.HTTP2_HEADER_SET_COOKIE] = cookieCreate({
+                        const pathHttp = context.getRequestContext().getPath();
+                        const parts = mAddr.parsePath(pathHttp);
+                        const path = (parts.root) ? `/${parts.root}/${parts.door}` : `/${parts.door}`;
+                        const cookie = cookieCreate({
                             name: DEF.SESSION_COOKIE_NAME,
-                            value: result.response.sessionId,
+                            value: res.sessionId,
                             expires: DEF.SESSION_COOKIE_LIFETIME,
-                            path: '/'
+                            path
                         });
+                        context.setOutHeader(H2.HTTP2_HEADER_SET_COOKIE, cookie);
                     } else {
-                        const err = new GateError();
-                        err.message = 'Unknown referral code.';
-                        result.response = err;
+                        res.error = 'Unknown referral code.';
                     }
                     await trx.commit();
                 } catch (error) {
@@ -278,10 +259,11 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                 return result;
             }
 
-            // COMPOSE RESULT
-            Object.defineProperty(service, 'name', {value: `${this.constructor.name}.${service.name}`});
+            // MAIN FUNCTIONALITY
+            Object.defineProperty(service, 'name', {value: `${NS}.${service.name}`});
             return service;
-        };
+        }
+
     }
 
 }

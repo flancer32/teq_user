@@ -1,5 +1,5 @@
 /**
- * Request and response DTO for 'Sign Out' service.
+ * Route data for service to sign out.
  * @namespace Fl32_Teq_User_Shared_Service_Route_Sign_Out
  */
 // MODULE'S VARS
@@ -9,21 +9,27 @@ const NS = 'Fl32_Teq_User_Shared_Service_Route_Sign_Out';
 /**
  * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_Out
  */
-class Request {
-}
+class Request {}
 
 /**
  * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_Out
  */
-class Response {
-}
+class Response {}
 
 /**
- * Factory to create new DTOs.
+ * Factory to create new DTOs and get route address.
+ * @implements TeqFw_Web_Back_Api_Service_Factory_IRoute
  * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_Out
  */
 class Factory {
-    constructor() {
+    constructor(spec) {
+        // EXTRACT DEPS
+        /** @type {Fl32_Teq_User_Shared_Defaults} */
+        const DEF = spec['Fl32_Teq_User_Shared_Defaults$'];
+
+        // DEFINE INSTANCE METHODS
+        this.getRoute = () => `/${DEF.NAME}${DEF.SRV.SIGN.OUT}`;
+
         /**
          * @param {Request|null} data
          * @return {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Request}
@@ -42,13 +48,10 @@ class Factory {
     }
 }
 
-// freeze class to deny attributes changes then export classes
+// MODULE'S EXPORT
+Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
 Object.defineProperty(Request, 'name', {value: `${NS}.${Request.constructor.name}`});
 Object.defineProperty(Response, 'name', {value: `${NS}.${Response.constructor.name}`});
-Object.freeze(Request);
-Object.freeze(Response);
-Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
-
 export {
     Factory,
     Request,

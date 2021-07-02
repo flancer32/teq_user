@@ -1,66 +1,43 @@
 /**
  * Check existence for different values (login, referral code, email, phone, ...).
- * @implements TeqFw_Http2_Back_Api_Service_Factory
+ *
+ * @namespace Fl32_Teq_User_Back_Service_Check_Existence
+ */
+// MODULE'S VARS
+const NS = 'Fl32_Teq_User_Back_Service_Check_Existence';
+
+/**
+ * @implements TeqFw_Web_Back_Api_Service_IFactory
  */
 export default class Fl32_Teq_User_Back_Service_Check_Existence {
 
     constructor(spec) {
-        /** @type {Fl32_Teq_User_Back_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Back_Defaults$'];    // singleton
+        // EXTRACT DEPS
         /** @type {TeqFw_Core_Back_RDb_Connector} */
-        const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];  // singleton
+        const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
+        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class
+        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class
+        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];         // singleton
-        /** @type {typeof TeqFw_Http2_Plugin_Handler_Service.Result} */
-        const ApiResult = spec['TeqFw_Http2_Plugin_Handler_Service#Result'];    // class
+        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence.Request} */
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Request'];   // class
+        const Request = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Request'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Factory} */
-        const factRoute = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Factory$']; // singleton
+        const route = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Factory$'];
 
-        this.getRoute = () => DEF.SERV_CHECK_EXISTENCE;
+        // DEFINE INSTANCE METHODS
+        this.getRouteFactory = () => route;
 
-        /**
-         * Factory to create function to validate and structure incoming data.
-         * @returns {TeqFw_Http2_Back_Api_Service_Factory.parse}
-         */
-        this.createInputParser = function () {
+        this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Http2_Back_Server_Stream_Context} context
-             * @returns {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Request}
-             * @memberOf Fl32_Teq_User_Back_Service_Check_Existence
-             * @implements TeqFw_Http2_Back_Api_Service_Factory.parse
+             * @param {TeqFw_Web_Back_Api_Service_IContext} context
+             * @return Promise<void>
              */
-            function parse(context) {
-                const body = JSON.parse(context.body);
-                return factRoute.createReq(body.data);
-            }
-
-            // COMPOSE RESULT
-            Object.defineProperty(parse, 'name', {value: `${this.constructor.name}.${parse.name}`});
-            return parse;
-        };
-
-        /**
-         * Factory to create service (handler to process HTTP API request).
-         * @returns {TeqFw_Http2_Back_Api_Service_Factory.service}
-         */
-        this.createService = function () {
-            // DEFINE INNER FUNCTIONS
-            /**
-             * @param {TeqFw_Http2_Plugin_Handler_Service.Context} apiCtx
-             * @returns {Promise<TeqFw_Http2_Plugin_Handler_Service.Result>}
-             * @memberOf Fl32_Teq_User_Back_Service_Check_Existence
-             * @implements {TeqFw_Http2_Back_Api_Service_Factory.service}
-             */
-            async function service(apiCtx) {
+            async function service(context) {
                 // DEFINE INNER FUNCTIONS
 
                 async function checkEmail(trx, value) {
@@ -96,25 +73,25 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
                 }
 
                 // MAIN FUNCTIONALITY
-                const result = new ApiResult();
-                result.response = factRoute.createRes();
-                const trx = await rdb.startTransaction();
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Request} */
-                const apiReq = apiCtx.request;
-
+                const req = context.getInData();
+                /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Response} */
+                const res = context.getOutData();
+                //
+                const trx = await rdb.startTransaction();
                 try {
-                    const type = apiReq.type;
-                    if (apiReq.value) {
-                        const value = apiReq.value.trim().toLowerCase();
+                    const type = req.type;
+                    if (req.value) {
+                        const value = req.value.trim().toLowerCase();
                         // TODO: types are not navigable in IDEA on ctrl+click
                         if (type === Request.TYPE_EMAIL) {
-                            result.response.exist = await checkEmail(trx, value);
+                            res.exist = await checkEmail(trx, value);
                         } else if (type === Request.TYPE_LOGIN) {
-                            result.response.exist = await checkLogin(trx, value);
+                            res.exist = await checkLogin(trx, value);
                         } else if (type === Request.TYPE_PHONE) {
-                            result.response.exist = await checkPhone(trx, value);
+                            res.exist = await checkPhone(trx, value);
                         } else if (type === Request.TYPE_REF_CODE) {
-                            result.response.exist = await checkRefCode(trx, value);
+                            res.exist = await checkRefCode(trx, value);
                         }
                     }
                     trx.commit();
@@ -122,13 +99,11 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
                     trx.rollback();
                     throw error;
                 }
-                return result;
             }
 
-            // COMPOSE RESULT
-            Object.defineProperty(service, 'name', {value: `${this.constructor.name}.${service.name}`});
+            // MAIN FUNCTIONALITY
+            Object.defineProperty(service, 'name', {value: `${NS}.${service.name}`});
             return service;
-        };
+        }
     }
-
 }
