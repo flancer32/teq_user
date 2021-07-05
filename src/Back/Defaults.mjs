@@ -10,7 +10,7 @@ export default class Fl32_Teq_User_Back_Defaults {
 
     /** @type {TeqFw_I18n_Defaults} */
     MOD_I18N;
-    /** @type {TeqFw_Http2_Defaults} */
+    /** @type {TeqFw_Http2_Back_Defaults} */
     MOD_HTTP2;
 
     MOD = {
@@ -28,7 +28,7 @@ export default class Fl32_Teq_User_Back_Defaults {
     constructor(spec) {
         this.SHARED = spec['Fl32_Teq_User_Shared_Defaults$'];
         this.MOD_I18N = spec['TeqFw_I18n_Defaults$'];
-        this.MOD_HTTP2 = spec['TeqFw_Http2_Defaults$'];
+        this.MOD_HTTP2 = spec['TeqFw_Http2_Back_Defaults$'];
         this.MOD.WEB = spec['TeqFw_Web_Back_Defaults$'];
         // redefine props after dependencies was injected
         this.HTTP_SHARE_CTX_SESSION_ID = `${this.SHARED.NAME}/sessionId`;  // Attribute of the HTTP request to share session ID.

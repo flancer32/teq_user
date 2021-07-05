@@ -22,23 +22,21 @@ const NS = 'Fl32_Teq_User_Plugin_Http2_Handler_Session';
 async function Factory(spec) {
     // EXTRACT DEPS
     /** @type {Fl32_Teq_User_Back_Defaults} */
-    const DEF = spec['Fl32_Teq_User_Back_Defaults$'];  // singleton
+    const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
     /** @type {TeqFw_Core_Logger} */
-    const logger = spec['TeqFw_Core_Logger$'];  // singleton
+    const logger = spec['TeqFw_Core_Logger$'];
     /** @type {Fl32_Teq_User_App_Cache_Session} */
-    const cache = spec['Fl32_Teq_User_App_Cache_Session$']; // singleton
+    const cache = spec['Fl32_Teq_User_App_Cache_Session$'];
     /** @type {TeqFw_Core_Back_RDb_Connector} */
-    const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];  // singleton
+    const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];
     /** @type {TeqFw_Core_Back_Util_Cookie} */
-    const utilCookie = spec['TeqFw_Core_Back_Util_Cookie$'];    // singleton
+    const utilCookie = spec['TeqFw_Core_Back_Util_Cookie$'];
     /** @type {TeqFw_Http2_Back_Model_Realm_Registry} */
-    const regRealms = spec['TeqFw_Http2_Back_Model_Realm_Registry$']; // singleton
+    const regRealms = spec['TeqFw_Http2_Back_Model_Realm_Registry$'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-    const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class
-    /** @type {typeof TeqFw_Http2_Back_Server_Stream_Report} */
-    const Report = spec['TeqFw_Http2_Back_Server_Stream#Report'];   // class
+    const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#'];
     /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
-    const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$']; // singleton
+    const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$'];
 
     // DEFINE INNER FUNCTIONS
 
