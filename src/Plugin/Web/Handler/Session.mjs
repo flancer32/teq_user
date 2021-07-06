@@ -33,8 +33,8 @@ export default class Factory {
         const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$'];
         /** @type {TeqFw_Web_Back_Model_Address} */
         const mAddr = spec['TeqFw_Web_Back_Model_Address$'];
-        /** @type {Function|TeqFw_Http2_Back_Util.cookieClear} */
-        const cookieClear = spec['TeqFw_Http2_Back_Util#cookieClear'];
+        /** @type {Function|TeqFw_Web_Back_Util.cookieClear} */
+        const cookieClear = spec['TeqFw_Web_Back_Util#cookieClear'];
 
         // DEFINE INSTANCE METHODS
 

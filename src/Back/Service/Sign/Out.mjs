@@ -23,8 +23,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Factory} */
         const route = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Factory$'];
-        /** @type {Function|TeqFw_Http2_Back_Util.cookieClear} */
-        const cookieClear = spec['TeqFw_Http2_Back_Util#cookieClear'];
+        /** @type {Function|TeqFw_Web_Back_Util.cookieClear} */
+        const cookieClear = spec['TeqFw_Web_Back_Util#cookieClear'];
         /** @type {TeqFw_Web_Back_Model_Address} */
         const mAddr = spec['TeqFw_Web_Back_Model_Address$'];
 

@@ -70,7 +70,6 @@ export default class Fl32_Teq_User_Front_Model_Session {
         this.checkUserAuthenticated = async function (router) {
             const result = (modelData.id > 0);
             if (!result) {
-                debugger
                 const routeCurrent = router?.currentRoute?.value?.path;
                 this.setRouteToRedirect(routeCurrent);
                 router.push(routeToSignIn);
