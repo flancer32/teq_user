@@ -4,11 +4,11 @@
 export default class Fl32_Teq_User_Front_Model_Session {
     constructor(spec) {
         // EXTRACT DEPS
-        /** @type {Fl32_Bwl_Shared_Defaults} */
-        const DEF = spec['Fl32_Bwl_Shared_Defaults$'];
+        /** @type {Fl32_Bwl_Front_Defaults} */
+        const DEF = spec['Fl32_Bwl_Front_Defaults$'];
         const {reactive} = spec[DEF.MOD_VUE.DI_VUE];
         /** @type {Fl32_Teq_User_Front_Dto_User.Factory} */
-        const fUser = spec['Fl32_Teq_User_Front_Dto_User#Factory$']; 
+        const fUser = spec['Fl32_Teq_User_Front_Dto_User#Factory$'];
         /** @type {TeqFw_Web_Front_Service_Gate} */
         const gate = spec['TeqFw_Web_Front_Service_Gate$'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
