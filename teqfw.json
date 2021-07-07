@@ -3,15 +3,6 @@
     "ns": "Fl32_Teq_User",
     "path": "./src"
   },
-  "http2": {
-    "realm": "user",
-    "handlers": [
-      {
-        "factoryId": "Fl32_Teq_User_Plugin_Http2_Handler_Session",
-        "weight": 1000
-      }
-    ]
-  },
   "web": {
     "api": {
       "realm": "user",

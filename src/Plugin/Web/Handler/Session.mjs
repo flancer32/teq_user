@@ -41,7 +41,7 @@ export default class Factory {
         this.create = async function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * Action to process web request for static files.
+             * Action to process web request.
              *
              * @param {TeqFw_Web_Back_Api_Request_IContext} context
              * @returns {Promise<void>}
@@ -165,15 +165,8 @@ export default class Factory {
                 }
             }
 
-            /**
-             * Process plugins descriptions and setup static resources mapping.
-             */
-            function initHandler() {
-                logger.debug(`Handler '${NS}' is initialized.`);
-            }
-
             // MAIN FUNCTIONALITY
-            initHandler();
+            logger.debug(`Handler '${NS}' is initialized.`);
 
             // COMPOSE RESULT
             Object.defineProperty(handle, 'name', {value: `${NS}.${handle.name}`});
