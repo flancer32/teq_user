@@ -126,7 +126,7 @@ export default class Factory {
                             const name = DEF.SESSION_COOKIE_NAME;
                             const cookie = cookieClear({name, door});
                             context.setResponseHeader(H2.HTTP2_HEADER_SET_COOKIE, cookie);
-                            context.setResponseHeader(DEF.MOD.WEB.HTTP.HEADER.STATUS, H2.HTTP_STATUS_UNAUTHORIZED.toString());
+                            context.setResponseHeader(DEF.MOD.WEB.HTTP_HEADER_STATUS, H2.HTTP_STATUS_UNAUTHORIZED.toString());
                             context.markRequestProcessed();
                         }
                         await trx.commit();
@@ -158,7 +158,7 @@ export default class Factory {
                             }
                         }
                     } catch (e) {
-                        ctx.setResponseHeader(DEF.MOD.WEB.HTTP.HEADER.STATUS, H2.HTTP_STATUS_UNAUTHORIZED.toString());
+                        ctx.setResponseHeader(DEF.MOD.WEB.HTTP_HEADER_STATUS, H2.HTTP_STATUS_UNAUTHORIZED.toString());
                         ctx.setResponseBody(e.message);
                         ctx.markRequestProcessed();
                     }

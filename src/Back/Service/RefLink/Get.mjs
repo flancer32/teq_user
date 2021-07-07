@@ -63,7 +63,7 @@ export default class Fl32_Teq_User_Back_Service_RefLink_Get {
                         link.dateExpired = new Date(linkData.date_expired);
                         res.link = link;
                     } else {
-                        context.setOutHeader(DEF.MOD.WEB.HTTP.HEADER.STATUS, H2.HTTP_STATUS_NOT_FOUND);
+                        context.setOutHeader(DEF.MOD.WEB.HTTP_HEADER_STATUS, H2.HTTP_STATUS_NOT_FOUND);
                     }
                     await trx.commit();
                 } catch (error) {
