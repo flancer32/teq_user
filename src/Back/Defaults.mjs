@@ -8,7 +8,7 @@ export default class Fl32_Teq_User_Back_Defaults {
     HTTP_SHARE_CTX_SESSION_ID = null; // bind in constructor
     HTTP_SHARE_CTX_USER = null; // bind in constructor
 
-    /** @type {TeqFw_I18n_Defaults} */
+    /** @type {TeqFw_I18n_Back_Defaults} */
     MOD_I18N;
     /** @type {TeqFw_Http2_Back_Defaults} */
     MOD_HTTP2;
@@ -27,7 +27,7 @@ export default class Fl32_Teq_User_Back_Defaults {
 
     constructor(spec) {
         this.SHARED = spec['Fl32_Teq_User_Shared_Defaults$'];
-        this.MOD_I18N = spec['TeqFw_I18n_Defaults$'];
+        this.MOD_I18N = spec['TeqFw_I18n_Back_Defaults$'];
         this.MOD_HTTP2 = spec['TeqFw_Http2_Back_Defaults$'];
         this.MOD.WEB = spec['TeqFw_Web_Back_Defaults$'];
         // init props after dependencies was injected

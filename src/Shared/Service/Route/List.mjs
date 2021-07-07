@@ -36,9 +36,9 @@ class Factory {
         /** @type {Fl32_Teq_User_Shared_Defaults} */
         const DEF = spec['Fl32_Teq_User_Shared_Defaults$'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
-        const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; // class
+        const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; 
         /** @type {Fl32_Teq_User_Shared_Service_Dto_User.Factory} */
-        const fUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#Factory$']; // singleton
+        const fUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#Factory$']; 
 
         // DEFINE INSTANCE METHODS
         this.getRoute = () => `/${DEF.NAME}${DEF.SRV.LIST}`;

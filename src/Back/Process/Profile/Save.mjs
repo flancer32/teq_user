@@ -6,11 +6,11 @@ export default class Fl32_Teq_User_Back_Process_Profile_Save {
 
     constructor(spec) {
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class
+        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; 
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class
+        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; 
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class
+        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; 
 
         /**
          * We should use separate classes for data objects in input (not services) to reduce coupling

@@ -16,7 +16,7 @@ describe('Fl32_Teq_User_Back_Process_Referral_Link_Create', () => {
 
         // get database connector then execute the process
         /** @type {TeqFw_Core_Back_RDb_Connector} */
-        const rdb = await container.get('TeqFw_Core_Back_RDb_Connector$');  // singleton instance
+        const rdb = await container.get('TeqFw_Core_Back_RDb_Connector$');
         try {
             const trx = await rdb.startTransaction();
             const res = await proc({trx, userId: 1});

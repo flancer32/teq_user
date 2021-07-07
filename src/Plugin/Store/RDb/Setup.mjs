@@ -5,21 +5,21 @@ export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
         /** @function {@type TeqFw_Core_Back_Util_RDb.nameUQ} */
         const nameUQ = spec['TeqFw_Core_Back_Util_RDb#nameUQ'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const EAuthPassword = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; // class
+        const EAuthPassword = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; 
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const EAuthSession = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; // class
+        const EAuthSession = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; 
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; // class
+        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; 
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; // class
+        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; 
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; // class
+        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; 
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#']; // class
+        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#']; 
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; // class
+        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; 
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
-        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; // class
+        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; 
 
         /**
          * TODO: tables drop should be ordered according to relations between tables (DEM).

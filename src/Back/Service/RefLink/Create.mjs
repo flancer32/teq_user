@@ -16,17 +16,17 @@ export default class Fl32_Teq_User_Back_Service_RefLink_Create {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Back_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Back_Defaults$']; // singleton
+        const DEF = spec['Fl32_Teq_User_Back_Defaults$']; 
         /** @type {TeqFw_Core_Back_RDb_Connector} */
-        const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];  // singleton
+        const rdb = spec['TeqFw_Core_Back_RDb_Connector$'];  
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process} */
-        const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$']; // singleton
+        const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$']; 
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_Create.process} */
-        const procCreate = spec['Fl32_Teq_User_Back_Process_Referral_Link_Create$']; // singleton
+        const procCreate = spec['Fl32_Teq_User_Back_Process_Referral_Link_Create$']; 
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
-        const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$']; // singleton
+        const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$']; 
         /** @type {Fl32_Teq_User_Shared_Service_Dto_RefLink.Factory} */
-        const fRefLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#Factory$']; // singleton
+        const fRefLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#Factory$']; 
         /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Create.Factory} */
         const route = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Create#Factory$'];
 

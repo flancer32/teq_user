@@ -7,12 +7,12 @@ const I18N_BUNDLE = {
 const template = `
 <form class="teqUserSignIn" onsubmit="return false">
     <q-input outlined
-             :label="$t('teqUserSignIn:user')"
+             :label="$t('user')"
              autocomplete="username"
              v-model="data.user"
     ></q-input>
     <q-input outlined
-             :label="$t('teqUserSignIn:password')"
+             :label="$t('password')"
              :type="isPwd ? 'password' : 'text'"
              autocomplete="current-password"
              v-model="data.password"
@@ -38,10 +38,10 @@ class Fl32_Teq_User_Front_Widget_SignIn_Props {
 
 function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     /** @type {Fl32_Teq_User_Back_Defaults} */
-    const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
+    // const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
     /** @type {Fl32_Teq_User_Front_Model_Session} */
     const session = spec['Fl32_Teq_User_Front_Model_Session$'];
-    const i18next = spec[DEF.MOD_I18N.DI.I18N];
+    // const i18next = spec[DEF.MOD_I18N.DI.I18N];
     /** @type {TeqFw_Web_Front_Service_Gate} */
     const gate = spec['TeqFw_Web_Front_Service_Gate$'];
     /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Factory} */
@@ -49,7 +49,7 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     /** @type {TeqFw_Core_Front_Widget_Layout_Centered} */
     const layoutCentered = spec['TeqFw_Core_Front_Widget_Layout_Centered$'];
 
-    i18next.addResourceBundle('dev', 'teqUserSignIn', I18N_BUNDLE, true);
+    // i18next.addResourceBundle('dev', 'teqUserSignIn', I18N_BUNDLE, true);
 
     return {
         name: 'UserSignIn',

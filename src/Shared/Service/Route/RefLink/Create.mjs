@@ -30,9 +30,9 @@ class Factory {
         /** @type {Fl32_Teq_User_Shared_Defaults} */
         const DEF = spec['Fl32_Teq_User_Shared_Defaults$'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_RefLink} */
-        const DLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#']; // class
+        const DLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#']; 
         /** @type {Fl32_Teq_User_Shared_Service_Dto_RefLink.Factory} */
-        const fLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#Factory$']; // singleton
+        const fLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#Factory$']; 
 
         // DEFINE INSTANCE METHODS
         this.getRoute = () => `/${DEF.NAME}${DEF.SRV.REF_LINK.CREATE}`;
