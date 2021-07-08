@@ -13,7 +13,7 @@ const NS = 'Fl32_Teq_User_Back_Process_User_Create';
 /**
  * Factory to setup execution context and to create the processor.
  *
- * @param {TeqFw_Di_SpecProxy} spec
+ * @param {TeqFw_Di_Shared_SpecProxy} spec
  * @constructs Fl32_Teq_User_Back_Process_User_Create.process
  * @memberOf Fl32_Teq_User_Back_Process_User_Create
  */

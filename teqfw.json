@@ -1,7 +1,9 @@
 {
-  "autoload": {
-    "ns": "Fl32_Teq_User",
-    "path": "./src"
+  "di": {
+    "autoload": {
+      "ns": "Fl32_Teq_User",
+      "path": "./src"
+    }
   },
   "web": {
     "api": {

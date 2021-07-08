@@ -8,7 +8,7 @@ import devEnv from '../../../../../../../../../dev/manual/DevEnv.mjs';
 describe('Fl32_Teq_User_Back_Process_Referral_Link_Create', () => {
 
     it('performs the duties', async () => {
-        /** @type {TeqFw_Di_Container} */
+        /** @type {TeqFw_Di_Shared_Container} */
         const container = await devEnv();
         /** @type {Fl32_Teq_User_Back_Process_Referral_Link_Create.process} */
         const proc = await container.get('Fl32_Teq_User_Back_Process_Referral_Link_Create$');
