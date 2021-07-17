@@ -6,20 +6,17 @@
     }
   },
   "web": {
-    "api": {
-      "realm": "user",
-      "services": [
-        "Fl32_Teq_User_Back_Service_ChangePassword",
-        "Fl32_Teq_User_Back_Service_Check_Existence",
-        "Fl32_Teq_User_Back_Service_Current",
-        "Fl32_Teq_User_Back_Service_List",
-        "Fl32_Teq_User_Back_Service_RefLink_Create",
-        "Fl32_Teq_User_Back_Service_RefLink_Get",
-        "Fl32_Teq_User_Back_Service_Sign_In",
-        "Fl32_Teq_User_Back_Service_Sign_Out",
-        "Fl32_Teq_User_Back_Service_Sign_Up$"
-      ]
-    },
+    "services": [
+      "Fl32_Teq_User_Back_Service_ChangePassword",
+      "Fl32_Teq_User_Back_Service_Check_Existence",
+      "Fl32_Teq_User_Back_Service_Current",
+      "Fl32_Teq_User_Back_Service_List",
+      "Fl32_Teq_User_Back_Service_RefLink_Create",
+      "Fl32_Teq_User_Back_Service_RefLink_Get",
+      "Fl32_Teq_User_Back_Service_Sign_In",
+      "Fl32_Teq_User_Back_Service_Sign_Out",
+      "Fl32_Teq_User_Back_Service_Sign_Up$"
+    ],
     "handlers": [
       {
         "factoryId": "Fl32_Teq_User_Plugin_Web_Handler_Session",
