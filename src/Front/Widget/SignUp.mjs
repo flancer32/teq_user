@@ -93,7 +93,7 @@ class Fl32_Teq_User_Front_Widget_SignUp_Props {
 
 function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     /** @type {Fl32_Teq_User_Back_Defaults} */
-    // const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
+    const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
     /** @type {Fl32_Teq_User_Front_Model_Session} */
     const session = spec['Fl32_Teq_User_Front_Model_Session$'];
     // const i18next = spec[DEF.MOD_I18N.DI.I18N];
@@ -109,6 +109,7 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     // i18next.addResourceBundle('dev', 'teqUser', I18N_BUNDLE, true);
 
     return {
+        teq: {package: DEF.SHARED.NAME},
         name: 'UserSignUp',
         template,
         props: {
