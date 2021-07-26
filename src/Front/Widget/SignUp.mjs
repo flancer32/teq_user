@@ -96,7 +96,6 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
     /** @type {Fl32_Teq_User_Front_Model_Session} */
     const session = spec['Fl32_Teq_User_Front_Model_Session$'];
-    // const i18next = spec[DEF.MOD_I18N.DI.I18N];
     const {isEmpty} = spec['TeqFw_Core_Shared_Util'];
     /** @type {TeqFw_Web_Front_Service_Gate} */
     const gate = spec['TeqFw_Web_Front_Service_Gate$'];
@@ -106,7 +105,6 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     const routeSignUp = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Factory$'];
 
     const TIMEOUT = 1000;
-    // i18next.addResourceBundle('dev', 'teqUser', I18N_BUNDLE, true);
 
     return {
         teq: {package: DEF.SHARED.NAME},

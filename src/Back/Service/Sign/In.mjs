@@ -1,5 +1,5 @@
 /**
- * Load i18n resources on the front.
+ * Establish new session for the user.
  *
  * @namespace Fl32_Teq_User_Back_Service_Sign_In
  */
