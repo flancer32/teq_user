@@ -38,7 +38,7 @@ export default class Fl32_Teq_User_Back_Service_RefLink_Create {
         this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_Service_IContext} context
+             * @param {TeqFw_Web_Back_Api_Service_Context} context
              * @return Promise<void>
              */
             async function service(context) {

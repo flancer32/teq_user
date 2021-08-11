@@ -63,8 +63,10 @@ export default class Fl32_Teq_User_Front_Model_Session {
         }
 
         /**
+         *
          * Redirect to sign in route if user is not authenticated. Store current route before redirect.
-         * @returns {Boolean} 'true' if user is authenticated.
+         * @param router
+         * @return {Promise<boolean>}
          */
         this.checkUserAuthenticated = async function (router) {
             const result = (modelData.id > 0);

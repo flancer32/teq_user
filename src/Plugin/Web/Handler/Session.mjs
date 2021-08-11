@@ -120,11 +120,11 @@ export default class Factory {
                             }
                         } else {
                             // clear session id from cookies
-                            const path = context.getPath();
-                            const addr = mAddr.parsePath(path);
-                            const door = addr.door ?? '';
+                            const urlPath = context.getPath();
+                            const addr = mAddr.parsePath(urlPath);
+                            const path = addr.door ? `/${addr.door}` : '/';
                             const name = DEF.SESSION_COOKIE_NAME;
-                            const cookie = cookieClear({name, door});
+                            const cookie = cookieClear({name, path});
                             context.setResponseHeader(H2.HTTP2_HEADER_SET_COOKIE, cookie);
                             context.setResponseHeader(DEF.MOD.WEB.HTTP_HEADER_STATUS, H2.HTTP_STATUS_UNAUTHORIZED.toString());
                             context.markRequestProcessed();
