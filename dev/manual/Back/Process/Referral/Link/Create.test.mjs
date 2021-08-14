@@ -15,8 +15,8 @@ describe('Fl32_Teq_User_Back_Process_Referral_Link_Create', () => {
         assert.strictEqual(proc.name, 'Fl32_Teq_User_Back_Process_Referral_Link_Create.process');
 
         // get database connector then execute the process
-        /** @type {TeqFw_Core_Back_RDb_Connector} */
-        const rdb = await container.get('TeqFw_Core_Back_RDb_Connector$');
+        /** @type {TeqFw_Db_Back_RDb_Connect} */
+        const rdb = await container.get('TeqFw_Db_Back_RDb_Connect$');
         try {
             const trx = await rdb.startTransaction();
             const res = await proc({trx, userId: 1});
