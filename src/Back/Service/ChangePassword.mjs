@@ -16,8 +16,8 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
     constructor(spec) {
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];    
-        /** @type {TeqFw_Db_Back_RDb_Connect} */
-        const rdb = spec['TeqFw_Db_Back_RDb_Connect$'];  
+        /** @type {TeqFw_Db_Back_Api_IConnect} */
+        const rdb = spec['TeqFw_Db_Back_Api_IConnect$'];  
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
         const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; 
         /** @type {Fl32_Teq_User_Shared_Service_Route_ChangePassword.Factory} */

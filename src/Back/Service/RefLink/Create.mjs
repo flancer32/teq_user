@@ -17,8 +17,8 @@ export default class Fl32_Teq_User_Back_Service_RefLink_Create {
     constructor(spec) {
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
-        /** @type {TeqFw_Db_Back_RDb_Connect} */
-        const rdb = spec['TeqFw_Db_Back_RDb_Connect$'];
+        /** @type {TeqFw_Db_Back_Api_IConnect} */
+        const rdb = spec['TeqFw_Db_Back_Api_IConnect$'];
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process} */
         const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$'];
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_Create.process} */
@@ -46,7 +46,7 @@ export default class Fl32_Teq_User_Back_Service_RefLink_Create {
 
                 // MAIN FUNCTIONALITY
                 /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Create.Request} */
-                const req = context.getInData();
+                // const req = context.getInData();
                 /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Create.Response} */
                 const res = context.getOutData();
                 const shared = context.getHandlersShare();

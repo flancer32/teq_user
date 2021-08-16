@@ -17,8 +17,8 @@ export default class Fl32_Teq_User_Back_Service_RefLink_Get {
         // EXTRACT DEPS
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
-        /** @type {TeqFw_Db_Back_RDb_Connect} */
-        const rdb = spec['TeqFw_Db_Back_RDb_Connect$'];
+        /** @type {TeqFw_Db_Back_Api_IConnect} */
+        const rdb = spec['TeqFw_Db_Back_Api_IConnect$'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Factory} */
         const route = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Get#Factory$'];
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process} */
