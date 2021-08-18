@@ -1,11 +1,11 @@
 {
-  "di": {
+  "@teqfw/di": {
     "autoload": {
       "ns": "Fl32_Teq_User",
       "path": "./src"
     }
   },
-  "web": {
+  "@teqfw/web": {
     "services": [
       "Fl32_Teq_User_Back_Service_ChangePassword",
       "Fl32_Teq_User_Back_Service_Check_Existence",
