@@ -1,0 +1,230 @@
+{
+  "package": {
+    "user": {
+      "entity": {
+        ".": {
+          "comment": "Users registry.",
+          "attribute": {
+            "id": {
+              "type": "id"
+            },
+            "date_created": {
+              "comment": "Date-time for registration of the user.",
+              "type": "datetime",
+              "default": "current"
+            }
+          },
+          "index": {
+            "PK": {"type": "primary", "attrs": ["id"]}
+          }
+        },
+        "profile": {
+          "comment": "User personification.",
+          "attribute": {
+            "user_ref": {
+              "type": "ref"
+            },
+            "name": {
+              "type": {
+                "text": {
+                  "length": 64
+                }
+              },
+              "comment": "Name to display in profile."
+            }
+          },
+          "index": {
+            "PK": {"type": "primary", "attrs": ["user_ref"]}
+          },
+          "relation": {
+            "user": {
+              "attrs": ["user_ref"],
+              "ref": {
+                "path": "/user",
+                "attrs": ["id"]
+              }
+            }
+          }
+        }
+      },
+      "package": {
+        "auth": {
+          "comment": "Authentication related entities.",
+          "entity": {
+            "password": {
+              "comment": "Authentication by password.",
+              "attr": {
+                "login": {
+                  "comment": "Login name as user identity.",
+                  "type": "string"
+                },
+                "user_ref": {
+                  "type": "ref"
+                },
+                "password_hash": {
+                  "type": "string"
+                }
+              },
+              "index": {
+                "PK": {"type": "primary", "attrs": ["login"]},
+                "userRefUQ": {"type": "unique", "attrs": ["user_ref"]}
+              },
+              "relation": {
+                "user": {
+                  "attrs": ["user_ref"],
+                  "ref": {
+                    "path": "/user",
+                    "attrs": ["id"]
+                  }
+                }
+              }
+            },
+            "session": {
+              "comment": "Registry for opened sessions.",
+              "attr": {
+                "session_id": {
+                  "comment": "Unique ID for user session.",
+                  "type": "string"
+                },
+                "user_ref": {
+                  "type": "ref"
+                },
+                "date_created": {
+                  "comment": "Date-time for session registration.",
+                  "type": "datetime",
+                  "default": "current"
+                }
+              },
+              "index": {
+                "PK": {"type": "primary", "attrs": ["session_id"]}
+              },
+              "relation": {
+                "user": {
+                  "attrs": ["user_ref"],
+                  "ref": {
+                    "path": "/user",
+                    "attrs": ["id"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "id": {
+          "comment": "Identification related entities.",
+          "entity": {
+            "email": {
+              "comment": "Emails as identifiers for users.",
+              "attr": {
+                "email": {
+                  "type": "string"
+                },
+                "user_ref": {
+                  "type": "ref"
+                }
+              },
+              "index": {
+                "PK": {"type": "primary", "attrs": ["email"]}
+              },
+              "relation": {
+                "user": {
+                  "attrs": ["user_ref"],
+                  "ref": {
+                    "path": "/user",
+                    "attrs": ["id"]
+                  }
+                }
+              }
+            },
+            "phone": {
+              "comment": "Phones as identifiers for users.",
+              "attr": {
+                "phone": {
+                  "type": "string"
+                },
+                "user_ref": {
+                  "type": "ref"
+                }
+              },
+              "index": {
+                "PK": {"type": "primary", "attrs": ["phone"]}
+              },
+              "relation": {
+                "user": {
+                  "attrs": ["user_ref"],
+                  "ref": {
+                    "path": "/user",
+                    "attrs": ["id"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ref": {
+          "comment": "Referral related entities.",
+          "entity": {
+            "link": {
+              "comment": "Referral links to registration.",
+              "attr": {
+                "code": {
+                  "comment": "Referral link code.",
+                  "type": "string"
+                },
+                "user_ref": {
+                  "type": "ref"
+                },
+                "date_expired": {
+                  "comment": "Date-time for referral code expiration.",
+                  "type": "datetime"
+                }
+              },
+              "index": {
+                "PK": {"type": "primary", "attrs": ["code"]}
+              },
+              "relation": {
+                "user": {
+                  "attrs": ["user_ref"],
+                  "ref": {
+                    "path": "/user",
+                    "attrs": ["id"]
+                  }
+                }
+              }
+            },
+            "tree": {
+              "comment": "Referrals tree.",
+              "attr": {
+                "user_ref": {
+                  "type": "ref"
+                },
+                "parent_ref": {
+                  "type": "ref"
+                }
+              },
+              "index": {
+                "PK": {"type": "primary", "attrs": ["user_ref"]}
+              },
+              "relation": {
+                "user": {
+                  "attrs": ["user_ref"],
+                  "ref": {
+                    "path": "/user",
+                    "attrs": ["id"]
+                  }
+                },
+                "parent": {
+                  "attrs": ["parent_ref"],
+                  "ref": {
+                    "path": "/user/ref/tree",
+                    "attrs": ["user_id"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
