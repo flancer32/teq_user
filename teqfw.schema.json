@@ -25,11 +25,7 @@
               "type": "ref"
             },
             "name": {
-              "type": {
-                "text": {
-                  "length": 64
-                }
-              },
+              "type": "string",
               "comment": "Name to display in profile."
             }
           },
