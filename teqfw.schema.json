@@ -1,26 +1,28 @@
 {
+  "entity": {
+    "user": {
+      "comment": "Users registry.",
+      "attr": {
+        "id": {
+          "type": "id"
+        },
+        "date_created": {
+          "comment": "Date-time for registration of the user.",
+          "type": "datetime",
+          "default": "current"
+        }
+      },
+      "index": {
+        "PK": {"type": "primary", "attrs": ["id"]}
+      }
+    }
+  },
   "package": {
     "user": {
       "entity": {
-        ".": {
-          "comment": "Users registry.",
-          "attribute": {
-            "id": {
-              "type": "id"
-            },
-            "date_created": {
-              "comment": "Date-time for registration of the user.",
-              "type": "datetime",
-              "default": "current"
-            }
-          },
-          "index": {
-            "PK": {"type": "primary", "attrs": ["id"]}
-          }
-        },
         "profile": {
           "comment": "User personification.",
-          "attribute": {
+          "attr": {
             "user_ref": {
               "type": "ref"
             },
