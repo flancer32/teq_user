@@ -17,8 +17,8 @@ export default class Fl32_Teq_User_Back_Service_RefLink_Create {
     constructor(spec) {
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
-        /** @type {TeqFw_Db_Back_Api_IConnect} */
-        const rdb = spec['TeqFw_Db_Back_Api_IConnect$'];
+        /** @type {TeqFw_Db_Back_Api_RDb_IConnect} */
+        const rdb = spec['TeqFw_Db_Back_Api_RDb_IConnect$'];
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process} */
         const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$'];
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_Create.process} */

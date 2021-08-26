@@ -1,25 +1,28 @@
+/**
+ * @deprecated use DEM instead of.
+ */
 export default class Fl32_Teq_User_Plugin_Store_RDb_Setup {
     constructor(spec) {
-        /** @function {@type TeqFw_Db_Back_Util.nameFK} */
-        const nameFK = spec['TeqFw_Db_Back_Util#nameFK'];
-        /** @function {@type TeqFw_Db_Back_Util.nameUQ} */
-        const nameUQ = spec['TeqFw_Db_Back_Util#nameUQ'];
+        /** @function {@type TeqFw_Db_Back_Api_Util.nameFK} */
+        const nameFK = spec['TeqFw_Db_Back_Api_Util#nameFK'];
+        /** @function {@type TeqFw_Db_Back_Api_Util.nameUQ} */
+        const nameUQ = spec['TeqFw_Db_Back_Api_Util#nameUQ'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const EAuthPassword = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; 
+        const EAuthPassword = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const EAuthSession = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; 
+        const EAuthSession = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; 
+        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; 
+        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; 
+        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#']; 
+        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; 
+        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#'];
         /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
-        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; 
+        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#'];
 
         /**
          * TODO: tables drop should be ordered according to relations between tables (DEM).

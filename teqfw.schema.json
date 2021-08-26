@@ -11,9 +11,6 @@
           "type": "datetime",
           "default": "current"
         }
-      },
-      "index": {
-        "PK": {"type": "primary", "attrs": ["id"]}
       }
     }
   },
@@ -64,8 +61,8 @@
                 }
               },
               "index": {
-                "PK": {"type": "primary", "attrs": ["login"]},
-                "userRefUQ": {"type": "unique", "attrs": ["user_ref"]}
+                "pk": {"type": "primary", "attrs": ["login"]},
+                "uq_user": {"type": "unique", "attrs": ["user_ref"]}
               },
               "relation": {
                 "user": {
@@ -73,7 +70,9 @@
                   "ref": {
                     "path": "/user",
                     "attrs": ["id"]
-                  }
+                  },
+                  "onDelete": "restrict",
+                  "onUpdate": "restrict"
                 }
               }
             },
@@ -215,7 +214,7 @@
                   "attrs": ["parent_ref"],
                   "ref": {
                     "path": "/user/ref/tree",
-                    "attrs": ["user_id"]
+                    "attrs": ["user_ref"]
                   }
                 }
               }

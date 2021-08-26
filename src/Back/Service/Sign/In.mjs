@@ -19,8 +19,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         // EXTRACT DEPS
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
-        /** @type {TeqFw_Db_Back_Api_IConnect} */
-        const rdb = spec['TeqFw_Db_Back_Api_IConnect$'];
+        /** @type {TeqFw_Db_Back_Api_RDb_IConnect} */
+        const rdb = spec['TeqFw_Db_Back_Api_RDb_IConnect$'];
         /** @type {Function|TeqFw_Web_Back_Util.cookieCreate} */
         const cookieCreate = spec['TeqFw_Web_Back_Util#cookieCreate'];
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
