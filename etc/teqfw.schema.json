@@ -223,5 +223,8 @@
         }
       }
     }
+  },
+  "refs": {
+    "/virtual/entity": ["attr1", "attr2"]
   }
 }
