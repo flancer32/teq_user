@@ -6,6 +6,12 @@
     }
   },
   "@teqfw/web": {
+    "handlers": {
+      "Fl32_Teq_User_Plugin_Web_Handler_Session": {
+        "before": "TeqFw_Web_Plugin_Web_Handler_Service",
+        "weight": 1000
+      }
+    },
     "services": [
       "Fl32_Teq_User_Back_Service_ChangePassword",
       "Fl32_Teq_User_Back_Service_Check_Existence",
@@ -16,13 +22,6 @@
       "Fl32_Teq_User_Back_Service_Sign_In",
       "Fl32_Teq_User_Back_Service_Sign_Out",
       "Fl32_Teq_User_Back_Service_Sign_Up$"
-    ],
-    "handlers": [
-      {
-        "factoryId": "Fl32_Teq_User_Plugin_Web_Handler_Session",
-        "before": "TeqFw_Web_Plugin_Web_Handler_Service",
-        "weight": 1000
-      }
     ]
   }
 }
