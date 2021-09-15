@@ -16,7 +16,7 @@ const NS = 'Fl32_Teq_User_Back_Process_Referral_Link_CleanUp';
  */
 function Factory(spec) {
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-    const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#']; 
+    const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];
 
     /**
      * Process to clean up expired referral link.
@@ -35,5 +35,5 @@ function Factory(spec) {
 }
 
 // MODULE'S EXPORT
-Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
+Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.name}`});
 export default Factory;

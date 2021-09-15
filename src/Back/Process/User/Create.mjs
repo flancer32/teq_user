@@ -21,17 +21,17 @@ function Factory(spec) {
     /** @type {Fl32_Teq_User_Back_Defaults} */
     const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-    const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; 
+    const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-    const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#']; 
+    const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-    const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#']; 
+    const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
     const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-    const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; 
+    const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
-    const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; 
+    const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#'];
 
     /**
      * Process to add new user.
@@ -93,5 +93,5 @@ function Factory(spec) {
 }
 
 // MODULE'S EXPORT
-Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
+Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.name}`});
 export default Factory;

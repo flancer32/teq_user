@@ -14,15 +14,15 @@ const NS = 'Fl32_Teq_User_Store_RDb_Query_GetUsers';
  */
 function Factory(spec) {
     /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
-    const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; 
+    const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-    const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#']; 
+    const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
-    const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#']; 
+    const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-    const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#']; 
+    const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#'];
     /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
-    const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#']; 
+    const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#'];
 
     // DEFINE INNER FUNCTIONS
     /**
@@ -70,7 +70,7 @@ function Factory(spec) {
 }
 
 // MODULE'S FUNCTIONALITY
-Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.constructor.name}`});
+Object.defineProperty(Factory, 'name', {value: `${NS}.${Factory.name}`});
 
 // MODULE'S EXPORT
 export default Factory;
