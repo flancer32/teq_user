@@ -35,10 +35,10 @@ class Factory {
         // EXTRACT DEPS
         /** @type {Fl32_Teq_User_Shared_Defaults} */
         const DEF = spec['Fl32_Teq_User_Shared_Defaults$'];
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
-        const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; 
+        /** @type {Function|TeqFw_Core_Shared_Util_Cast.castArrayOfObj} */
+        const castArrayOfObj = spec['TeqFw_Core_Shared_Util_Cast#castArrayOfObj'];
         /** @type {Fl32_Teq_User_Shared_Service_Dto_User.Factory} */
-        const fUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#Factory$']; 
+        const fUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#Factory$'];
 
         // DEFINE INSTANCE METHODS
         this.getRoute = () => `/${DEF.NAME}${DEF.SRV.LIST}`;
@@ -59,9 +59,7 @@ class Factory {
          */
         this.createRes = function (data = null) {
             const res = new Response();
-            res.items = Array.isArray(data?.items)
-                ? data.items.map((one) => (one instanceof DUser) ? one : fUser.create(one))
-                : [];
+            res.items =castArrayOfObj(data?.items, fUser.create);
             return res;
         }
     }
