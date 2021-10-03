@@ -15,14 +15,14 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
         // EXTRACT DEPS
         /** @type {TeqFw_Db_Back_Api_RDb_IConnect} */
         const rdb = spec['TeqFw_Db_Back_Api_RDb_IConnect$'];
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#'];
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#'];
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#'];
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
+        const EAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password#'];
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
+        const EIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email#'];
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
+        const EIdPhone = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone#'];
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
+        const ERefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link#'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence.Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Request'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Factory} */

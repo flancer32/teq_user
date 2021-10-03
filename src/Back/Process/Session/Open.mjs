@@ -8,8 +8,8 @@ export default class Fl32_Teq_User_Back_Process_Session_Open {
     constructor(spec) {
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];    
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#']; 
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session} */
+        const EAuthSess = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session#']; 
 
         /**
          * We should use separate classes for data objects in input (not services) to reduce coupling

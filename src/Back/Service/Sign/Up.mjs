@@ -24,20 +24,20 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const rdb = spec['TeqFw_Db_Back_Api_RDb_IConnect$'];
         /** @type {Function|TeqFw_Web_Back_Util.cookieCreate} */
         const cookieCreate = spec['TeqFw_Web_Back_Util#cookieCreate'];
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#'];
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
-        const EIdEmail = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Email#'];
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
-        const EIdPhone = spec['Fl32_Teq_User_Store_RDb_Schema_Id_Phone#'];
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
-        const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#'];
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
-        const ERefLink = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Link#'];
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-        const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#'];
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
-        const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#'];
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
+        const EAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password#'];
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
+        const EIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email#'];
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
+        const EIdPhone = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone#'];
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Profile} */
+        const EProfile = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Profile#'];
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
+        const ERefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link#'];
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree} */
+        const ERefTree = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree#'];
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_User} */
+        const EUser = spec['Fl32_Teq_User_Back_Store_RDb_Schema_User#'];
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
         const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Factory} */

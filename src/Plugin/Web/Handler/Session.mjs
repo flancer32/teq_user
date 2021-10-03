@@ -27,8 +27,8 @@ export default class Factory {
         const cache = spec['Fl32_Teq_User_App_Cache_Session$'];
         /** @type {TeqFw_Db_Back_Api_RDb_IConnect} */
         const rdb = spec['TeqFw_Db_Back_Api_RDb_IConnect$'];
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#'];
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session} */
+        const EAuthSess = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session#'];
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
         const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$'];
         /** @type {TeqFw_Web_Back_Model_Address} */

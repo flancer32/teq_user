@@ -25,8 +25,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         const cookieCreate = spec['TeqFw_Web_Back_Util#cookieCreate'];
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
         const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$'];
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-        const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#'];
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
+        const EAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password#'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Factory} */
         const route = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Factory$'];
         /** @type {TeqFw_Web_Back_Model_Address} */

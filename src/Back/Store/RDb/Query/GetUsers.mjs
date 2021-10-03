@@ -1,34 +1,34 @@
 /**
  * Query to get users data.
  *
- * @namespace Fl32_Teq_User_Store_RDb_Query_GetUsers
+ * @namespace Fl32_Teq_User_Back_Store_RDb_Query_GetUsers
  */
 // MODULE'S VARS
-const NS = 'Fl32_Teq_User_Store_RDb_Query_GetUsers';
+const NS = 'Fl32_Teq_User_Back_Store_RDb_Query_GetUsers';
 
 /**
  * Factory to create builder to get queries.
  *
- * @memberOf Fl32_Teq_User_Store_RDb_Query_GetUsers
+ * @memberOf Fl32_Teq_User_Back_Store_RDb_Query_GetUsers
  * @returns {function(*): *}
  */
 function Factory(spec) {
     /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
     const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
-    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
-    const EAuthPass = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password#'];
-    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Profile} */
-    const EProfile = spec['Fl32_Teq_User_Store_RDb_Schema_Profile#'];
-    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
-    const ERefTree = spec['Fl32_Teq_User_Store_RDb_Schema_Ref_Tree#'];
-    /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_User} */
-    const EUser = spec['Fl32_Teq_User_Store_RDb_Schema_User#'];
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
+    const EAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password#'];
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Profile} */
+    const EProfile = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Profile#'];
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree} */
+    const ERefTree = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree#'];
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_User} */
+    const EUser = spec['Fl32_Teq_User_Back_Store_RDb_Schema_User#'];
 
     // DEFINE INNER FUNCTIONS
     /**
      * @param trx
      * @returns {*}
-     * @memberOf Fl32_Teq_User_Store_RDb_Query_GetUsers
+     * @memberOf Fl32_Teq_User_Back_Store_RDb_Query_GetUsers
      */
     function queryBuilder(trx) {
 

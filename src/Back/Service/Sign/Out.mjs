@@ -19,8 +19,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
         /** @type {TeqFw_Db_Back_Api_RDb_IConnect} */
         const rdb = spec['TeqFw_Db_Back_Api_RDb_IConnect$'];
-        /** @type {typeof Fl32_Teq_User_Store_RDb_Schema_Auth_Session} */
-        const EAuthSess = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Session#'];
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session} */
+        const EAuthSess = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session#'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Factory} */
         const route = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Factory$'];
         /** @type {Function|TeqFw_Web_Back_Util.cookieClear} */
