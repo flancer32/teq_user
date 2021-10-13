@@ -25,8 +25,8 @@ export default class Factory {
         const logger = spec['TeqFw_Core_Shared_Logger$'];
         /** @type {Fl32_Teq_User_App_Cache_Session} */
         const cache = spec['Fl32_Teq_User_App_Cache_Session$'];
-        /** @type {TeqFw_Db_Back_Api_RDb_IConnect} */
-        const rdb = spec['TeqFw_Db_Back_Api_RDb_IConnect$'];
+        /** @type {TeqFw_Db_Back_RDb_IConnect} */
+        const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session} */
         const EAuthSess = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session#'];
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */

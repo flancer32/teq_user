@@ -13,8 +13,8 @@ export default class Fl32_Teq_User_Back_Service_List {
 
     constructor(spec) {
         // EXTRACT DEPS
-        /** @type {TeqFw_Db_Back_Api_RDb_IConnect} */
-        const rdb = spec['TeqFw_Db_Back_Api_RDb_IConnect$'];
+        /** @type {TeqFw_Db_Back_RDb_IConnect} */
+        const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
         const EAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password#'];
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */

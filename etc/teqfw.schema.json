@@ -1,19 +1,4 @@
 {
-  "entity": {
-    "user": {
-      "comment": "Users registry.",
-      "attr": {
-        "id": {
-          "type": "id"
-        },
-        "date_created": {
-          "comment": "Date-time for registration of the user.",
-          "type": "datetime",
-          "default": "current"
-        }
-      }
-    }
-  },
   "package": {
     "user": {
       "entity": {
@@ -225,6 +210,6 @@
     }
   },
   "refs": {
-    "/virtual/entity": ["attr1", "attr2"]
+    "/user": ["id"]
   }
 }
