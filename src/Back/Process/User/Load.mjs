@@ -15,16 +15,22 @@ const NS = 'Fl32_Teq_User_Back_Process_User_Load';
  * @memberOf Fl32_Teq_User_Back_Process_User_Load
  */
 function Factory(spec) {
+    /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
+    const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
     /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
     const EIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email#'];
     /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
     const EIdPhone = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone#'];
-    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_User} */
-    const EUser = spec['Fl32_Teq_User_Back_Store_RDb_Schema_User#'];
-    /** @function {@type Fl32_Teq_User_Back_Store_RDb_Query_GetUsers.queryBuilder}*/
+    /** @type {Fl32_Teq_User_Back_Store_RDb_Query_GetUsers.queryBuilder|function}*/
     const qbGetUsers = spec['Fl32_Teq_User_Back_Store_RDb_Query_GetUsers$'];
     /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
     const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
+    /** @type {TeqFw_User_Back_Store_RDb_Schema_User} */
+    const metaUser = spec['TeqFw_User_Back_Store_RDb_Schema_User$'];
+
+    // DEFINE WORKING VARS / PROPS
+    /** @type {typeof TeqFw_User_Back_Store_RDb_Schema_User.ATTR} */
+    const A_USER = metaUser.getAttributes();
 
     /**
      * Process to load user profile data.
@@ -60,14 +66,14 @@ function Factory(spec) {
         }
 
         /**
-         * @param trx
+         * @param {TeqFw_Db_Back_RDb_ITrans} trx
          * @param {Number} userId
          * @returns {Promise<Fl32_Teq_User_Shared_Service_Dto_User|null>}
          */
         async function getUserById(trx, userId) {
             let result = null;
             const query = qbGetUsers(trx);
-            query.where(EUser.A_ID, userId);
+            query.where(A_USER.ID, userId);
             const rows = await query;
             if (rows[0]) {
                 /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */

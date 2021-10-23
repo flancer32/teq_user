@@ -25,12 +25,16 @@ export default class Fl32_Teq_User_Back_Service_List {
         const EProfile = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Profile#'];
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree} */
         const ERefTree = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree#'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_User} */
-        const EUser = spec['Fl32_Teq_User_Back_Store_RDb_Schema_User#'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_List.Factory} */
         const route = spec['Fl32_Teq_User_Shared_Service_Route_List#Factory$'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
         const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
+        /** @type {TeqFw_User_Back_Store_RDb_Schema_User} */
+        const metaUser = spec['TeqFw_User_Back_Store_RDb_Schema_User$'];
+
+        // DEFINE WORKING VARS / PROPS
+        /** @type {typeof TeqFw_User_Back_Store_RDb_Schema_User.ATTR} */
+        const A_USER = metaUser.getAttributes();
 
         // DEFINE INSTANCE METHODS
 
@@ -46,10 +50,12 @@ export default class Fl32_Teq_User_Back_Service_List {
                 // DEFINE INNER FUNCTIONS
                 /**
                  * Select data for all users w/o conditions.
-                 * @param trx
+                 * @param {TeqFw_Db_Back_RDb_ITrans} trx
                  * @returns {Promise<Object<Number, Fl32_Teq_User_Shared_Service_Dto_User>>}
                  */
                 async function selectUsers(trx) {
+                    // DEFINE WORKING VARS / PROPS
+                    const T_USER = trx.getTableName(metaUser);
 
                     // DEFINE INNER FUNCTIONS
 
@@ -101,25 +107,25 @@ export default class Fl32_Teq_User_Back_Service_List {
                      */
                     async function getUsers(trx) {
                         const result = {};
-                        const query = trx.from({u: EUser.ENTITY});
+                        const query = trx.from({u: T_USER});
                         query.select([
-                            {[User.ID]: `u.${EUser.A_ID}`},
-                            {[User.DATE_CREATED]: `u.${EUser.A_DATE_CREATED}`},
+                            {[User.ID]: `u.${A_USER.ID}`},
+                            {[User.DATE_CREATED]: `u.${A_USER.DATE_CREATED}`},
                         ]);
                         query.leftOuterJoin(
                             {p: EProfile.ENTITY},
                             `p.${EProfile.A_USER_REF}`,
-                            `u.${EUser.A_ID}`);
+                            `u.${A_USER.ID}`);
                         query.select([{[User.NAME]: `p.${EProfile.A_NAME}`}]);
                         query.leftOuterJoin(
                             {a: EAuthPass.ENTITY},
                             `a.${EAuthPass.A_USER_REF}`,
-                            `u.${EUser.A_ID}`);
+                            `u.${A_USER.ID}`);
                         query.select([{[User.LOGIN]: `a.${EAuthPass.A_LOGIN}`}]);
                         query.leftOuterJoin(
                             {t: ERefTree.ENTITY},
                             `t.${ERefTree.A_USER_REF}`,
-                            `u.${EUser.A_ID}`);
+                            `u.${A_USER.ID}`);
                         query.select([{[User.PARENT_ID]: `t.${ERefTree.A_PARENT_REF}`}]);
 
                         const rows = await query;
@@ -133,10 +139,10 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                     // MAIN FUNCTIONALITY
                     // get main data (mapped 1-to-1 to userId)
-                    const result = await getUsers(trx);
+                    const result = await getUsers(trx.getTrx());
                     // add multiple attributes (email(s) & phone(s))
-                    await populateWithEmails(trx, result);
-                    await populateWithPhones(trx, result);
+                    await populateWithEmails(trx.getTrx(), result);
+                    await populateWithPhones(trx.getTrx(), result);
                     return result;
                 }
 

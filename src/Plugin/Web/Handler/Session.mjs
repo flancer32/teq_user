@@ -98,7 +98,7 @@ export default class Factory {
                     const trx = await rdb.startTransaction();
 
                     try {
-                        const sess = await getSessionById(trx, sessId);
+                        const sess = await getSessionById(trx.getTrx(), sessId);
                         if (sess) {
                             const userId = sess[EAuthSess.A_USER_REF];
                             const dateInit = sess[EAuthSess.A_DATE_CREATED];

@@ -20,10 +20,12 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         // EXTRACT DEPS
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
-        /** @type {TeqFw_Db_Back_RDb_IConnect} */
-        const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {Function|TeqFw_Web_Back_Util.cookieCreate} */
         const cookieCreate = spec['TeqFw_Web_Back_Util#cookieCreate'];
+        /** @type {TeqFw_Db_Back_RDb_IConnect} */
+        const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
+        /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
+        const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
         const EAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password#'];
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
@@ -35,9 +37,6 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
         const ERefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link#'];
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree} */
-        const ERefTree = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree#'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_User} */
-        const EUser = spec['Fl32_Teq_User_Back_Store_RDb_Schema_User#'];
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
         const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Factory} */
@@ -46,6 +45,12 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const mAddr = spec['TeqFw_Web_Back_Model_Address$'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
         const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
+        /** @type {TeqFw_User_Back_Store_RDb_Schema_User} */
+        const metaUser = spec['TeqFw_User_Back_Store_RDb_Schema_User$'];
+
+        // DEFINE WORKING VARS / PROPS
+        /** @type {typeof TeqFw_User_Back_Store_RDb_Schema_User.ATTR} */
+        const A_USER = metaUser.getAttributes();
 
         // DEFINE INSTANCE METHODS
 
@@ -61,7 +66,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                 // DEFINE INNER FUNCTIONS
                 /**
                  * Register new user and return ID.
-                 * @param trx
+                 * @param {TeqFw_Db_Back_RDb_ITrans} trx
                  * @param {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request} req
                  * @param {Number} parentId
                  * @returns {Promise<Number>}
@@ -81,41 +86,41 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
 
                     // MAIN FUNCTIONALITY
                     // register user
-                    const rs = await trx(EUser.ENTITY).insert({}, EUser.A_ID);
-                    const userId = rs[0];
+                    const pkey = await crud.create(trx, metaUser, {});
+                    const userId = pkey[A_USER.ID];
                     // register login & password
                     const hash = await $bcrypt.hash(req.password, DEF.BCRYPT_HASH_ROUNDS);
-                    await trx(EAuthPass.ENTITY).insert({
+                    await trx.getQuery(EAuthPass.ENTITY).insert({
                         [EAuthPass.A_USER_REF]: userId,
                         [EAuthPass.A_LOGIN]: req.login.trim().toLowerCase(),
                         [EAuthPass.A_PASSWORD_HASH]: hash,
                     });
                     // register profile
-                    await trx(EProfile.ENTITY).insert({
+                    await trx.getQuery(EProfile.ENTITY).insert({
                         [EProfile.A_USER_REF]: userId,
                         [EProfile.A_NAME]: req.name.trim(),
                     });
                     // register user in the referrals tree
-                    await trx(ERefTree.ENTITY).insert({
+                    await trx.getQuery(ERefTree.ENTITY).insert({
                         [ERefTree.A_USER_REF]: userId,
                         [ERefTree.A_PARENT_REF]: parentId,
                     });
                     // register referral code for the user
                     const code = await generateReferralCode(trx);
-                    await trx(ERefLink.ENTITY).insert({
+                    await trx.getQuery(ERefLink.ENTITY).insert({
                         [ERefLink.A_USER_REF]: userId,
                         [ERefLink.A_CODE]: code,
                     });
                     // register email
                     if (typeof req.email === 'string') {
-                        await trx(EIdEmail.ENTITY).insert({
+                        await trx.getQuery(EIdEmail.ENTITY).insert({
                             [EIdEmail.A_USER_REF]: userId,
                             [EIdEmail.A_EMAIL]: req.email.trim().toLowerCase(),
                         });
                     }
                     // register phone
                     if (typeof req.phone === 'string') {
-                        await trx(EIdPhone.ENTITY).insert({
+                        await trx.getQuery(EIdPhone.ENTITY).insert({
                             [EIdPhone.A_USER_REF]: userId,
                             [EIdPhone.A_PHONE]: req.phone.trim().toLowerCase(),
                         });
@@ -147,11 +152,13 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
 
                 /**
                  * Select data for newly registered user.
-                 * @param trx
+                 * @param {TeqFw_Db_Back_RDb_ITrans} trx
                  * @param {Number} userId
                  * @returns {Promise<Fl32_Teq_User_Shared_Service_Dto_User>}
                  */
                 async function selectUser(trx, userId) {
+                    // DEFINE WORKING VARS / PROPS
+                    const T_USER = trx.getTableName(metaUser);
 
                     // DEFINE INNER FUNCTIONS
 
@@ -187,28 +194,28 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                      * @returns {Promise<Fl32_Teq_User_Shared_Service_Dto_User>}
                      */
                     async function getUser(trx, userId) {
-                        const query = trx.from({u: EUser.ENTITY});
+                        const query = trx.from({u: T_USER});
                         query.select([
-                            {[DUser.ID]: `u.${EUser.A_ID}`},
-                            {[DUser.DATE_CREATED]: `u.${EUser.A_DATE_CREATED}`},
+                            {[DUser.ID]: `u.${A_USER.ID}`},
+                            {[DUser.DATE_CREATED]: `u.${A_USER.DATE_CREATED}`},
                         ]);
                         query.leftOuterJoin(
                             {p: EProfile.ENTITY},
                             `p.${EProfile.A_USER_REF}`,
-                            `u.${EUser.A_ID}`);
+                            `u.${A_USER.ID}`);
                         query.select([{[DUser.NAME]: `p.${EProfile.A_NAME}`}]);
                         query.leftOuterJoin(
                             {a: EAuthPass.ENTITY},
                             `a.${EAuthPass.A_USER_REF}`,
-                            `u.${EUser.A_ID}`);
+                            `u.${A_USER.ID}`);
                         query.select([{[DUser.LOGIN]: `a.${EAuthPass.A_LOGIN}`}]);
                         query.leftOuterJoin(
                             {t: ERefTree.ENTITY},
                             `t.${ERefTree.A_USER_REF}`,
-                            `u.${EUser.A_ID}`);
+                            `u.${A_USER.ID}`);
                         query.select([{[DUser.PARENT_ID]: `t.${ERefTree.A_PARENT_REF}`}]);
 
-                        query.where(`u.${EUser.A_ID}`, userId);
+                        query.where(`u.${A_USER.ID}`, userId);
                         const rows = await query;
                         return Object.assign(new DUser(), rows[0]);
                     }
@@ -229,13 +236,13 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                 //
                 const trx = await rdb.startTransaction();
                 try {
-                    const parentId = await getUserIdByRefCode(trx, req.referralCode);
+                    const parentId = await getUserIdByRefCode(trx.getTrx(), req.referralCode);
                     if (parentId) {
                         // register new user in the tables
                         const userId = await addUser(trx, req, parentId);
                         // select user data to compose API response
                         res.user = await selectUser(trx, userId);
-                        const {output} = await procSessionOpen.exec({trx, userId});
+                        const {output} = await procSessionOpen.exec({trx: trx.getTrx(), userId});
                         res.sessionId = output.sessId;
                         // set session cookie
                         const pathHttp = context.getRequestContext().getPath();
