@@ -34,7 +34,7 @@ function Factory(spec) {
 
     /**
      * Process to load user profile data.
-     * @param trx
+     * @param {TeqFw_Db_Back_RDb_ITrans} trx
      * @param {Number} userId
      * @returns {Promise<Fl32_Teq_User_Shared_Service_Dto_User>}
      * @memberOf Fl32_Teq_User_Back_Process_User_Load
@@ -94,8 +94,8 @@ function Factory(spec) {
             user.parentName = user.name;
         }
         // emails & phones
-        user.emails = await getEmails(trx, user.id);
-        user.phones = await getPhones(trx, user.id);
+        user.emails = await getEmails(trx.getTrx(), user.id);
+        user.phones = await getPhones(trx.getTrx(), user.id);
 
         // COMPOSE RESULT
         return user;

@@ -14,9 +14,9 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
     constructor(spec) {
         // EXTRACT DEPS
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
-        const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
-        const EAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password#'];
+        const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
+        /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
+        const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
         const EIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email#'];
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
@@ -27,6 +27,12 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Request'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Factory} */
         const route = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Factory$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
+        const metaAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password$'];
+
+        // DEFINE WORKING VARS / PROPS
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password.ATTR} */
+        const A_AUTH_PASS = metaAuthPass.getAttributes();
 
         // DEFINE INSTANCE METHODS
         this.getRouteFactory = () => route;
@@ -41,23 +47,25 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
                 // DEFINE INNER FUNCTIONS
 
                 async function checkEmail(trx, value) {
-                    const query = trx.from(EIdEmail.ENTITY);
+                    const query = trx.getQuery(EIdEmail.ENTITY);
                     query.select([EIdEmail.A_USER_REF]);
                     query.where(EIdEmail.A_EMAIL, value);
                     const rs = await query;
                     return (rs.length >= 1);
                 }
 
+                /**
+                 * @param {TeqFw_Db_Back_RDb_ITrans} trx
+                 * @param value
+                 * @return {Promise<boolean>}
+                 */
                 async function checkLogin(trx, value) {
-                    const query = trx.from(EAuthPass.ENTITY);
-                    query.select([EAuthPass.A_USER_REF]);
-                    query.where(EAuthPass.A_LOGIN, value);
-                    const rs = await query;
-                    return (rs.length >= 1);
+                    const dto = await crud.readOne(trx, metaAuthPass, {[A_AUTH_PASS.LOGIN]: value});
+                    return (dto !== null);
                 }
 
                 async function checkPhone(trx, value) {
-                    const query = trx.from(EIdPhone.ENTITY);
+                    const query = trx.getQuery(EIdPhone.ENTITY);
                     query.select([EIdPhone.A_USER_REF]);
                     query.where(EIdPhone.A_PHONE, value);
                     const rs = await query;
@@ -65,7 +73,7 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
                 }
 
                 async function checkRefCode(trx, value) {
-                    const query = trx.from(ERefLink.ENTITY);
+                    const query = trx.getQuery(ERefLink.ENTITY);
                     query.select([ERefLink.A_USER_REF]);
                     query.where(ERefLink.A_CODE, value);
                     const rs = await query;
@@ -78,7 +86,7 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Response} */
                 const res = context.getOutData();
                 //
-                const trx = await rdb.startTransaction();
+                const trx = await conn.startTransaction();
                 try {
                     const type = req.type;
                     if (req.value) {
@@ -94,9 +102,9 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
                             res.exist = await checkRefCode(trx, value);
                         }
                     }
-                    trx.commit();
+                    await trx.commit();
                 } catch (error) {
-                    trx.rollback();
+                    await trx.rollback();
                     throw error;
                 }
             }

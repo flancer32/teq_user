@@ -22,7 +22,7 @@ export default class Fl32_Teq_User_Back_Defaults {
     SESSION_COOKIE_NAME = 'TEQ_SESSION_ID';
     SESSION_ID_BYTES = 20;  // Number of bytes for generated session ID.
 
-    /** @type {TeqFw_Web_Shared_Defaults} */
+    /** @type {Fl32_Teq_User_Shared_Defaults} */
     SHARED = null;
 
     constructor(spec) {

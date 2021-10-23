@@ -15,18 +15,22 @@ const NS = 'Fl32_Teq_User_Back_Store_RDb_Query_GetUsers';
 function Factory(spec) {
     /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
     const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
-    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
-    const EAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password#'];
-    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Profile} */
-    const EProfile = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Profile#'];
     /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree} */
     const ERefTree = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree#'];
     /** @type {TeqFw_User_Back_Store_RDb_Schema_User} */
     const metaUser = spec['TeqFw_User_Back_Store_RDb_Schema_User$'];
+    /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Profile} */
+    const metaProfile = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Profile$'];
+    /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
+    const metaAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password$'];
 
     // DEFINE WORKING VARS / PROPS
     /** @type {typeof TeqFw_User_Back_Store_RDb_Schema_User.ATTR} */
     const A_USER = metaUser.getAttributes();
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Profile.ATTR} */
+    const A_PROFILE = metaProfile.getAttributes();
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password.ATTR} */
+    const A_AUTH_PASS = metaAuthPass.getAttributes();
 
     // DEFINE INNER FUNCTIONS
     /**
@@ -42,6 +46,8 @@ function Factory(spec) {
         const USER = 'u';
 
         const T_USER = trx.getTableName(metaUser);
+        const T_PROFILE = trx.getTableName(metaProfile);
+        const T_AUTH_PASS = trx.getTableName(metaAuthPass);
 
 
         // MAIN FUNCTIONALITY
@@ -52,15 +58,15 @@ function Factory(spec) {
             {[User.DATE_CREATED]: `${USER}.${A_USER.DATE_CREATED}`},
         ]);
         query.leftOuterJoin(
-            {[PROF]: EProfile.ENTITY},
-            `${PROF}.${EProfile.A_USER_REF}`,
+            {[PROF]: T_PROFILE},
+            `${PROF}.${A_PROFILE.USER_REF}`,
             `${USER}.${A_USER.ID}`);
-        query.select([{[User.NAME]: `${PROF}.${EProfile.A_NAME}`}]);
+        query.select([{[User.NAME]: `${PROF}.${A_PROFILE.NAME}`}]);
         query.leftOuterJoin(
-            {[PASS]: EAuthPass.ENTITY},
-            `${PASS}.${EAuthPass.A_USER_REF}`,
+            {[PASS]: T_AUTH_PASS},
+            `${PASS}.${A_AUTH_PASS.USER_REF}`,
             `${USER}.${A_USER.ID}`);
-        query.select([{[User.LOGIN]: `${PASS}.${EAuthPass.A_LOGIN}`}]);
+        query.select([{[User.LOGIN]: `${PASS}.${A_AUTH_PASS.LOGIN}`}]);
         query.leftOuterJoin(
             {[TREE]: ERefTree.ENTITY},
             `${TREE}.${ERefTree.A_USER_REF}`,

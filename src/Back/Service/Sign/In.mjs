@@ -20,17 +20,23 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
-        const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
+        const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
+        /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
+        const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
         /** @type {Function|TeqFw_Web_Back_Util.cookieCreate} */
         const cookieCreate = spec['TeqFw_Web_Back_Util#cookieCreate'];
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
         const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
-        const EAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password#'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Factory} */
         const route = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Factory$'];
         /** @type {TeqFw_Web_Back_Model_Address} */
         const mAddr = spec['TeqFw_Web_Back_Model_Address$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
+        const metaAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password$'];
+
+        // DEFINE WORKING VARS / PROPS
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password.ATTR} */
+        const A_AUTH_PASS = metaAuthPass.getAttributes();
 
         // DEFINE INSTANCE METHODS
 
@@ -47,20 +53,18 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
 
                 /**
                  * Get user id & password hash by login name.
-                 * @param trx
+                 * @param {TeqFw_Db_Back_RDb_ITrans} trx
                  * @param {String} login
                  * @returns {Promise<{userId: number, hash: string}>}
                  */
                 async function getUserData(trx, login) {
                     const result = {};
-                    const query = trx.from(EAuthPass.ENTITY);
-                    query.select([EAuthPass.A_USER_REF, EAuthPass.A_PASSWORD_HASH]);
                     const norm = login.trim().toLowerCase();
-                    query.where(EAuthPass.A_LOGIN, norm);
-                    const rs = await query;
-                    if (rs[0]) {
-                        result.userId = rs[0][EAuthPass.A_USER_REF];
-                        result.hash = rs[0][EAuthPass.A_PASSWORD_HASH];
+                    /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password.Dto} */
+                    const dto = await crud.readOne(trx, metaAuthPass, {[A_AUTH_PASS.LOGIN]: norm});
+                    if (dto) {
+                        result.userId = dto.user_ref;
+                        result.hash = dto.password_hash;
                     }
                     return result;
                 }
@@ -71,7 +75,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Response} */
                 const res = context.getOutData();
                 //
-                const trx = await rdb.startTransaction();
+                const trx = await conn.startTransaction();
                 try {
                     // select user data by login name (this type of authentication is accepted at the moment)
                     const {userId, hash} = await getUserData(trx, req.user);
@@ -80,7 +84,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                         const equal = await $bcrypt.compare(req.password, hash);
                         if (equal) {
                             // generate user session
-                            const {output} = await procSessionOpen.exec({trx, userId});
+                            const {output} = await procSessionOpen.exec({trx: trx.getTrx(), userId});
                             res.sessionId = output.sessId;
                             // set session cookie
                             const pathHttp = context.getRequestContext().getPath();

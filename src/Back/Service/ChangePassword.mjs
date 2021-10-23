@@ -15,36 +15,49 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Back_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Back_Defaults$'];    
+        const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
-        const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];  
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
-        const EAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password#']; 
+        const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_ChangePassword.Factory} */
         const route = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Factory$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
+        const metaAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password$'];
+
+        // DEFINE WORKING VARS / PROPS
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password.ATTR} */
+        const A_AUTH_PASS = metaAuthPass.getAttributes();
 
         // DEFINE INSTANCE METHODS
 
         this.getRouteFactory = () => route;
 
         this.getService = function () {
+
             // DEFINE INNER FUNCTIONS
             /**
              * @param {TeqFw_Web_Back_Api_Service_Context} context
              * @return Promise<void>
              */
             async function service(context) {
+
                 // DEFINE INNER FUNCTIONS
+                /**
+                 * @param {TeqFw_Db_Back_RDb_ITrans} trx
+                 * @param userId
+                 * @param password
+                 * @return {Promise<boolean>}
+                 */
                 async function isValidPassword(trx, userId, password) {
                     let result = false;
-                    const query = trx.from(EAuthPass.ENTITY)
-                        .select([EAuthPass.A_PASSWORD_HASH])
-                        .where(EAuthPass.A_USER_REF, userId);
+                    const T_AUTH_PASS = trx.getTableName(metaAuthPass);
+                    const query = trx.getQuery(T_AUTH_PASS)
+                        .select([A_AUTH_PASS.PASSWORD_HASH])
+                        .where(A_AUTH_PASS.USER_REF, userId);
                     /** @type {TextRow[]} */
                     const rs = await query;
                     if (rs.length) {
                         const [first] = rs;
-                        const hash = first[EAuthPass.A_PASSWORD_HASH];
+                        const hash = first[A_AUTH_PASS.PASSWORD_HASH];
                         // validate password
                         result = await $bcrypt.compare(password, hash);
                     }
@@ -52,12 +65,13 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
                 }
 
                 async function setPassword(trx, userId, password) {
+                    const T_AUTH_PASS = trx.getTableName(metaAuthPass);
                     const hash = await $bcrypt.hash(password, DEF.BCRYPT_HASH_ROUNDS);
-                    await trx(EAuthPass.ENTITY)
+                    await trx.getQuery(T_AUTH_PASS)
                         .update({
-                            [EAuthPass.A_PASSWORD_HASH]: hash,
+                            [A_AUTH_PASS.PASSWORD_HASH]: hash,
                         })
-                        .where({[EAuthPass.A_USER_REF]: userId});
+                        .where({[A_AUTH_PASS.USER_REF]: userId});
                 }
 
                 // MAIN FUNCTIONALITY

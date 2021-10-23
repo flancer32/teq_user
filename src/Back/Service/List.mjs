@@ -15,14 +15,10 @@ export default class Fl32_Teq_User_Back_Service_List {
         // EXTRACT DEPS
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
         const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
-        const EAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password#'];
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
         const EIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email#'];
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
         const EIdPhone = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone#'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Profile} */
-        const EProfile = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Profile#'];
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree} */
         const ERefTree = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree#'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_List.Factory} */
@@ -31,10 +27,18 @@ export default class Fl32_Teq_User_Back_Service_List {
         const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
         /** @type {TeqFw_User_Back_Store_RDb_Schema_User} */
         const metaUser = spec['TeqFw_User_Back_Store_RDb_Schema_User$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Profile} */
+        const metaProfile = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Profile$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
+        const metaAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password$'];
 
         // DEFINE WORKING VARS / PROPS
         /** @type {typeof TeqFw_User_Back_Store_RDb_Schema_User.ATTR} */
         const A_USER = metaUser.getAttributes();
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Profile.ATTR} */
+        const A_PROFILE = metaProfile.getAttributes();
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password.ATTR} */
+        const A_AUTH_PASS = metaAuthPass.getAttributes();
 
         // DEFINE INSTANCE METHODS
 
@@ -56,6 +60,8 @@ export default class Fl32_Teq_User_Back_Service_List {
                 async function selectUsers(trx) {
                     // DEFINE WORKING VARS / PROPS
                     const T_USER = trx.getTableName(metaUser);
+                    const T_PROFILE = trx.getTableName(metaProfile);
+                    const T_AUTH_PASS = trx.getTableName(metaAuthPass);
 
                     // DEFINE INNER FUNCTIONS
 
@@ -113,15 +119,15 @@ export default class Fl32_Teq_User_Back_Service_List {
                             {[User.DATE_CREATED]: `u.${A_USER.DATE_CREATED}`},
                         ]);
                         query.leftOuterJoin(
-                            {p: EProfile.ENTITY},
-                            `p.${EProfile.A_USER_REF}`,
+                            {p: T_PROFILE},
+                            `p.${A_PROFILE.USER_REF}`,
                             `u.${A_USER.ID}`);
-                        query.select([{[User.NAME]: `p.${EProfile.A_NAME}`}]);
+                        query.select([{[User.NAME]: `p.${A_PROFILE.NAME}`}]);
                         query.leftOuterJoin(
-                            {a: EAuthPass.ENTITY},
-                            `a.${EAuthPass.A_USER_REF}`,
+                            {a: T_AUTH_PASS},
+                            `a.${A_AUTH_PASS.USER_REF}`,
                             `u.${A_USER.ID}`);
-                        query.select([{[User.LOGIN]: `a.${EAuthPass.A_LOGIN}`}]);
+                        query.select([{[User.LOGIN]: `a.${A_AUTH_PASS.LOGIN}`}]);
                         query.leftOuterJoin(
                             {t: ERefTree.ENTITY},
                             `t.${ERefTree.A_USER_REF}`,

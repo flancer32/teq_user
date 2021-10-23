@@ -18,7 +18,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
-        const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
+        const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session} */
         const EAuthSess = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session#'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Factory} */
@@ -57,11 +57,11 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
                 // MAIN FUNCTIONALITY
                 const shared = context.getHandlersShare();
                 //
-                const trx = await rdb.startTransaction();
+                const trx = await conn.startTransaction();
                 try {
                     const sessId = shared[DEF.HTTP_SHARE_CTX_SESSION_ID];
                     if (sessId) {
-                        await deleteAllSessions(trx, sessId);
+                        await deleteAllSessions(trx.getTrx(), sessId);
                     }
                     await trx.commit();
                     // clear session ID from cookie
