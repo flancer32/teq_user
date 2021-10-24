@@ -26,15 +26,21 @@ export default class Factory {
         /** @type {Fl32_Teq_User_App_Cache_Session} */
         const cache = spec['Fl32_Teq_User_App_Cache_Session$'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
-        const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session} */
-        const EAuthSess = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session#'];
-        /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
+        const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
+        /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
+        const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+        /** @type {Fl32_Teq_User_Back_Process_User_Load.process|function} */
         const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$'];
         /** @type {TeqFw_Web_Back_Model_Address} */
         const mAddr = spec['TeqFw_Web_Back_Model_Address$'];
         /** @type {Function|TeqFw_Web_Back_Util.cookieClear} */
         const cookieClear = spec['TeqFw_Web_Back_Util#cookieClear'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session} */
+        const metaSess = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session$'];
+
+        // DEFINE WORKING VARS / PROPS
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session.ATTR} */
+        const A_SESS = metaSess.getAttributes();
 
         // DEFINE INSTANCE METHODS
 
@@ -48,7 +54,9 @@ export default class Factory {
              * @memberOf Fl32_Teq_User_Plugin_Web_Handler_Session
              */
             async function handle(context) {
+
                 // DEFINE INNER FUNCTIONS
+
                 /**
                  * Extract session ID from cookies or HTTP headers.
                  * @param {Object<String, String>} headers
@@ -80,44 +88,27 @@ export default class Factory {
                  * @returns {Promise<void>}
                  */
                 async function loadUserData(sessId, context) {
-                    // DEFINE INNER FUNCTIONS
-
-                    async function getSessionById(trx, sessId) {
-                        let result = null;
-                        const query = trx.from(EAuthSess.ENTITY);
-                        query.select([EAuthSess.A_DATE_CREATED, EAuthSess.A_SESSION_ID, EAuthSess.A_USER_REF]);
-                        query.where(EAuthSess.A_SESSION_ID, sessId);
-                        const rows = await query;
-                        if (rows.length) {
-                            result = rows[0];
-                        }
-                        return result;
-                    }
-
-                    // MAIN FUNCTIONALITY
-                    const trx = await rdb.startTransaction();
-
+                    const trx = await conn.startTransaction();
                     try {
-                        const sess = await getSessionById(trx.getTrx(), sessId);
+                        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session.Dto} */
+                        const sess = await crud.readOne(trx, metaSess, {[A_SESS.SESSION_ID]: sessId});
                         if (sess) {
-                            const userId = sess[EAuthSess.A_USER_REF];
-                            const dateInit = sess[EAuthSess.A_DATE_CREATED];
-                            if (userId) {
-                                /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
-                                const user = await procLoad({trx, userId});
-                                user.dateLoggedIn = dateInit;
-                                // get parent data
-                                if (user.parentId !== user.id) {
-                                    const parent = await procLoad({trx, userId: user.parentId});
-                                    user.parentName = parent.name;
-                                } else {
-                                    user.parentName = user.name;
-                                }
-                                const shared = context.getHandlersShare();
-                                shared[DEF.HTTP_SHARE_CTX_USER] = user;
-                                shared[DEF.HTTP_SHARE_CTX_SESSION_ID] = sessId;
-                                cache.set(sessId, user);
+                            const userId = sess.user_ref;
+                            const dateInit = sess.date_created;
+                            /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
+                            const user = await procLoad({trx, userId});
+                            user.dateLoggedIn = dateInit;
+                            // get parent data
+                            if (user.parentId !== user.id) {
+                                const parent = await procLoad({trx, userId: user.parentId});
+                                user.parentName = parent.name;
+                            } else {
+                                user.parentName = user.name;
                             }
+                            const shared = context.getHandlersShare();
+                            shared[DEF.HTTP_SHARE_CTX_USER] = user;
+                            shared[DEF.HTTP_SHARE_CTX_SESSION_ID] = sessId;
+                            cache.set(sessId, user);
                         } else {
                             // clear session id from cookies
                             const urlPath = context.getPath();
@@ -135,7 +126,6 @@ export default class Factory {
                         throw e;
                     }
                 }
-
 
                 // MAIN FUNCTIONALITY
 

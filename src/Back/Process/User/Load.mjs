@@ -17,20 +17,24 @@ const NS = 'Fl32_Teq_User_Back_Process_User_Load';
 function Factory(spec) {
     /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
     const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
-    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
-    const EIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email#'];
-    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
-    const EIdPhone = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone#'];
     /** @type {Fl32_Teq_User_Back_Store_RDb_Query_GetUsers.queryBuilder|function}*/
     const qbGetUsers = spec['Fl32_Teq_User_Back_Store_RDb_Query_GetUsers$'];
     /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
     const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
     /** @type {TeqFw_User_Back_Store_RDb_Schema_User} */
     const metaUser = spec['TeqFw_User_Back_Store_RDb_Schema_User$'];
+    /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
+    const metaIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email$'];
+    /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
+    const metaIdPhone = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone$'];
 
     // DEFINE WORKING VARS / PROPS
     /** @type {typeof TeqFw_User_Back_Store_RDb_Schema_User.ATTR} */
     const A_USER = metaUser.getAttributes();
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email.ATTR} */
+    const A_ID_EMAIL = metaIdEmail.getAttributes();
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone.ATTR} */
+    const A_ID_PHONE = metaIdPhone.getAttributes();
 
     /**
      * Process to load user profile data.
@@ -40,28 +44,34 @@ function Factory(spec) {
      * @memberOf Fl32_Teq_User_Back_Process_User_Load
      */
     async function process({trx, userId}) {
+
         // DEFINE INNER FUNCTIONS
+
+        /**
+         * @param {TeqFw_Db_Back_RDb_ITrans} trx
+         * @param {number} userId
+         * @return {Promise<string[]>}
+         */
         async function getEmails(trx, userId) {
             const result = [];
-            const query = trx.from(EIdEmail.ENTITY);
-            query.select([EIdEmail.A_EMAIL]);
-            query.where(EIdEmail.A_USER_REF, userId);
-            const rs = await query;
-            if (rs.length > 0) {
-                for (const one of rs) result.push(one[EIdEmail.A_EMAIL]);
-            }
+            const where = {[A_ID_EMAIL.USER_REF]: userId};
+            /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email.Dto[]} */
+            const items = await crud.readSet(trx, metaIdEmail, where);
+            for (const item of items) result.push(item.email);
             return result;
         }
 
+        /**
+         * @param {TeqFw_Db_Back_RDb_ITrans} trx
+         * @param {number} userId
+         * @return {Promise<string[]>}
+         */
         async function getPhones(trx, userId) {
             const result = [];
-            const query = trx.from(EIdPhone.ENTITY);
-            query.select([EIdPhone.A_PHONE]);
-            query.where(EIdPhone.A_USER_REF, userId);
-            const rs = await query;
-            if (rs.length > 0) {
-                for (const one of rs) result.push(one[EIdPhone.A_PHONE]);
-            }
+            const where = {[A_ID_PHONE.USER_REF]: userId};
+            /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone.Dto[]} */
+            const items = await crud.readSet(trx, metaIdPhone, where);
+            for (const item of items) result.push(item.phone);
             return result;
         }
 
@@ -94,8 +104,8 @@ function Factory(spec) {
             user.parentName = user.name;
         }
         // emails & phones
-        user.emails = await getEmails(trx.getTrx(), user.id);
-        user.phones = await getPhones(trx.getTrx(), user.id);
+        user.emails = await getEmails(trx, user.id);
+        user.phones = await getPhones(trx, user.id);
 
         // COMPOSE RESULT
         return user;

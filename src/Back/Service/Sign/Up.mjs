@@ -20,20 +20,12 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         // EXTRACT DEPS
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
-        /** @type {Function|TeqFw_Web_Back_Util.cookieCreate} */
+        /** @type {TeqFw_Web_Back_Util.cookieCreate|function} */
         const cookieCreate = spec['TeqFw_Web_Back_Util#cookieCreate'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
         const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
         const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
-        const EIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email#'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
-        const EIdPhone = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone#'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
-        const ERefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link#'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree} */
-        const ERefTree = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree#'];
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
         const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Factory} */
@@ -48,6 +40,14 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const metaProfile = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Profile$'];
         /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
         const metaAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
+        const metaIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
+        const metaIdPhone = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
+        const metaRefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree} */
+        const metaRefTree = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree$'];
 
         // DEFINE WORKING VARS / PROPS
         /** @type {typeof TeqFw_User_Back_Store_RDb_Schema_User.ATTR} */
@@ -56,6 +56,14 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const A_PROFILE = metaProfile.getAttributes();
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password.ATTR} */
         const A_AUTH_PASS = metaAuthPass.getAttributes();
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email.ATTR} */
+        const A_ID_EMAIL = metaIdEmail.getAttributes();
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone.ATTR} */
+        const A_ID_PHONE = metaIdPhone.getAttributes();
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link.ATTR} */
+        const A_REF_LINK = metaRefLink.getAttributes();
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree.ATTR} */
+        const A_REF_TREE = metaRefTree.getAttributes();
 
         // DEFINE INSTANCE METHODS
 
@@ -79,13 +87,16 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                 async function addUser(trx, req, parentId) {
                     // DEFINE INNER FUNCTIONS
 
+                    /**
+                     * @param {TeqFw_Db_Back_RDb_ITrans} trx
+                     * @return {Promise<string>}
+                     */
                     async function generateReferralCode(trx) {
-                        let code, rs;
+                        let code, found;
                         do {
                             code = $crypto.randomBytes(4).toString('hex').toLowerCase();
-                            const query = trx.from(ERefLink.ENTITY);
-                            rs = await query.select().where(ERefLink.A_CODE, code);
-                        } while (rs.length > 0);
+                            found = await crud(trx, metaRefLink, {[A_REF_LINK.CODE]: code});
+                        } while (typeof found === 'object');
                         return code;
                     }
 
@@ -106,53 +117,47 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                         [A_PROFILE.NAME]: req.name.trim(),
                     });
                     // register user in the referrals tree
-                    await trx.getQuery(ERefTree.ENTITY).insert({
-                        [ERefTree.A_USER_REF]: userId,
-                        [ERefTree.A_PARENT_REF]: parentId,
+                    await crud.create(trx, metaRefTree, {
+                        [A_REF_TREE.USER_REF]: userId,
+                        [A_REF_TREE.PARENT_REF]: parentId,
                     });
                     // register referral code for the user
                     const code = await generateReferralCode(trx);
-                    await trx.getQuery(ERefLink.ENTITY).insert({
-                        [ERefLink.A_USER_REF]: userId,
-                        [ERefLink.A_CODE]: code,
+                    await crud.create(trx, metaRefLink, {
+                        [A_REF_LINK.USER_REF]: userId,
+                        [A_REF_LINK.CODE]: code,
                     });
                     // register email
                     if (typeof req.email === 'string') {
-                        await trx.getQuery(EIdEmail.ENTITY).insert({
-                            [EIdEmail.A_USER_REF]: userId,
-                            [EIdEmail.A_EMAIL]: req.email.trim().toLowerCase(),
+                        await crud.create(trx, metaIdEmail, {
+                            [A_ID_EMAIL.USER_REF]: userId,
+                            [A_ID_EMAIL.EMAIL]: req.email.trim().toLowerCase(),
                         });
                     }
                     // register phone
                     if (typeof req.phone === 'string') {
-                        await trx.getQuery(EIdPhone.ENTITY).insert({
-                            [EIdPhone.A_USER_REF]: userId,
-                            [EIdPhone.A_PHONE]: req.phone.trim().toLowerCase(),
+                        await crud.create(trx, metaIdPhone, {
+                            [A_ID_PHONE.USER_REF]: userId,
+                            [A_ID_PHONE.PHONE]: req.phone.trim().toLowerCase(),
                         });
                     }
                     return userId;
                 }
 
                 /**
-                 * @param trx
+                 * @param {TeqFw_Db_Back_RDb_ITrans} trx
                  * @param {String} code referral code
                  * @returns {Promise<Number|null>}
                  */
                 async function getUserIdByRefCode(trx, code) {
-                    let result = null;
+                    let res = null;
                     if (code) {
                         const norm = code.trim().toLowerCase();
-                        const query = trx.from(ERefLink.ENTITY);
-                        query.select([ERefLink.A_USER_REF]);
-                        query.where(ERefLink.A_CODE, norm);
-                        /** @type {Array} */
-                        const rs = await query;
-                        if (rs.length === 1) {
-                            const [first] = rs;
-                            result = first[ERefLink.A_USER_REF];
-                        }
+                        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link.Dto} */
+                        const found = await crud.readOne(trx, metaRefLink, {[A_REF_LINK.CODE]: norm});
+                        if (found?.user_ref) res = found.user_ref;
                     }
-                    return result;
+                    return res;
                 }
 
                 /**
@@ -162,42 +167,46 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                  * @returns {Promise<Fl32_Teq_User_Shared_Service_Dto_User>}
                  */
                 async function selectUser(trx, userId) {
+
                     // DEFINE WORKING VARS / PROPS
                     const T_AUTH_PASS = trx.getTableName(metaAuthPass);
                     const T_PROFILE = trx.getTableName(metaProfile);
+                    const T_REF_TREE = trx.getTableName(metaRefTree);
                     const T_USER = trx.getTableName(metaUser);
 
                     // DEFINE INNER FUNCTIONS
 
+                    /**
+                     * @param {TeqFw_Db_Back_RDb_ITrans} trx
+                     * @param {number} userId
+                     * @return {Promise<string[]>}
+                     */
                     async function getEmails(trx, userId) {
-                        let result = null;
-                        const query = trx.from(EIdEmail.ENTITY);
-                        query.select([EIdEmail.A_EMAIL]);
-                        query.where(EIdEmail.A_USER_REF, userId);
-                        const rs = await query;
-                        if (rs.length > 0) {
-                            result = [];
-                            for (const one of rs) result.push(one[EIdEmail.A_EMAIL]);
-                        }
-                        return result;
+                        const res = [];
+                        const where = {[A_ID_EMAIL.USER_REF]: userId};
+                        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email.Dto[]} */
+                        const items = await crud.readSet(trx, metaIdEmail, where);
+                        for (const item of items) res.push(item.email);
+                        return res;
                     }
 
+                    /**
+                     * @param {TeqFw_Db_Back_RDb_ITrans} trx
+                     * @param {number} userId
+                     * @return {Promise<string[]>}
+                     */
                     async function getPhones(trx, userId) {
-                        let result = null;
-                        const query = trx.from(EIdPhone.ENTITY);
-                        query.select([EIdPhone.A_PHONE]);
-                        query.where(EIdPhone.A_USER_REF, userId);
-                        const rs = await query;
-                        if (rs.length > 0) {
-                            result = [];
-                            for (const one of rs) result.push(one[EIdPhone.A_PHONE]);
-                        }
-                        return result;
+                        const res = [];
+                        const where = {[A_ID_PHONE.USER_REF]: userId};
+                        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone.Dto[]} */
+                        const items = await crud.readSet(trx, metaIdPhone, where);
+                        for (const item of items) res.push(item.phone);
+                        return res;
                     }
 
                     /**
                      * @param trx
-                     * @param {Number} userId
+                     * @param {number} userId
                      * @returns {Promise<Fl32_Teq_User_Shared_Service_Dto_User>}
                      */
                     async function getUser(trx, userId) {
@@ -217,10 +226,10 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                             `u.${A_USER.ID}`);
                         query.select([{[DUser.LOGIN]: `a.${A_AUTH_PASS.LOGIN}`}]);
                         query.leftOuterJoin(
-                            {t: ERefTree.ENTITY},
-                            `t.${ERefTree.A_USER_REF}`,
+                            {t: T_REF_TREE},
+                            `t.${A_REF_TREE.USER_REF}`,
                             `u.${A_USER.ID}`);
-                        query.select([{[DUser.PARENT_ID]: `t.${ERefTree.A_PARENT_REF}`}]);
+                        query.select([{[DUser.PARENT_ID]: `t.${A_REF_TREE.PARENT_REF}`}]);
 
                         query.where(`u.${A_USER.ID}`, userId);
                         const rows = await query;
@@ -228,11 +237,11 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                     }
 
                     // MAIN FUNCTIONALITY
-                    const result = await getUser(trx.getTrx(), userId);
+                    const res = await getUser(trx.getTrx(), userId);
                     // get single/multiple attributes (email(s) & phone(s))
-                    result.emails = await getEmails(trx.getTrx(), userId);
-                    result.phones = await getPhones(trx.getTrx(), userId);
-                    return result;
+                    res.emails = await getEmails(trx, userId);
+                    res.phones = await getPhones(trx, userId);
+                    return res;
                 }
 
                 // MAIN FUNCTIONALITY
@@ -243,13 +252,13 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                 //
                 const trx = await rdb.startTransaction();
                 try {
-                    const parentId = await getUserIdByRefCode(trx.getTrx(), req.referralCode);
+                    const parentId = await getUserIdByRefCode(trx, req.referralCode);
                     if (parentId) {
                         // register new user in the tables
                         const userId = await addUser(trx, req, parentId);
                         // select user data to compose API response
                         res.user = await selectUser(trx, userId);
-                        const {output} = await procSessionOpen.exec({trx: trx.getTrx(), userId});
+                        const {output} = await procSessionOpen.exec({trx, userId});
                         res.sessionId = output.sessId;
                         // set session cookie
                         const pathHttp = context.getRequestContext().getPath();
@@ -270,7 +279,6 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                     await trx.rollback();
                     throw error;
                 }
-                return result;
             }
 
             // MAIN FUNCTIONALITY

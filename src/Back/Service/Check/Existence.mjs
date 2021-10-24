@@ -17,23 +17,28 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
         const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
         const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
-        const EIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email#'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
-        const EIdPhone = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone#'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
-        const ERefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link#'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence.Request} */
         const Request = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Request'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Factory} */
         const route = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Factory$'];
         /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
         const metaAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
+        const metaIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
+        const metaIdPhone = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
+        const metaRefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link$'];
 
         // DEFINE WORKING VARS / PROPS
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password.ATTR} */
         const A_AUTH_PASS = metaAuthPass.getAttributes();
-
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email.ATTR} */
+        const A_ID_EMAIL = metaIdEmail.getAttributes();
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone.ATTR} */
+        const A_ID_PHONE = metaIdPhone.getAttributes();
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link.ATTR} */
+        const A_REF_LINK = metaRefLink.getAttributes();
         // DEFINE INSTANCE METHODS
         this.getRouteFactory = () => route;
 
@@ -46,17 +51,19 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
             async function service(context) {
                 // DEFINE INNER FUNCTIONS
 
+                /**
+                 * @param {TeqFw_Db_Back_RDb_ITrans} trx
+                 * @param {string} value
+                 * @return {Promise<boolean>}
+                 */
                 async function checkEmail(trx, value) {
-                    const query = trx.getQuery(EIdEmail.ENTITY);
-                    query.select([EIdEmail.A_USER_REF]);
-                    query.where(EIdEmail.A_EMAIL, value);
-                    const rs = await query;
-                    return (rs.length >= 1);
+                    const dto = await crud.readOne(trx, metaIdEmail, {[A_ID_EMAIL.EMAIL]: value});
+                    return (dto !== null);
                 }
 
                 /**
                  * @param {TeqFw_Db_Back_RDb_ITrans} trx
-                 * @param value
+                 * @param {string} value
                  * @return {Promise<boolean>}
                  */
                 async function checkLogin(trx, value) {
@@ -64,20 +71,24 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
                     return (dto !== null);
                 }
 
+                /**
+                 * @param {TeqFw_Db_Back_RDb_ITrans} trx
+                 * @param {string} value
+                 * @return {Promise<boolean>}
+                 */
                 async function checkPhone(trx, value) {
-                    const query = trx.getQuery(EIdPhone.ENTITY);
-                    query.select([EIdPhone.A_USER_REF]);
-                    query.where(EIdPhone.A_PHONE, value);
-                    const rs = await query;
-                    return (rs.length >= 1);
+                    const dto = await crud.readOne(trx, metaIdPhone, {[A_ID_PHONE.PHONE]: value});
+                    return (dto !== null);
                 }
 
+                /**
+                 * @param {TeqFw_Db_Back_RDb_ITrans} trx
+                 * @param {string} value
+                 * @return {Promise<boolean>}
+                 */
                 async function checkRefCode(trx, value) {
-                    const query = trx.getQuery(ERefLink.ENTITY);
-                    query.select([ERefLink.A_USER_REF]);
-                    query.where(ERefLink.A_CODE, value);
-                    const rs = await query;
-                    return (rs.length >= 1);
+                    const dto = await crud.readOne(trx, metaRefLink, {[A_REF_LINK.CODE]: value});
+                    return (dto !== null);
                 }
 
                 // MAIN FUNCTIONALITY

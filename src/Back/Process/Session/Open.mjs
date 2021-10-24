@@ -7,46 +7,50 @@ export default class Fl32_Teq_User_Back_Process_Session_Open {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Back_Defaults} */
-        const DEF = spec['Fl32_Teq_User_Back_Defaults$'];    
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session} */
-        const EAuthSess = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session#']; 
+        const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
+        /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
+        const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session} */
+        const metaSess = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session$'];
+
+        // DEFINE WORKING VARS / PROPS
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session.ATTR} */
+        const A_SESS = metaSess.getAttributes();
 
         /**
          * We should use separate classes for data objects in input (not services) to reduce coupling
          * between services & processes.
          *
-         * @param trx
-         * @param {Number} userId
+         * @param {TeqFw_Db_Back_RDb_ITrans} trx
+         * @param {number} userId
          * @returns {Promise<{output: *, error}>}
          */
         this.exec = async function ({trx, userId}) {
             // DEFINE INNER FUNCTIONS
-            async function getSessionById(trx, sessId) {
-                const query = trx.from(EAuthSess.ENTITY);
-                query.select([EAuthSess.A_USER_REF]);
-                query.where(EAuthSess.A_SESSION_ID, sessId);
-                const rs = await query;
-                return rs[0] !== undefined;
-            }
 
-            async function createSession(trx, userId, sessId) {
-                await trx(EAuthSess.ENTITY).insert({
-                    [EAuthSess.A_USER_REF]: userId,
-                    [EAuthSess.A_SESSION_ID]: sessId,
-                });
+            /**
+             * @param {TeqFw_Db_Back_RDb_ITrans} trx
+             * @return {Promise<string>}
+             */
+            async function generateSessId(trx) {
+                const sessId = $crypto.randomBytes(DEF.SESSION_ID_BYTES).toString('hex');
+                let found = true;
+                do {
+                    found = await crud.readOne(trx, metaSess, {[A_SESS.SESSION_ID]: sessId});
+                } while (found !== null);
+                return sessId;
             }
 
             // MAIN FUNCTIONALITY
-            // register user
-            let sessionId = $crypto.randomBytes(DEF.SESSION_ID_BYTES).toString('hex');
-            let found = true;
-            do {
-                found = await getSessionById(trx, sessionId);
-            } while (found);
-            await createSession(trx, userId, sessionId);
+            const sessId = await generateSessId(trx);
+            // create session for the user
+            await crud.create(trx, metaSess, {
+                [A_SESS.USER_REF]: userId,
+                [A_SESS.SESSION_ID]: sessId,
+            });
 
             // COMPOSE RESULT
-            return {output: {sessId: sessionId}, error: {}};
+            return {output: {sessId: sessId}, error: {}};
         };
 
     }

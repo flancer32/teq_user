@@ -15,19 +15,24 @@ const NS = 'Fl32_Teq_User_Back_Process_Referral_Link_CleanUp';
  * @memberOf Fl32_Teq_User_Back_Process_Referral_Link_CleanUp
  */
 function Factory(spec) {
-    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
-    const ERefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link#'];
+    /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
+    const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+    /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
+    const metaRefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link$'];
+
+    // DEFINE WORKING VARS / PROPS
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link.ATTR} */
+    const A_REF_LINK = metaRefLink.getAttributes();
 
     /**
      * Process to clean up expired referral link.
-     * @param trx
+     * @param {TeqFw_Db_Back_RDb_ITrans} trx
      * @returns {Promise<number>}
      * @memberOf Fl32_Teq_User_Back_Process_Referral_Link_CleanUp
      */
     async function process({trx}) {
-        return await trx.from(ERefLink.ENTITY)
-            .where(ERefLink.A_DATE_EXPIRED, '<', new Date())
-            .del();
+        const where = (build) => build.where(A_REF_LINK.DATE_EXPIRED, '<', new Date());
+        return await crud.deleteSet(trx, metaRefLink, where);
     }
 
     Object.defineProperty(process, 'name', {value: `${NS}.${process.name}`});

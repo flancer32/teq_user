@@ -15,14 +15,15 @@ const NS = 'Fl32_Teq_User_Back_Store_RDb_Query_GetUsers';
 function Factory(spec) {
     /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
     const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
-    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree} */
-    const ERefTree = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree#'];
     /** @type {TeqFw_User_Back_Store_RDb_Schema_User} */
     const metaUser = spec['TeqFw_User_Back_Store_RDb_Schema_User$'];
     /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Profile} */
     const metaProfile = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Profile$'];
     /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
     const metaAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password$'];
+    /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree} */
+    const metaRefTree = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree$'];
+
 
     // DEFINE WORKING VARS / PROPS
     /** @type {typeof TeqFw_User_Back_Store_RDb_Schema_User.ATTR} */
@@ -31,6 +32,8 @@ function Factory(spec) {
     const A_PROFILE = metaProfile.getAttributes();
     /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password.ATTR} */
     const A_AUTH_PASS = metaAuthPass.getAttributes();
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree.ATTR} */
+    const A_REF_TREE = metaRefTree.getAttributes();
 
     // DEFINE INNER FUNCTIONS
     /**
@@ -45,9 +48,10 @@ function Factory(spec) {
         const TREE = 't';
         const USER = 'u';
 
-        const T_USER = trx.getTableName(metaUser);
-        const T_PROFILE = trx.getTableName(metaProfile);
         const T_AUTH_PASS = trx.getTableName(metaAuthPass);
+        const T_PROFILE = trx.getTableName(metaProfile);
+        const T_REF_TREE = trx.getTableName(metaRefTree);
+        const T_USER = trx.getTableName(metaUser);
 
 
         // MAIN FUNCTIONALITY
@@ -68,10 +72,10 @@ function Factory(spec) {
             `${USER}.${A_USER.ID}`);
         query.select([{[User.LOGIN]: `${PASS}.${A_AUTH_PASS.LOGIN}`}]);
         query.leftOuterJoin(
-            {[TREE]: ERefTree.ENTITY},
-            `${TREE}.${ERefTree.A_USER_REF}`,
+            {[TREE]: T_REF_TREE},
+            `${TREE}.${A_REF_TREE.USER_REF}`,
             `${USER}.${A_USER.ID}`);
-        query.select([{[User.PARENT_ID]: `${TREE}.${ERefTree.A_PARENT_REF}`}]);
+        query.select([{[User.PARENT_ID]: `${TREE}.${A_REF_TREE.PARENT_REF}`}]);
 
         return query;
     }

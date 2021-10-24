@@ -15,29 +15,25 @@ const NS = 'Fl32_Teq_User_Back_Process_Referral_Link_Get';
  * @memberOf Fl32_Teq_User_Back_Process_Referral_Link_Get
  */
 function Factory(spec) {
-    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
-    const ERefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link#'];
+    /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
+    const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+    /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
+    const metaRefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link$'];
+
+    // DEFINE WORKING VARS / PROPS
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link.ATTR} */
+    const A_REF_LINK = metaRefLink.getAttributes();
 
     /**
      * Get referral link.
-     * @param trx
-     * @param {String} code
-     * @returns {Promise<Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link>}
+     * @param {TeqFw_Db_Back_RDb_ITrans} trx
+     * @param {string} code
+     * @returns {Promise<Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link.Dto|null>}
      * @memberOf Fl32_Teq_User_Back_Process_Referral_Link_Get
      */
     async function process({trx, code}) {
-        let result;
         const norm = code.trim().toLowerCase();
-        const query = trx.from(ERefLink.ENTITY);
-        query.select();
-        query.where(ERefLink.A_CODE, norm);
-        /** @type {Array} */
-        const rs = await query;
-        if (rs.length === 1) {
-            const [first] = rs;
-            result = Object.assign(new ERefLink(), first);
-        }
-        return result;
+        return await crud.readOne(trx, metaRefLink, {[A_REF_LINK.CODE]: norm});
     }
 
     Object.defineProperty(process, 'name', {value: `${NS}.${process.name}`});

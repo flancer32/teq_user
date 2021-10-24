@@ -14,13 +14,9 @@ export default class Fl32_Teq_User_Back_Service_List {
     constructor(spec) {
         // EXTRACT DEPS
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
-        const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
-        const EIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email#'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
-        const EIdPhone = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone#'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree} */
-        const ERefTree = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree#'];
+        const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
+        /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
+        const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_List.Factory} */
         const route = spec['Fl32_Teq_User_Shared_Service_Route_List#Factory$'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
@@ -31,6 +27,12 @@ export default class Fl32_Teq_User_Back_Service_List {
         const metaProfile = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Profile$'];
         /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
         const metaAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
+        const metaIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
+        const metaIdPhone = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree} */
+        const metaRefTree = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree$'];
 
         // DEFINE WORKING VARS / PROPS
         /** @type {typeof TeqFw_User_Back_Store_RDb_Schema_User.ATTR} */
@@ -39,6 +41,12 @@ export default class Fl32_Teq_User_Back_Service_List {
         const A_PROFILE = metaProfile.getAttributes();
         /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password.ATTR} */
         const A_AUTH_PASS = metaAuthPass.getAttributes();
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email.ATTR} */
+        const A_ID_EMAIL = metaIdEmail.getAttributes();
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone.ATTR} */
+        const A_ID_PHONE = metaIdPhone.getAttributes();
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree.ATTR} */
+        const A_REF_TREE = metaRefTree.getAttributes();
 
         // DEFINE INSTANCE METHODS
 
@@ -59,57 +67,52 @@ export default class Fl32_Teq_User_Back_Service_List {
                  */
                 async function selectUsers(trx) {
                     // DEFINE WORKING VARS / PROPS
-                    const T_USER = trx.getTableName(metaUser);
-                    const T_PROFILE = trx.getTableName(metaProfile);
                     const T_AUTH_PASS = trx.getTableName(metaAuthPass);
+                    const T_PROFILE = trx.getTableName(metaProfile);
+                    const T_REF_TREE = trx.getTableName(metaRefTree);
+                    const T_USER = trx.getTableName(metaUser);
 
                     // DEFINE INNER FUNCTIONS
 
                     /**
-                     * @param trx
-                     * @param {Object.<Number, Fl32_Teq_User_Shared_Service_Dto_User>} users
+                     * @param {TeqFw_Db_Back_RDb_ITrans} trx
+                     * @param {Object.<number, Fl32_Teq_User_Shared_Service_Dto_User>} users
                      * @returns {Promise<void>}
                      */
                     async function populateWithEmails(trx, users) {
                         const ids = Object.keys(users);
-                        const query = trx.from(EIdEmail.ENTITY);
-                        query.select([EIdEmail.A_USER_REF, EIdEmail.A_EMAIL]);
-                        query.whereIn(EIdEmail.A_USER_REF, ids);
-                        const rs = await query;
-                        if (rs.length > 0) {
-                            for (const one of rs) {
-                                const id = one[EIdEmail.A_USER_REF];
-                                const email = one[EIdEmail.A_EMAIL];
-                                if (!Array.isArray(users[id][User.EMAILS])) users[id][User.EMAILS] = [];
-                                users[id][User.EMAILS].push(email);
-                            }
+                        const where = (clause) => clause.whereIn(A_ID_EMAIL.USER_REF, ids);
+                        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email.Dto[]} */
+                        const items = await crud.readSet(trx, metaIdEmail, where);
+                        for (const one of items) {
+                            const id = one.user_ref;
+                            const email = one.email;
+                            if (!Array.isArray(users[id][User.EMAILS])) users[id][User.EMAILS] = [];
+                            users[id][User.EMAILS].push(email);
                         }
                     }
 
                     /**
-                     * @param trx
-                     * @param {Object.<Number, Fl32_Teq_User_Shared_Service_Dto_User>} users
+                     * @param {TeqFw_Db_Back_RDb_ITrans} trx
+                     * @param {Object.<number, Fl32_Teq_User_Shared_Service_Dto_User>} users
                      * @returns {Promise<void>}
                      */
                     async function populateWithPhones(trx, users) {
                         const ids = Object.keys(users);
-                        const query = trx.from(EIdPhone.ENTITY);
-                        query.select([EIdPhone.A_USER_REF, EIdPhone.A_PHONE]);
-                        query.whereIn(EIdPhone.A_USER_REF, ids);
-                        const rs = await query;
-                        if (rs.length > 0) {
-                            for (const one of rs) {
-                                const id = one[EIdPhone.A_USER_REF];
-                                const phone = one[EIdPhone.A_PHONE];
-                                if (!Array.isArray(users[id][User.PHONES])) users[id][User.PHONES] = [];
-                                users[id][User.PHONES].push(phone);
-                            }
+                        const where = (clause) => clause.whereIn(A_ID_PHONE.USER_REF, ids);
+                        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone.Dto[]} */
+                        const items = await crud.readSet(trx, metaIdPhone, where);
+                        for (const one of items) {
+                            const id = one.user_ref;
+                            const phone = one.phone;
+                            if (!Array.isArray(users[id][User.PHONES])) users[id][User.PHONES] = [];
+                            users[id][User.PHONES].push(phone);
                         }
                     }
 
                     /**
                      * @param trx
-                     * @returns {Promise<Object.<Number, Fl32_Teq_User_Shared_Service_Dto_User>>}
+                     * @returns {Promise<Object.<number, Fl32_Teq_User_Shared_Service_Dto_User>>}
                      */
                     async function getUsers(trx) {
                         const result = {};
@@ -129,10 +132,10 @@ export default class Fl32_Teq_User_Back_Service_List {
                             `u.${A_USER.ID}`);
                         query.select([{[User.LOGIN]: `a.${A_AUTH_PASS.LOGIN}`}]);
                         query.leftOuterJoin(
-                            {t: ERefTree.ENTITY},
-                            `t.${ERefTree.A_USER_REF}`,
+                            {t: T_REF_TREE},
+                            `t.${A_REF_TREE.USER_REF}`,
                             `u.${A_USER.ID}`);
-                        query.select([{[User.PARENT_ID]: `t.${ERefTree.A_PARENT_REF}`}]);
+                        query.select([{[User.PARENT_ID]: `t.${A_REF_TREE.PARENT_REF}`}]);
 
                         const rows = await query;
                         for (const one of rows) {
@@ -147,8 +150,8 @@ export default class Fl32_Teq_User_Back_Service_List {
                     // get main data (mapped 1-to-1 to userId)
                     const result = await getUsers(trx.getTrx());
                     // add multiple attributes (email(s) & phone(s))
-                    await populateWithEmails(trx.getTrx(), result);
-                    await populateWithPhones(trx.getTrx(), result);
+                    await populateWithEmails(trx, result);
+                    await populateWithPhones(trx, result);
                     return result;
                 }
 
@@ -158,17 +161,16 @@ export default class Fl32_Teq_User_Back_Service_List {
                 /** @type {Fl32_Teq_User_Shared_Service_Route_List.Response} */
                 const res = context.getOutData();
                 //
-                const trx = await rdb.startTransaction();
+                const trx = await conn.startTransaction();
 
                 try {
                     const users = await selectUsers(trx);
                     res.items = Object.values(users);
-                    trx.commit();
+                    await trx.commit();
                 } catch (error) {
-                    trx.rollback();
+                    await trx.rollback();
                     throw error;
                 }
-                return result;
             }
 
             // MAIN FUNCTIONALITY

@@ -19,14 +19,20 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
         const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
-        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session} */
-        const EAuthSess = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session#'];
+        /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
+        const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Factory} */
         const route = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Factory$'];
         /** @type {Function|TeqFw_Web_Back_Util.cookieClear} */
         const cookieClear = spec['TeqFw_Web_Back_Util#cookieClear'];
         /** @type {TeqFw_Web_Back_Model_Address} */
         const mAddr = spec['TeqFw_Web_Back_Model_Address$'];
+        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session} */
+        const metaSess = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session$'];
+
+        // DEFINE WORKING VARS / PROPS
+        /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session.ATTR} */
+        const A_SESS = metaSess.getAttributes();
 
         // DEFINE INSTANCE METHODS
 
@@ -39,20 +45,6 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
              * @return Promise<void>
              */
             async function service(context) {
-                // DEFINE INNER FUNCTIONS
-                async function deleteAllSessions(trx, sessId) {
-                    // get user ID by session ID
-                    const qSelect = trx.from(EAuthSess.ENTITY)
-                        .select([EAuthSess.A_USER_REF])
-                        .where(EAuthSess.A_SESSION_ID, sessId);
-                    const rs = await qSelect;
-                    if (rs[0] && rs[0][EAuthSess.A_USER_REF]) {
-                        // remove all sessions for the user
-                        const qDelete = trx.from(EAuthSess.ENTITY)
-                            .where(EAuthSess.A_USER_REF, rs[0][EAuthSess.A_USER_REF]);
-                        await qDelete.del();
-                    }
-                }
 
                 // MAIN FUNCTIONALITY
                 const shared = context.getHandlersShare();
@@ -61,7 +53,13 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
                 try {
                     const sessId = shared[DEF.HTTP_SHARE_CTX_SESSION_ID];
                     if (sessId) {
-                        await deleteAllSessions(trx.getTrx(), sessId);
+                        // get user ID by session ID then delete all sessions for the user
+                        /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session.Dto} */
+                        const found = await crud.readOne(trx, metaSess, {[A_SESS.SESSION_ID]: sessId});
+                        if (found !== null) {
+                            const where = {[A_SESS.USER_REF]: found.user_ref};
+                            await crud.deleteSet(trx, metaSess, where);
+                        }
                     }
                     await trx.commit();
                     // clear session ID from cookie

@@ -15,21 +15,25 @@ const NS = 'Fl32_Teq_User_Back_Process_Referral_Link_Remove';
  * @memberOf Fl32_Teq_User_Back_Process_Referral_Link_Remove
  */
 function Factory(spec) {
-    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
-    const ERefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link#'];
+    /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
+    const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+    /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
+    const metaRefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link$'];
+
+    // DEFINE WORKING VARS / PROPS
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link.ATTR} */
+    const A_REF_LINK = metaRefLink.getAttributes();
 
     /**
      * Remove referral link by code.
-     * @param trx
-     * @param {String} code
-     * @returns {Promise<Number>}
+     * @param {TeqFw_Db_Back_RDb_ITrans} trx
+     * @param {string} code
+     * @returns {Promise<number>}
      * @memberOf Fl32_Teq_User_Back_Process_Referral_Link_Remove
      */
     async function process({trx, code}) {
-        const rs = await trx.from(ERefLink.ENTITY)
-            .where(ERefLink.A_CODE, code.trim().toLowerCase())
-            .del();
-        return rs;
+        const norm = code.trim().toLowerCase();
+        return await crud.deleteOne(trx, metaRefLink, {[A_REF_LINK.CODE]: norm});
     }
 
     Object.defineProperty(process, 'name', {value: `${NS}.${process.name}`});

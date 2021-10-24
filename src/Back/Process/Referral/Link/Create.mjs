@@ -21,46 +21,51 @@ const LIFETIME_DAY = 1;
  */
 function Factory(spec) {
     // PARSE INPUT & DEFINE WORKING VARS
-    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
-    const ERefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link#'];
-    /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process} */
+    /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
+    const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+    /** @type {Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process|function} */
     const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$'];
+    /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */
+    const metaRefLink = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link$'];
+
+    // DEFINE WORKING VARS / PROPS
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link.ATTR} */
+    const A_REF_LINK = metaRefLink.getAttributes();
 
     // DEFINE INNER FUNCTIONS
     /**
      * Process to generate referral link.
-     * @param trx
+     * @param {TeqFw_Db_Back_RDb_ITrans} trx
      * @param {Number} userId
      * @returns {Promise<{link: string, dateExp: Date}>}
      * @memberOf Fl32_Teq_User_Back_Process_Referral_Link_Create
      */
     async function process({trx, userId}) {
+
         // DEFINE INNER FUNCTIONS
         async function createLink(trx, userId, dateExp) {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param trx
+             * Generate unique referral code.
+             * @param {TeqFw_Db_Back_RDb_ITrans} trx
              * @returns {Promise<string>}
              */
             async function generateReferralCode(trx) {
-                let code, rs;
+                let code, dto;
                 do {
                     code = $crypto.randomBytes(CODE_LENGTH).toString('hex').toLowerCase();
-                    const query = trx.from(ERefLink.ENTITY);
-                    rs = await query.select().where(ERefLink.A_CODE, code);
-                } while (rs.length > 0);
+                    dto = await crud.readOne(trx, metaRefLink, {[A_REF_LINK.CODE]: code});
+                } while (dto !== null);
                 return code;
             }
 
             // MAIN FUNCTIONALITY
             const code = await generateReferralCode(trx);
-            await trx(ERefLink.ENTITY)
-                .insert({
-                    [ERefLink.A_USER_REF]: userId,
-                    [ERefLink.A_CODE]: code,
-                    [ERefLink.A_DATE_EXPIRED]: dateExp,
-                });
-            // COMPOSE RESULT
+            await crud.create(trx, metaRefLink, {
+                [A_REF_LINK.USER_REF]: userId,
+                [A_REF_LINK.CODE]: code,
+                [A_REF_LINK.DATE_EXPIRED]: dateExp,
+            });
             return code;
         }
 
@@ -74,8 +79,6 @@ function Factory(spec) {
     }
 
     // MAIN FUNCTIONALITY
-
-    // COMPOSE RESULT
     Object.defineProperty(process, 'name', {value: `${NS}.${process.name}`});
     return process;
 }

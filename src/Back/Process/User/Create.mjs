@@ -22,18 +22,18 @@ function Factory(spec) {
     const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
     /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
     const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
-    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
-    const EIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email#'];
-    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
-    const EIdPhone = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone#'];
-    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree} */
-    const ERefTree = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree#'];
     /** @type {TeqFw_User_Back_Store_RDb_Schema_User} */
     const metaUser = spec['TeqFw_User_Back_Store_RDb_Schema_User$'];
     /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Profile} */
     const metaProfile = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Profile$'];
     /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
     const metaAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password$'];
+    /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
+    const metaIdEmail = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email$'];
+    /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone} */
+    const metaIdPhone = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone$'];
+    /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree} */
+    const metaRefTree = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree$'];
 
     // DEFINE WORKING VARS / PROPS
     /** @type {typeof TeqFw_User_Back_Store_RDb_Schema_User.ATTR} */
@@ -42,6 +42,12 @@ function Factory(spec) {
     const A_PROFILE = metaProfile.getAttributes();
     /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password.ATTR} */
     const A_AUTH_PASS = metaAuthPass.getAttributes();
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email.ATTR} */
+    const A_ID_EMAIL = metaIdEmail.getAttributes();
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Id_Phone.ATTR} */
+    const A_ID_PHONE = metaIdPhone.getAttributes();
+    /** @type {typeof Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Tree.ATTR} */
+    const A_REF_TREE = metaRefTree.getAttributes();
 
 
     // DEFINE INNER FUNCTIONS
@@ -74,28 +80,24 @@ function Factory(spec) {
             });
         }
         // register user in the referrals tree
-        await trx.getQuery(ERefTree.ENTITY).insert({
-            [ERefTree.A_USER_REF]: userId,
-            [ERefTree.A_PARENT_REF]: user.parentId,
+        await crud.create(trx, metaRefTree, {
+            [A_REF_TREE.USER_REF]: userId,
+            [A_REF_TREE.PARENT_REF]: user.parentId,
         });
         // register email
-        if (Array.isArray(user.emails)) {
-            for (const one of user.emails) {
-                await trx.getQuery(EIdEmail.ENTITY).insert({
-                    [EIdEmail.A_USER_REF]: userId,
-                    [EIdEmail.A_EMAIL]: one.trim().toLowerCase(),
+        if (Array.isArray(user.emails))
+            for (const one of user.emails)
+                await crud.create(trx, metaIdEmail, {
+                    [A_ID_EMAIL.USER_REF]: userId,
+                    [A_ID_EMAIL.EMAIL]: one.trim().toLowerCase(),
                 });
-            }
-        }
         // register phone
-        if (Array.isArray(user.phones)) {
-            for (const one of user.phones) {
-                await trx.getQuery(EIdPhone.ENTITY).insert({
-                    [EIdPhone.A_USER_REF]: userId,
-                    [EIdPhone.A_PHONE]: one.trim().toLowerCase(),
+        if (Array.isArray(user.phones))
+            for (const one of user.phones)
+                await crud.create(trx, metaIdPhone, {
+                    [A_ID_PHONE.USER_REF]: userId,
+                    [A_ID_PHONE.PHONE]: one.trim().toLowerCase(),
                 });
-            }
-        }
 
         // COMPOSE RESULT
         return userId;
