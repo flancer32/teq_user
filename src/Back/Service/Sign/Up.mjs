@@ -95,8 +95,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                         let code, found;
                         do {
                             code = $crypto.randomBytes(4).toString('hex').toLowerCase();
-                            found = await crud(trx, metaRefLink, {[A_REF_LINK.CODE]: code});
-                        } while (typeof found === 'object');
+                            found = await crud.readOne(trx, metaRefLink, {[A_REF_LINK.CODE]: code});
+                        } while (found !== null);
                         return code;
                     }
 
