@@ -4,17 +4,15 @@
 export default class Fl32_Teq_User_Front_Model_Session {
     constructor(spec) {
         // EXTRACT DEPS
+        const {reactive} = spec['TeqFw_Vue_Front_Lib_Vue'];
         /** @type {Fl32_Teq_User_Front_Dto_User.Factory} */
         const fUser = spec['Fl32_Teq_User_Front_Dto_User#Factory$'];
         /** @type {TeqFw_Web_Front_Service_Gate} */
         const gate = spec['TeqFw_Web_Front_Service_Gate$'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
         const routeCurrent = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$'];
-        /** @type {TeqFw_Vue_Front_Lib} */
-        const VueLib = spec['TeqFw_Vue_Front_Lib$'];
 
         // DEFINE WORKING VARS
-        const {reactive} = VueLib.getVue();
         /** @type {Fl32_Teq_User_Front_Dto_User} */
         let modelData = reactive(fUser.create());
         /** @type {String} route to redirect after authentication  */
