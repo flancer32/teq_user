@@ -10,7 +10,7 @@ import {constants as H2} from 'http2';
 const NS = 'Fl32_Teq_User_Back_Service_Sign_Out';
 
 /**
- * @implements TeqFw_Web_Back_Api_Service_IFactory
+ * @implements TeqFw_Web_Back_Api_WAPI_IFactory
  */
 export default class Fl32_Teq_User_Back_Service_Sign_Out {
 
@@ -41,17 +41,17 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_Service_Context} context
+             * @param {TeqFw_Web_Back_Api_WAPI_Context} context
              * @return Promise<void>
              */
             async function service(context) {
 
                 // MAIN FUNCTIONALITY
-                const shared = context.getHandlersShare();
+                const share = context.getHandlersShare();
                 //
                 const trx = await conn.startTransaction();
                 try {
-                    const sessId = shared[DEF.HTTP_SHARE_CTX_SESSION_ID];
+                    const sessId = share.get(DEF.SHARE_SESSION_ID);
                     if (sessId) {
                         // get user ID by session ID then delete all sessions for the user
                         /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session.Dto} */
@@ -63,7 +63,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
                     }
                     await trx.commit();
                     // clear session ID from cookie
-                    const pathHttp = context.getRequestContext().getPath();
+                    const pathHttp = context.getRequestUrl() ;
                     const parts = mAddr.parsePath(pathHttp);
                     const path = (parts.root) ? `/${parts.root}/${parts.door}` : `/${parts.door}`;
                     const cookie = cookieClear({name: DEF.SESSION_COOKIE_NAME, path});

@@ -7,7 +7,7 @@
 const NS = 'Fl32_Teq_User_Back_Service_Current';
 
 /**
- * @implements TeqFw_Web_Back_Api_Service_IFactory
+ * @implements TeqFw_Web_Back_Api_WAPI_IFactory
  */
 export default class Fl32_Teq_User_Back_Service_Current {
 
@@ -23,15 +23,15 @@ export default class Fl32_Teq_User_Back_Service_Current {
         this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_Service_Context} context
+             * @param {TeqFw_Web_Back_Api_WAPI_Context} context
              * @return Promise<void>
              */
             async function service(context) {
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Response} */
                 const out = context.getOutData();
-                const sharedCtx = context.getHandlersShare();
-                if (sharedCtx && sharedCtx[DEF.HTTP_SHARE_CTX_USER]) {
-                    out.user = sharedCtx[DEF.HTTP_SHARE_CTX_USER];
+                const share = context.getHandlersShare();
+                if (share.get(DEF.SHARE_USER)) {
+                    out.user = share.get(DEF.SHARE_USER);
                 } else {
                     out.user = null;
                 }

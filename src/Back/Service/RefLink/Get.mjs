@@ -9,7 +9,7 @@ import {constants as H2} from 'http2';
 const NS = 'Fl32_Teq_User_Back_Service_RefLink_Get';
 
 /**
- * @implements TeqFw_Web_Back_Api_Service_IFactory
+ * @implements TeqFw_Web_Back_Api_WAPI_IFactory
  */
 export default class Fl32_Teq_User_Back_Service_RefLink_Get {
 
@@ -37,7 +37,7 @@ export default class Fl32_Teq_User_Back_Service_RefLink_Get {
         this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_Service_Context} context
+             * @param {TeqFw_Web_Back_Api_WAPI_Context} context
              * @return Promise<void>
              */
             async function service(context) {
@@ -63,7 +63,7 @@ export default class Fl32_Teq_User_Back_Service_RefLink_Get {
                         link.dateExpired = new Date(linkData.date_expired);
                         res.link = link;
                     } else {
-                        context.setOutHeader(DEF.MOD.WEB.HTTP_HEADER_STATUS, H2.HTTP_STATUS_NOT_FOUND);
+                        context.setOutHeader(DEF.MOD_WEB.HTTP_HEADER_STATUS, H2.HTTP_STATUS_NOT_FOUND);
                     }
                     await trx.commit();
                 } catch (error) {

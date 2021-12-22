@@ -7,7 +7,7 @@
 const NS = 'Fl32_Teq_User_Back_Service_List';
 
 /**
- * @implements TeqFw_Web_Back_Api_Service_IFactory
+ * @implements TeqFw_Web_Back_Api_WAPI_IFactory
  */
 export default class Fl32_Teq_User_Back_Service_List {
 
@@ -55,7 +55,7 @@ export default class Fl32_Teq_User_Back_Service_List {
         this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_Service_Context} context
+             * @param {TeqFw_Web_Back_Api_WAPI_Context} context
              * @return Promise<void>
              */
             async function service(context) {

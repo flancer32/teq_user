@@ -7,9 +7,12 @@
   },
   "@teqfw/web": {
     "handlers": {
-      "Fl32_Teq_User_Plugin_Web_Handler_Session": {
-        "before": "TeqFw_Web_Plugin_Web_Handler_Service",
-        "weight": 1000
+      "Fl32_Teq_User_Back_Handler_Session": {
+        "before": [
+          "TeqFw_Web_Back_Handler_SSE",
+          "TeqFw_Web_Back_Handler_Upload",
+          "TeqFw_Web_Back_Handler_WAPI"
+        ]
       }
     },
     "services": [

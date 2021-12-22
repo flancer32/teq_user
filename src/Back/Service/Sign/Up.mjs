@@ -12,7 +12,7 @@ import {constants as H2} from 'http2';
 const NS = 'Fl32_Teq_User_Back_Service_Sign_Up';
 
 /**
- * @implements TeqFw_Web_Back_Api_Service_IFactory
+ * @implements TeqFw_Web_Back_Api_WAPI_IFactory
  */
 export default class Fl32_Teq_User_Back_Service_Sign_Up {
 
@@ -72,7 +72,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_Service_Context} context
+             * @param {TeqFw_Web_Back_Api_WAPI_Context} context
              * @return Promise<void>
              */
             async function service(context) {
@@ -261,7 +261,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                         const {output} = await procSessionOpen.exec({trx, userId});
                         res.sessionId = output.sessId;
                         // set session cookie
-                        const pathHttp = context.getRequestContext().getPath();
+                        const pathHttp = context.getRequestUrl() ;
                         const parts = mAddr.parsePath(pathHttp);
                         const path = (parts.root) ? `/${parts.root}/${parts.door}` : `/${parts.door}`;
                         const cookie = cookieCreate({

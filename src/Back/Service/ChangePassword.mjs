@@ -9,7 +9,7 @@ import $bcrypt from 'bcrypt';
 // MODULE'S VARS
 const NS = 'Fl32_Teq_User_Back_Service_ChangePassword';
 /**
- * @implements TeqFw_Web_Back_Api_Service_IFactory
+ * @implements TeqFw_Web_Back_Api_WAPI_IFactory
  */
 export default class Fl32_Teq_User_Back_Service_ChangePassword {
 
@@ -35,7 +35,7 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
 
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_Service_Context} context
+             * @param {TeqFw_Web_Back_Api_WAPI_Context} context
              * @return Promise<void>
              */
             async function service(context) {
@@ -79,14 +79,14 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
                 const req = context.getInData();
                 /** @type {Fl32_Teq_User_Shared_Service_Route_ChangePassword.Response} */
                 const res = context.getOutData();
-                const shared = context.getHandlersShare();
+                const share = context.getHandlersShare();
                 //
                 const trx = await rdb.startTransaction();
                 res.success = false;
                 try {
-                    if (shared && shared[DEF.HTTP_SHARE_CTX_USER]) {
+                    if (share.get(DEF.SHARE_USER)) {
                         /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
-                        const user = shared && shared[DEF.HTTP_SHARE_CTX_USER];
+                        const user = share.get(DEF.SHARE_USER);
                         const isValid = await isValidPassword(trx, user.id, req.passwordCurrent);
                         if (isValid) {
                             await setPassword(trx, user.id, req.passwordNew);
