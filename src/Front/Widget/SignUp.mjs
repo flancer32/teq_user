@@ -97,8 +97,8 @@ function Fl32_Teq_User_Front_Widget_SignUp(spec) {
     /** @type {Fl32_Teq_User_Front_Model_Session} */
     const session = spec['Fl32_Teq_User_Front_Model_Session$'];
     const {isEmpty} = spec['TeqFw_Core_Shared_Util'];
-    /** @type {TeqFw_Web_Front_Service_Gate} */
-    const gate = spec['TeqFw_Web_Front_Service_Gate$'];
+    /** @type {TeqFw_Web_Front_WAPI_Gate} */
+    const gate = spec['TeqFw_Web_Front_WAPI_Gate$'];
     /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Factory} */
     const routeExist = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Factory$'];
     /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Factory} */

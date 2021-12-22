@@ -7,8 +7,8 @@ export default class Fl32_Teq_User_Front_Model_Session {
         const {reactive} = spec['TeqFw_Vue_Front_Lib_Vue'];
         /** @type {Fl32_Teq_User_Front_Dto_User.Factory} */
         const fUser = spec['Fl32_Teq_User_Front_Dto_User#Factory$'];
-        /** @type {TeqFw_Web_Front_Service_Gate} */
-        const gate = spec['TeqFw_Web_Front_Service_Gate$'];
+        /** @type {TeqFw_Web_Front_WAPI_Gate} */
+        const gate = spec['TeqFw_Web_Front_WAPI_Gate$'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
         const routeCurrent = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$'];
 

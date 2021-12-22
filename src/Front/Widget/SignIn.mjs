@@ -41,8 +41,8 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
     /** @type {Fl32_Teq_User_Front_Model_Session} */
     const session = spec['Fl32_Teq_User_Front_Model_Session$'];
-    /** @type {TeqFw_Web_Front_Service_Gate} */
-    const gate = spec['TeqFw_Web_Front_Service_Gate$'];
+    /** @type {TeqFw_Web_Front_WAPI_Gate} */
+    const gate = spec['TeqFw_Web_Front_WAPI_Gate$'];
     /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Factory} */
     const route = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Factory$'];
     /** @type {Function|Fl32_Bwl_Front_Layout_Centered} */

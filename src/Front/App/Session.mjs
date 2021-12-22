@@ -4,8 +4,8 @@
  */
 export default class Fl32_Teq_User_Front_App_Session {
     constructor(spec) {
-        /** @type {TeqFw_Web_Front_Service_Gate} */
-        const gate = spec['TeqFw_Web_Front_Service_Gate$'];
+        /** @type {TeqFw_Web_Front_WAPI_Gate} */
+        const gate = spec['TeqFw_Web_Front_WAPI_Gate$'];
         /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
         const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
         /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */

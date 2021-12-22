@@ -85,6 +85,8 @@ export default class Fl32_Teq_User_Back_Handler_Session {
             async function loadUserData(sessId, req, res) {
                 const trx = await conn.startTransaction();
                 try {
+                    /** @type {TeqFw_Core_Shared_Mod_Map} */
+                    const share = req[DEF.MOD_WEB.HNDL_SHARE];
                     /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session.Dto} */
                     const sess = await crud.readOne(trx, metaSess, {[A_SESS.SESSION_ID]: sessId});
                     if (sess) {
@@ -100,8 +102,6 @@ export default class Fl32_Teq_User_Back_Handler_Session {
                         } else {
                             user.parentName = user.name;
                         }
-                        /** @type {TeqFw_Core_Shared_Mod_Map} */
-                        const share = req[DEF.MOD_WEB.HNDL_SHARE];
                         share.set(DEF.SHARE_USER, user);
                         share.set(DEF.SHARE_SESSION_ID, sessId);
                         cache.set(sessId, user);
@@ -113,7 +113,8 @@ export default class Fl32_Teq_User_Back_Handler_Session {
                         const name = DEF.SESSION_COOKIE_NAME;
                         const cookie = cookieClear({name, path});
                         res.setHeader(H2.HTTP2_HEADER_SET_COOKIE, cookie);
-                        res.setHeader(DEF.MOD_WEB.SHARE_RES_STATUS, H2.HTTP_STATUS_UNAUTHORIZED);
+                        // just clean up cookies
+                        // share.set(DEF.MOD_WEB.SHARE_RES_STATUS, H2.HTTP_STATUS_UNAUTHORIZED);
                     }
                     await trx.commit();
                 } catch (e) {
