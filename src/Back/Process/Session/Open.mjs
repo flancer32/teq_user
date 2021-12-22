@@ -50,7 +50,7 @@ export default class Fl32_Teq_User_Back_Process_Session_Open {
             });
 
             // COMPOSE RESULT
-            return {output: {sessId: sessId}, error: {}};
+            return {output: {sessId}, error: {}};
         };
 
     }

@@ -13,6 +13,7 @@ const NS = 'Fl32_Teq_User_Back_Service_Sign_Up';
 
 /**
  * @implements TeqFw_Web_Back_Api_WAPI_IFactory
+ * @deprecated use Fl32_Bwl_Back_WAPI_Sign_Up
  */
 export default class Fl32_Teq_User_Back_Service_Sign_Up {
 
@@ -258,8 +259,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                         const userId = await addUser(trx, req, parentId);
                         // select user data to compose API response
                         res.user = await selectUser(trx, userId);
-                        const {output} = await procSessionOpen.exec({trx, userId});
-                        res.sessionId = output.sessId;
+                        const {output: {sessId}} = await procSessionOpen.exec({trx, userId});
+                        res.sessionId = sessId;
                         // set session cookie
                         const pathHttp = context.getRequestUrl() ;
                         const parts = mAddr.parsePath(pathHttp);

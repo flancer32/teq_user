@@ -105,6 +105,7 @@ export default class Fl32_Teq_User_Back_Handler_Session {
                         share.set(DEF.SHARE_USER, user);
                         share.set(DEF.SHARE_SESSION_ID, sessId);
                         cache.set(sessId, user);
+                        logger.info(`User #${user.id} is saved to cache for session '${sessId.substr(0, 8)}...'.`);
                     } else {
                         // clear session id from cookies
                         const {url} = req;
@@ -113,8 +114,7 @@ export default class Fl32_Teq_User_Back_Handler_Session {
                         const name = DEF.SESSION_COOKIE_NAME;
                         const cookie = cookieClear({name, path});
                         res.setHeader(H2.HTTP2_HEADER_SET_COOKIE, cookie);
-                        // just clean up cookies
-                        // share.set(DEF.MOD_WEB.SHARE_RES_STATUS, H2.HTTP_STATUS_UNAUTHORIZED);
+                        logger.error(`Invalid session '${sessId}'. Cleanup cookie is set.`);
                     }
                     await trx.commit();
                 } catch (e) {
@@ -141,10 +141,11 @@ export default class Fl32_Teq_User_Back_Handler_Session {
                     }
                 }
             } catch (e) {
-                // TODO: fix it or remove it
-                ctx.setResponseHeader(DEF.MOD_WEB.HTTP_HEADER_STATUS, H2.HTTP_STATUS_UNAUTHORIZED.toString());
-                ctx.setResponseBody(e.message);
-                ctx.markRequestProcessed();
+                /** @type {TeqFw_Core_Shared_Mod_Map} */
+                const share = req[DEF.MOD_WEB.HNDL_SHARE];
+                share.set(DEF.MOD_WEB.SHARE_RES_STATUS, H2.HTTP_STATUS_UNAUTHORIZED);
+                share.set(DEF.MOD_WEB.SHARE_RES_BODY, e?.message);
+                logger.error(`Cannot establish user session. Error: ${e?.message}`);
             }
         }
 

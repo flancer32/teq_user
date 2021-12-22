@@ -19,6 +19,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         // EXTRACT DEPS
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
+        /** @type {TeqFw_Core_Shared_Logger} */
+        const logger = spec['TeqFw_Core_Shared_Logger$'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
         const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
@@ -84,8 +86,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                         const equal = await $bcrypt.compare(req.password, hash);
                         if (equal) {
                             // generate user session
-                            const {output} = await procSessionOpen.exec({trx: trx.getTrx(), userId});
-                            res.sessionId = output.sessId;
+                            const {output: {sessId}} = await procSessionOpen.exec({trx, userId});
+                            res.sessionId = sessId;
                             // set session cookie
                             const pathHttp = context.getRequestUrl();
                             const parts = mAddr.parsePath(pathHttp);
@@ -97,6 +99,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                                 path
                             });
                             context.setOutHeader(H2.HTTP2_HEADER_SET_COOKIE, cookie);
+                            logger.info(`Session '${sessId.substr(0, 8)}...' for user #${userId} is established.`);
                         }
                     }
                     await trx.commit();

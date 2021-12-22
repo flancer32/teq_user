@@ -11,6 +11,7 @@ const NS = 'Fl32_Teq_User_Back_Service_Sign_Out';
 
 /**
  * @implements TeqFw_Web_Back_Api_WAPI_IFactory
+ * @deprecated sign out is not used int he app
  */
 export default class Fl32_Teq_User_Back_Service_Sign_Out {
 
