@@ -13,8 +13,8 @@ const NS = 'Fl32_Teq_User_Back_Store_RDb_Query_GetUsers';
  * @returns {function(*): *}
  */
 function Factory(spec) {
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
-    const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
+    /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
+    const User = spec['Fl32_Teq_User_Shared_Dto_User#'];
     /** @type {TeqFw_User_Back_Store_RDb_Schema_User} */
     const metaUser = spec['TeqFw_User_Back_Store_RDb_Schema_User$'];
     /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Profile} */

@@ -1,33 +1,34 @@
 /**
- * Route data for service to user sign in.
- * @namespace Fl32_Teq_User_Shared_Service_Route_Sign_In
+ * Route data for service to change user password.
+ *
+ * @namespace Fl32_Teq_User_Shared_WAPI_ChangePassword
  */
 // MODULE'S VARS
-const NS = 'Fl32_Teq_User_Shared_Service_Route_Sign_In';
+const NS = 'Fl32_Teq_User_Shared_WAPI_ChangePassword';
 
 // MODULE'S CLASSES
 /**
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_In
+ * @memberOf Fl32_Teq_User_Shared_WAPI_ChangePassword
  */
 class Request {
-    /** @type {string} user identity - login/email/phone */
-    user
-    /** @type {string} plain password */
-    password
+    /** @type {string} */
+    passwordCurrent;
+    /** @type {string} */
+    passwordNew;
 }
 
 /**
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_In
+ * @memberOf Fl32_Teq_User_Shared_WAPI_ChangePassword
  */
 class Response {
-    /** @type {string} */
-    sessionId
+    /** @type {boolean} */
+    success;
 }
 
 /**
  * Factory to create new DTOs and get route address.
- * @implements TeqFw_Web_Back_Api_Service_IRoute
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_In
+ * @implements TeqFw_Web_Back_Api_WAPI_IRoute
+ * @memberOf Fl32_Teq_User_Shared_WAPI_ChangePassword
  */
 class Factory {
     constructor(spec) {
@@ -36,26 +37,26 @@ class Factory {
         const DEF = spec['Fl32_Teq_User_Shared_Defaults$'];
 
         // DEFINE INSTANCE METHODS
-        this.getRoute = () => `/${DEF.NAME}${DEF.SRV.SIGN.IN}`;
+        this.getRoute = () => `/${DEF.NAME}${DEF.SRV.CHANGE_PASSWORD}`;
 
         /**
-         * @param {Request|Object|null} data
-         * @return {Fl32_Teq_User_Shared_Service_Route_Sign_In.Request}
+         * @param {Request|null} data
+         * @return {Fl32_Teq_User_Shared_WAPI_ChangePassword.Request}
          */
         this.createReq = function (data = null) {
             const res = new Request();
-            res.password = data?.password;
-            res.user = data?.user;
+            res.passwordCurrent = data?.passwordCurrent;
+            res.passwordNew = data?.passwordNew;
             return res;
         }
 
         /**
-         * @param {Response|Object|null} data
-         * @return {Fl32_Teq_User_Shared_Service_Route_Sign_In.Response}
+         * @param {Response|null} data
+         * @return {Fl32_Teq_User_Shared_WAPI_ChangePassword.Response}
          */
         this.createRes = function (data = null) {
             const res = new Response();
-            res.sessionId = data?.sessionId;
+            res.success = data?.success;
             return res;
         }
     }

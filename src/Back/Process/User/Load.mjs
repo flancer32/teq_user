@@ -19,8 +19,8 @@ function Factory(spec) {
     const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
     /** @type {Fl32_Teq_User_Back_Store_RDb_Query_GetUsers.queryBuilder|function}*/
     const qbGetUsers = spec['Fl32_Teq_User_Back_Store_RDb_Query_GetUsers$'];
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
-    const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
+    /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
+    const DUser = spec['Fl32_Teq_User_Shared_Dto_User#'];
     /** @type {TeqFw_User_Back_Store_RDb_Schema_User} */
     const metaUser = spec['TeqFw_User_Back_Store_RDb_Schema_User$'];
     /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
@@ -40,7 +40,7 @@ function Factory(spec) {
      * Process to load user profile data.
      * @param {TeqFw_Db_Back_RDb_ITrans} trx
      * @param {Number} userId
-     * @returns {Promise<Fl32_Teq_User_Shared_Service_Dto_User>}
+     * @returns {Promise<Fl32_Teq_User_Shared_Dto_User>}
      * @memberOf Fl32_Teq_User_Back_Process_User_Load
      */
     async function process({trx, userId}) {
@@ -78,7 +78,7 @@ function Factory(spec) {
         /**
          * @param {TeqFw_Db_Back_RDb_ITrans} trx
          * @param {Number} userId
-         * @returns {Promise<Fl32_Teq_User_Shared_Service_Dto_User|null>}
+         * @returns {Promise<Fl32_Teq_User_Shared_Dto_User|null>}
          */
         async function getUserById(trx, userId) {
             let result = null;
@@ -86,7 +86,7 @@ function Factory(spec) {
             query.where(A_USER.ID, userId);
             const rows = await query;
             if (rows[0]) {
-                /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
+                /** @type {Fl32_Teq_User_Shared_Dto_User} */
                 const user = new DUser();
                 result = Object.assign(user, rows[0]);
             }
@@ -94,7 +94,7 @@ function Factory(spec) {
         }
 
         // MAIN FUNCTIONALITY
-        /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
+        /** @type {Fl32_Teq_User_Shared_Dto_User} */
         const user = await getUserById(trx, userId);
         // get parent data
         if (user.parentId !== user.id) {

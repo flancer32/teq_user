@@ -1,25 +1,25 @@
 /**
  * Change user password.
  *
- * @namespace Fl32_Teq_User_Back_Service_ChangePassword
+ * @namespace Fl32_Teq_User_Back_WAPI_ChangePassword
  */
 // MODULE'S IMPORT
 import $bcrypt from 'bcrypt';
 
 // MODULE'S VARS
-const NS = 'Fl32_Teq_User_Back_Service_ChangePassword';
+const NS = 'Fl32_Teq_User_Back_WAPI_ChangePassword';
 /**
  * @implements TeqFw_Web_Back_Api_WAPI_IFactory
  */
-export default class Fl32_Teq_User_Back_Service_ChangePassword {
+export default class Fl32_Teq_User_Back_WAPI_ChangePassword {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
         const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
-        /** @type {Fl32_Teq_User_Shared_Service_Route_ChangePassword.Factory} */
-        const route = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Factory$'];
+        /** @type {Fl32_Teq_User_Shared_WAPI_ChangePassword.Factory} */
+        const route = spec['Fl32_Teq_User_Shared_WAPI_ChangePassword#Factory$'];
         /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
         const metaAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password$'];
 
@@ -35,7 +35,7 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
 
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_WAPI_Context} context
+             * @param {TeqFw_Web_Back_Handler_WAPI_Context} context
              * @return Promise<void>
              */
             async function service(context) {
@@ -75,9 +75,9 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
                 }
 
                 // MAIN FUNCTIONALITY
-                /** @type {Fl32_Teq_User_Shared_Service_Route_ChangePassword.Request} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_ChangePassword.Request} */
                 const req = context.getInData();
-                /** @type {Fl32_Teq_User_Shared_Service_Route_ChangePassword.Response} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_ChangePassword.Response} */
                 const res = context.getOutData();
                 const share = context.getHandlersShare();
                 //
@@ -85,7 +85,7 @@ export default class Fl32_Teq_User_Back_Service_ChangePassword {
                 res.success = false;
                 try {
                     if (share.get(DEF.SHARE_USER)) {
-                        /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
+                        /** @type {Fl32_Teq_User_Shared_Dto_User} */
                         const user = share.get(DEF.SHARE_USER);
                         const isValid = await isValidPassword(trx, user.id, req.passwordCurrent);
                         if (isValid) {

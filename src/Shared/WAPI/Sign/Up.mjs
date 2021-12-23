@@ -1,10 +1,10 @@
 /**
  * Route data for service to sign up users.
  *
- * @namespace Fl32_Teq_User_Shared_Service_Route_Sign_Up
+ * @namespace Fl32_Teq_User_Shared_WAPI_Sign_Up
  */
 // MODULE'S VARS
-const NS = 'Fl32_Teq_User_Shared_Service_Route_Sign_Up';
+const NS = 'Fl32_Teq_User_Shared_WAPI_Sign_Up';
 
 // MODULE'S CLASSES
 /**
@@ -13,7 +13,7 @@ const NS = 'Fl32_Teq_User_Shared_Service_Route_Sign_Up';
  *  - name
  *  - password
  *  - referralCode
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_Up
+ * @memberOf Fl32_Teq_User_Shared_WAPI_Sign_Up
  */
 class Request {
     /** @type {string} */
@@ -31,38 +31,38 @@ class Request {
 }
 
 /**
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_Up
+ * @memberOf Fl32_Teq_User_Shared_WAPI_Sign_Up
  */
 class Response {
     /** @type {string} */
     error;
     /** @type {string} */
     sessionId;
-    /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
+    /** @type {Fl32_Teq_User_Shared_Dto_User} */
     user;
 }
 
 /**
  * Factory to create new DTOs and get route address.
- * @implements TeqFw_Web_Back_Api_Service_IRoute
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_Up
+ * @implements TeqFw_Web_Back_Api_WAPI_IRoute
+ * @memberOf Fl32_Teq_User_Shared_WAPI_Sign_Up
  */
 class Factory {
     constructor(spec) {
         // EXTRACT DEPS
         /** @type {Fl32_Teq_User_Shared_Defaults} */
         const DEF = spec['Fl32_Teq_User_Shared_Defaults$'];
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
-        const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#']; 
-        /** @type {Fl32_Teq_User_Shared_Service_Dto_User.Factory} */
-        const fUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#Factory$']; 
+        /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
+        const DUser = spec['Fl32_Teq_User_Shared_Dto_User#']; 
+        /** @type {Fl32_Teq_User_Shared_Dto_User.Factory} */
+        const fUser = spec['Fl32_Teq_User_Shared_Dto_User#Factory$']; 
 
         // DEFINE INSTANCE METHODS
         this.getRoute = () => `/${DEF.NAME}${DEF.SRV.SIGN.UP}`;
 
         /**
          * @param {Request|null} data
-         * @return {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request}
+         * @return {Fl32_Teq_User_Shared_WAPI_Sign_Up.Request}
          */
         this.createReq = function (data = null) {
             const res = new Request();
@@ -77,7 +77,7 @@ class Factory {
 
         /**
          * @param {Response|null} data
-         * @return {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Response}
+         * @return {Fl32_Teq_User_Shared_WAPI_Sign_Up.Response}
          */
         this.createRes = function (data = null) {
             const res = new Response();

@@ -1,21 +1,21 @@
 /**
  * Get profile for currently authenticated user.
  *
- * @namespace Fl32_Teq_User_Back_Service_Current
+ * @namespace Fl32_Teq_User_Back_WAPI_Current
  */
 // MODULE'S VARS
-const NS = 'Fl32_Teq_User_Back_Service_Current';
+const NS = 'Fl32_Teq_User_Back_WAPI_Current';
 
 /**
  * @implements TeqFw_Web_Back_Api_WAPI_IFactory
  */
-export default class Fl32_Teq_User_Back_Service_Current {
+export default class Fl32_Teq_User_Back_WAPI_Current {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
-        /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
-        const route = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$'];
+        /** @type {Fl32_Teq_User_Shared_WAPI_Current.Factory} */
+        const route = spec['Fl32_Teq_User_Shared_WAPI_Current#Factory$'];
 
         // DEFINE INSTANCE METHODS
         this.getRouteFactory = () => route;
@@ -23,11 +23,11 @@ export default class Fl32_Teq_User_Back_Service_Current {
         this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_WAPI_Context} context
+             * @param {TeqFw_Web_Back_Handler_WAPI_Context} context
              * @return Promise<void>
              */
             async function service(context) {
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Response} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_Current.Response} */
                 const out = context.getOutData();
                 const share = context.getHandlersShare();
                 if (share.get(DEF.SHARE_USER)) {

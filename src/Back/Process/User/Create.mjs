@@ -54,8 +54,8 @@ function Factory(spec) {
     /**
      * Process to add new user.
      * @param {TeqFw_Db_Back_RDb_ITrans} trx
-     * @param {Fl32_Teq_User_Shared_Service_Dto_User} user
-     * @returns {Promise<Fl32_Teq_User_Shared_Service_Dto_User>}
+     * @param {Fl32_Teq_User_Shared_Dto_User} user
+     * @returns {Promise<Fl32_Teq_User_Shared_Dto_User>}
      * @memberOf Fl32_Teq_User_Back_Process_User_Create
      */
     async function process({trx, user}) {

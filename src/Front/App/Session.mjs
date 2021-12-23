@@ -6,14 +6,14 @@ export default class Fl32_Teq_User_Front_App_Session {
     constructor(spec) {
         /** @type {TeqFw_Web_Front_WAPI_Gate} */
         const gate = spec['TeqFw_Web_Front_WAPI_Gate$'];
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
-        const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
-        /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
-        const routeCurrent = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$'];
-        /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Factory} */
-        const routeSignOut = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Factory$'];
+        /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
+        const DUser = spec['Fl32_Teq_User_Shared_Dto_User#'];
+        /** @type {Fl32_Teq_User_Shared_WAPI_Current.Factory} */
+        const routeCurrent = spec['Fl32_Teq_User_Shared_WAPI_Current#Factory$'];
+        /** @type {Fl32_Teq_User_Shared_WAPI_Sign_Out.Factory} */
+        const routeSignOut = spec['Fl32_Teq_User_Shared_WAPI_Sign_Out#Factory$'];
 
-        /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
+        /** @type {Fl32_Teq_User_Shared_Dto_User} */
         let user = null;
         /** @type {String} route to redirect after authentication  */
         let routeToRedirect = null;
@@ -21,10 +21,10 @@ export default class Fl32_Teq_User_Front_App_Session {
         let routeToSignIn = null;
 
         this.close = async function () {
-            /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Request} */
+            /** @type {Fl32_Teq_User_Shared_WAPI_Sign_Out.Request} */
             const req = routeSignOut.createReq();
             // noinspection JSValidateTypes
-            /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Response} */
+            /** @type {Fl32_Teq_User_Shared_WAPI_Sign_Out.Response} */
             const res = await gate.send(req, routeSignOut);
             if (res) user = null;
         };
@@ -38,7 +38,7 @@ export default class Fl32_Teq_User_Front_App_Session {
         };
 
         /**
-         * @returns {Fl32_Teq_User_Shared_Service_Dto_User}
+         * @returns {Fl32_Teq_User_Shared_Dto_User}
          */
         this.getUser = function () {
             return user;
@@ -47,7 +47,7 @@ export default class Fl32_Teq_User_Front_App_Session {
         this.init = async function () {
             const req = routeCurrent.createReq();
             // noinspection JSValidateTypes
-            /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Response} */
+            /** @type {Fl32_Teq_User_Shared_WAPI_Current.Response} */
             const res = await gate.send(req, routeCurrent);
             if (res.user) {
                 user = Object.assign(new DUser(), res.user);

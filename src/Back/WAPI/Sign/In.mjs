@@ -1,19 +1,19 @@
 /**
  * Establish new session for the user.
  *
- * @namespace Fl32_Teq_User_Back_Service_Sign_In
+ * @namespace Fl32_Teq_User_Back_WAPI_Sign_In
  */
 // MODULE'S IMPORT
 import $bcrypt from 'bcrypt';
 import {constants as H2} from 'http2';
 
 // MODULE'S VARS
-const NS = 'TeqFw_I18n_Back_Service_Load';
+const NS = 'Fl32_Teq_User_Back_WAPI_Sign_In';
 
 /**
  * @implements TeqFw_Web_Back_Api_WAPI_IFactory
  */
-export default class Fl32_Teq_User_Back_Service_Sign_In {
+export default class Fl32_Teq_User_Back_WAPI_Sign_In {
 
     constructor(spec) {
         // EXTRACT DEPS
@@ -29,8 +29,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         const cookieCreate = spec['TeqFw_Web_Back_Util#cookieCreate'];
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
         const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$'];
-        /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Factory} */
-        const route = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Factory$'];
+        /** @type {Fl32_Teq_User_Shared_WAPI_Sign_In.Factory} */
+        const route = spec['Fl32_Teq_User_Shared_WAPI_Sign_In#Factory$'];
         /** @type {TeqFw_Web_Back_Model_Address} */
         const mAddr = spec['TeqFw_Web_Back_Model_Address$'];
         /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
@@ -47,7 +47,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
         this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_WAPI_Context} context
+             * @param {TeqFw_Web_Back_Handler_WAPI_Context} context
              * @return Promise<void>
              */
             async function service(context) {
@@ -72,9 +72,9 @@ export default class Fl32_Teq_User_Back_Service_Sign_In {
                 }
 
                 // MAIN FUNCTIONALITY
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Request} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_Sign_In.Request} */
                 const req = context.getInData();
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Response} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_Sign_In.Response} */
                 const res = context.getOutData();
                 //
                 const trx = await conn.startTransaction();

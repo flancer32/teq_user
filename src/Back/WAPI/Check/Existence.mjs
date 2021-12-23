@@ -1,15 +1,15 @@
 /**
  * Check existence for different values (login, referral code, email, phone, ...).
  *
- * @namespace Fl32_Teq_User_Back_Service_Check_Existence
+ * @namespace Fl32_Teq_User_Back_WAPI_Check_Existence
  */
 // MODULE'S VARS
-const NS = 'Fl32_Teq_User_Back_Service_Check_Existence';
+const NS = 'Fl32_Teq_User_Back_WAPI_Check_Existence';
 
 /**
  * @implements TeqFw_Web_Back_Api_WAPI_IFactory
  */
-export default class Fl32_Teq_User_Back_Service_Check_Existence {
+export default class Fl32_Teq_User_Back_WAPI_Check_Existence {
 
     constructor(spec) {
         // EXTRACT DEPS
@@ -17,10 +17,10 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
         const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
         const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Check_Existence.Request} */
-        const Request = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Request'];
-        /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Factory} */
-        const route = spec['Fl32_Teq_User_Shared_Service_Route_Check_Existence#Factory$'];
+        /** @type {typeof Fl32_Teq_User_Shared_WAPI_Check_Existence.Request} */
+        const Request = spec['Fl32_Teq_User_Shared_WAPI_Check_Existence#Request'];
+        /** @type {Fl32_Teq_User_Shared_WAPI_Check_Existence.Factory} */
+        const route = spec['Fl32_Teq_User_Shared_WAPI_Check_Existence#Factory$'];
         /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
         const metaAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password$'];
         /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Id_Email} */
@@ -45,7 +45,7 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
         this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_WAPI_Context} context
+             * @param {TeqFw_Web_Back_Handler_WAPI_Context} context
              * @return Promise<void>
              */
             async function service(context) {
@@ -92,9 +92,9 @@ export default class Fl32_Teq_User_Back_Service_Check_Existence {
                 }
 
                 // MAIN FUNCTIONALITY
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Request} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_Check_Existence.Request} */
                 const req = context.getInData();
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Response} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_Check_Existence.Response} */
                 const res = context.getOutData();
                 //
                 const trx = await conn.startTransaction();

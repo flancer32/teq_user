@@ -1,25 +1,25 @@
 /**
  * Route data for service to sign out.
- * @namespace Fl32_Teq_User_Shared_Service_Route_Sign_Out
+ * @namespace Fl32_Teq_User_Shared_WAPI_Sign_Out
  */
 // MODULE'S VARS
-const NS = 'Fl32_Teq_User_Shared_Service_Route_Sign_Out';
+const NS = 'Fl32_Teq_User_Shared_WAPI_Sign_Out';
 
 // MODULE'S CLASSES
 /**
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_Out
+ * @memberOf Fl32_Teq_User_Shared_WAPI_Sign_Out
  */
 class Request {}
 
 /**
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_Out
+ * @memberOf Fl32_Teq_User_Shared_WAPI_Sign_Out
  */
 class Response {}
 
 /**
  * Factory to create new DTOs and get route address.
- * @implements TeqFw_Web_Back_Api_Service_IRoute
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Sign_Out
+ * @implements TeqFw_Web_Back_Api_WAPI_IRoute
+ * @memberOf Fl32_Teq_User_Shared_WAPI_Sign_Out
  */
 class Factory {
     constructor(spec) {
@@ -32,7 +32,7 @@ class Factory {
 
         /**
          * @param {Request|null} data
-         * @return {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Request}
+         * @return {Fl32_Teq_User_Shared_WAPI_Sign_Out.Request}
          */
         this.createReq = function (data = null) {
             return new Request();
@@ -40,7 +40,7 @@ class Factory {
 
         /**
          * @param {Response|null} data
-         * @return {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Response}
+         * @return {Fl32_Teq_User_Shared_WAPI_Sign_Out.Response}
          */
         this.createRes = function (data = null) {
             return new Response();

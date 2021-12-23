@@ -1,7 +1,7 @@
 /**
  * Register new user.
  *
- * @namespace Fl32_Teq_User_Back_Service_Sign_Up
+ * @namespace Fl32_Teq_User_Back_WAPI_Sign_Up
  */
 // MODULE'S IMPORT
 import $bcrypt from 'bcrypt';
@@ -9,13 +9,13 @@ import $crypto from 'crypto';
 import {constants as H2} from 'http2';
 
 // MODULE'S VARS
-const NS = 'Fl32_Teq_User_Back_Service_Sign_Up';
+const NS = 'Fl32_Teq_User_Back_WAPI_Sign_Up';
 
 /**
  * @implements TeqFw_Web_Back_Api_WAPI_IFactory
  * @deprecated use Fl32_Bwl_Back_WAPI_Sign_Up
  */
-export default class Fl32_Teq_User_Back_Service_Sign_Up {
+export default class Fl32_Teq_User_Back_WAPI_Sign_Up {
 
     constructor(spec) {
         // EXTRACT DEPS
@@ -29,12 +29,12 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
         const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$'];
-        /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Factory} */
-        const route = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Up#Factory$'];
+        /** @type {Fl32_Teq_User_Shared_WAPI_Sign_Up.Factory} */
+        const route = spec['Fl32_Teq_User_Shared_WAPI_Sign_Up#Factory$'];
         /** @type {TeqFw_Web_Back_Model_Address} */
         const mAddr = spec['TeqFw_Web_Back_Model_Address$'];
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
-        const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
+        /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
+        const DUser = spec['Fl32_Teq_User_Shared_Dto_User#'];
         /** @type {TeqFw_User_Back_Store_RDb_Schema_User} */
         const metaUser = spec['TeqFw_User_Back_Store_RDb_Schema_User$'];
         /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Profile} */
@@ -73,7 +73,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
         this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_WAPI_Context} context
+             * @param {TeqFw_Web_Back_Handler_WAPI_Context} context
              * @return Promise<void>
              */
             async function service(context) {
@@ -81,7 +81,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                 /**
                  * Register new user and return ID.
                  * @param {TeqFw_Db_Back_RDb_ITrans} trx
-                 * @param {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request} req
+                 * @param {Fl32_Teq_User_Shared_WAPI_Sign_Up.Request} req
                  * @param {Number} parentId
                  * @returns {Promise<Number>}
                  */
@@ -165,7 +165,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                  * Select data for newly registered user.
                  * @param {TeqFw_Db_Back_RDb_ITrans} trx
                  * @param {Number} userId
-                 * @returns {Promise<Fl32_Teq_User_Shared_Service_Dto_User>}
+                 * @returns {Promise<Fl32_Teq_User_Shared_Dto_User>}
                  */
                 async function selectUser(trx, userId) {
 
@@ -208,7 +208,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                     /**
                      * @param trx
                      * @param {number} userId
-                     * @returns {Promise<Fl32_Teq_User_Shared_Service_Dto_User>}
+                     * @returns {Promise<Fl32_Teq_User_Shared_Dto_User>}
                      */
                     async function getUser(trx, userId) {
                         const query = trx.from({u: T_USER});
@@ -246,9 +246,9 @@ export default class Fl32_Teq_User_Back_Service_Sign_Up {
                 }
 
                 // MAIN FUNCTIONALITY
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Request} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_Sign_Up.Request} */
                 const req = context.getInData();
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Up.Response} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_Sign_Up.Response} */
                 const res = context.getOutData();
                 //
                 const trx = await rdb.startTransaction();

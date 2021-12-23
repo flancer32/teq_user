@@ -1,13 +1,13 @@
 /**
  * Route data for service to different values existence checking (login, referral code, email, phone, ...).
- * @namespace Fl32_Teq_User_Shared_Service_Route_Check_Existence
+ * @namespace Fl32_Teq_User_Shared_WAPI_Check_Existence
  */
 // MODULE'S VARS
-const NS = 'Fl32_Teq_User_Shared_Service_Route_Check_Existence';
+const NS = 'Fl32_Teq_User_Shared_WAPI_Check_Existence';
 
 // MODULE'S CLASSES
 /**
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Check_Existence
+ * @memberOf Fl32_Teq_User_Shared_WAPI_Check_Existence
  */
 class Request {
     /**
@@ -23,14 +23,14 @@ class Request {
 }
 
 // static properties (compatible with Safari "< 14.1", "iOS < 14.5" form)
-/** @memberOf Fl32_Teq_User_Shared_Service_Route_Check_Existence */
+/** @memberOf Fl32_Teq_User_Shared_WAPI_Check_Existence */
 Request.TYPE_EMAIL = 'email';
 Request.TYPE_LOGIN = 'login';
 Request.TYPE_PHONE = 'phone';
 Request.TYPE_REF_CODE = 'refCode';
 
 /**
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Check_Existence
+ * @memberOf Fl32_Teq_User_Shared_WAPI_Check_Existence
  */
 class Response {
     /** @type {boolean} */
@@ -40,8 +40,9 @@ class Response {
 
 /**
  * Factory to create new DTOs and get route address.
- * @implements TeqFw_Web_Back_Api_Service_IRoute
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Check_Existence
+ * @implements TeqFw_Web_Back_Api_WAPI_IRoute
+ *
+ * @memberOf Fl32_Teq_User_Shared_WAPI_Check_Existence
  */
 class Factory {
     constructor(spec) {
@@ -54,7 +55,7 @@ class Factory {
 
         /**
          * @param {Request|null} data
-         * @return {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Request}
+         * @return {Fl32_Teq_User_Shared_WAPI_Check_Existence.Request}
          */
         this.createReq = function (data = null) {
             const res = new Request();
@@ -64,7 +65,7 @@ class Factory {
         }
         /**
          * @param {Response|null} data
-         * @return {Fl32_Teq_User_Shared_Service_Route_Check_Existence.Response}
+         * @return {Fl32_Teq_User_Shared_WAPI_Check_Existence.Response}
          */
         this.createRes = function (data = null) {
             const res = new Response();

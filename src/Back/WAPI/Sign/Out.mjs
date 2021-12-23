@@ -1,19 +1,19 @@
 /**
  *  Service to close session for authenticated user.
  *
- * @namespace Fl32_Teq_User_Back_Service_Sign_Out
+ * @namespace Fl32_Teq_User_Back_WAPI_Sign_Out
  */
 // MODULE'S IMPORT
 import {constants as H2} from 'http2';
 
 // MODULE'S VARS
-const NS = 'Fl32_Teq_User_Back_Service_Sign_Out';
+const NS = 'Fl32_Teq_User_Back_WAPI_Sign_Out';
 
 /**
  * @implements TeqFw_Web_Back_Api_WAPI_IFactory
  * @deprecated sign out is not used int he app
  */
-export default class Fl32_Teq_User_Back_Service_Sign_Out {
+export default class Fl32_Teq_User_Back_WAPI_Sign_Out {
 
     constructor(spec) {
         /** @type {Fl32_Teq_User_Back_Defaults} */
@@ -22,8 +22,8 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
         const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
-        /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_Out.Factory} */
-        const route = spec['Fl32_Teq_User_Shared_Service_Route_Sign_Out#Factory$'];
+        /** @type {Fl32_Teq_User_Shared_WAPI_Sign_Out.Factory} */
+        const route = spec['Fl32_Teq_User_Shared_WAPI_Sign_Out#Factory$'];
         /** @type {Function|TeqFw_Web_Back_Util.cookieClear} */
         const cookieClear = spec['TeqFw_Web_Back_Util#cookieClear'];
         /** @type {TeqFw_Web_Back_Model_Address} */
@@ -42,7 +42,7 @@ export default class Fl32_Teq_User_Back_Service_Sign_Out {
         this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_WAPI_Context} context
+             * @param {TeqFw_Web_Back_Handler_WAPI_Context} context
              * @return Promise<void>
              */
             async function service(context) {

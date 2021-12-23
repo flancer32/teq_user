@@ -1,43 +1,43 @@
 /**
  * Route data for service to get profile for currently authenticated user.
- * @namespace Fl32_Teq_User_Shared_Service_Route_Current
+ * @namespace Fl32_Teq_User_Shared_WAPI_Current
  */
 // MODULE'S VARS
-const NS = 'Fl32_Teq_User_Shared_Service_Route_Current';
+const NS = 'Fl32_Teq_User_Shared_WAPI_Current';
 
 // MODULE'S CLASSES
 /**
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Current
+ * @memberOf Fl32_Teq_User_Shared_WAPI_Current
  */
 class Request {}
 
 /**
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Current
+ * @memberOf Fl32_Teq_User_Shared_WAPI_Current
  */
 class Response {
-    /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
+    /** @type {Fl32_Teq_User_Shared_Dto_User} */
     user;
 }
 
 /**
  * Factory to create new DTOs and get route address.
- * @memberOf Fl32_Teq_User_Shared_Service_Route_Current
- * @implements TeqFw_Web_Back_Api_Service_IRoute
+ * @memberOf Fl32_Teq_User_Shared_WAPI_Current
+ * @implements TeqFw_Web_Back_Api_WAPI_IRoute
  */
 class Factory {
     constructor(spec) {
         // EXTRACT DEPS
         /** @type {Fl32_Teq_User_Shared_Defaults} */
         const DEF = spec['Fl32_Teq_User_Shared_Defaults$'];
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
-        const DUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
-        /** @type {Fl32_Teq_User_Shared_Service_Dto_User.Factory} */
-        const fUser = spec['Fl32_Teq_User_Shared_Service_Dto_User#Factory$'];
+        /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
+        const DUser = spec['Fl32_Teq_User_Shared_Dto_User#'];
+        /** @type {Fl32_Teq_User_Shared_Dto_User.Factory} */
+        const fUser = spec['Fl32_Teq_User_Shared_Dto_User#Factory$'];
 
         // DEFINE INSTANCE METHODS
         /**
          * @param {Request|null} data
-         * @return {Fl32_Teq_User_Shared_Service_Route_Current.Request}
+         * @return {Fl32_Teq_User_Shared_WAPI_Current.Request}
          */
         this.createReq = function (data = null) {
             return new Request();
@@ -45,7 +45,7 @@ class Factory {
 
         /**
          * @param {Response|null} data
-         * @return {Fl32_Teq_User_Shared_Service_Route_Current.Response}
+         * @return {Fl32_Teq_User_Shared_WAPI_Current.Response}
          */
         this.createRes = function (data = null) {
             const res = new Response();

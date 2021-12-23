@@ -92,7 +92,7 @@ export default class Fl32_Teq_User_Back_Handler_Session {
                     if (sess) {
                         const userId = sess.user_ref;
                         const dateInit = sess.date_created;
-                        /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
+                        /** @type {Fl32_Teq_User_Shared_Dto_User} */
                         const user = await procLoad({trx, userId});
                         user.dateLoggedIn = dateInit;
                         // get parent data

@@ -1,17 +1,17 @@
 /**
  * Service to get referral link data (exp. date and parent data).
  *
- * @namespace Fl32_Teq_User_Back_Service_RefLink_Get
+ * @namespace Fl32_Teq_User_Back_WAPI_RefLink_Get
  */
 // MODULE'S IMPORT
 import {constants as H2} from 'http2';
 // MODULE'S VARS
-const NS = 'Fl32_Teq_User_Back_Service_RefLink_Get';
+const NS = 'Fl32_Teq_User_Back_WAPI_RefLink_Get';
 
 /**
  * @implements TeqFw_Web_Back_Api_WAPI_IFactory
  */
-export default class Fl32_Teq_User_Back_Service_RefLink_Get {
+export default class Fl32_Teq_User_Back_WAPI_RefLink_Get {
 
     constructor(spec) {
         // EXTRACT DEPS
@@ -19,16 +19,16 @@ export default class Fl32_Teq_User_Back_Service_RefLink_Get {
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
         const rdb = spec['TeqFw_Db_Back_RDb_IConnect$'];
-        /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Factory} */
-        const route = spec['Fl32_Teq_User_Shared_Service_Route_RefLink_Get#Factory$'];
+        /** @type {Fl32_Teq_User_Shared_WAPI_RefLink_Get.Factory} */
+        const route = spec['Fl32_Teq_User_Shared_WAPI_RefLink_Get#Factory$'];
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process} */
         const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$'];
         /** @function {@type Fl32_Teq_User_Back_Process_Referral_Link_Get.process} */
         const procGet = spec['Fl32_Teq_User_Back_Process_Referral_Link_Get$'];
         /** @function {@type Fl32_Teq_User_Back_Process_User_Load.process} */
         const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$'];
-        /** @type {Fl32_Teq_User_Shared_Service_Dto_RefLink.Factory} */
-        const fRefLink = spec['Fl32_Teq_User_Shared_Service_Dto_RefLink#Factory$'];
+        /** @type {Fl32_Teq_User_Shared_Dto_RefLink.Factory} */
+        const fRefLink = spec['Fl32_Teq_User_Shared_Dto_RefLink#Factory$'];
 
         // DEFINE INSTANCE METHODS
 
@@ -37,16 +37,16 @@ export default class Fl32_Teq_User_Back_Service_RefLink_Get {
         this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_WAPI_Context} context
+             * @param {TeqFw_Web_Back_Handler_WAPI_Context} context
              * @return Promise<void>
              */
             async function service(context) {
                 // DEFINE INNER FUNCTIONS
 
                 // MAIN FUNCTIONALITY
-                /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Request} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_RefLink_Get.Request} */
                 const req = context.getInData();
-                /** @type {Fl32_Teq_User_Shared_Service_Route_RefLink_Get.Response} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_RefLink_Get.Response} */
                 const res = context.getOutData();
                 //
                 const trx = await rdb.startTransaction();

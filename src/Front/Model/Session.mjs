@@ -9,8 +9,8 @@ export default class Fl32_Teq_User_Front_Model_Session {
         const fUser = spec['Fl32_Teq_User_Front_Dto_User#Factory$'];
         /** @type {TeqFw_Web_Front_WAPI_Gate} */
         const gate = spec['TeqFw_Web_Front_WAPI_Gate$'];
-        /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Factory} */
-        const routeCurrent = spec['Fl32_Teq_User_Shared_Service_Route_Current#Factory$'];
+        /** @type {Fl32_Teq_User_Shared_WAPI_Current.Factory} */
+        const routeCurrent = spec['Fl32_Teq_User_Shared_WAPI_Current#Factory$'];
 
         // DEFINE WORKING VARS
         /** @type {Fl32_Teq_User_Front_Dto_User} */
@@ -39,10 +39,10 @@ export default class Fl32_Teq_User_Front_Model_Session {
          * @return {Promise<void>}
          */
         this.init = async function () {
-            /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Request} */
+            /** @type {Fl32_Teq_User_Shared_WAPI_Current.Request} */
             const req = routeCurrent.createReq();
             // noinspection JSValidateTypes
-            /** @type {Fl32_Teq_User_Shared_Service_Route_Current.Response} */
+            /** @type {Fl32_Teq_User_Shared_WAPI_Current.Response} */
             const res = await gate.send(req, routeCurrent);
             if (res) this.parseDataSource(res);
         };
@@ -50,7 +50,7 @@ export default class Fl32_Teq_User_Front_Model_Session {
         /**
          * Convert service response DTO to model DTO and make it reactive.
          *
-         * @param {Fl32_Teq_User_Shared_Service_Route_Current.Response} data
+         * @param {Fl32_Teq_User_Shared_WAPI_Current.Response} data
          */
         this.parseDataSource = function (data) {
             if (data.user) {

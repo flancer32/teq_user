@@ -1,15 +1,15 @@
 /**
  * List users.
  *
- * @namespace Fl32_Teq_User_Back_Service_List
+ * @namespace Fl32_Teq_User_Back_WAPI_List
  */
 // MODULE'S VARS
-const NS = 'Fl32_Teq_User_Back_Service_List';
+const NS = 'Fl32_Teq_User_Back_WAPI_List';
 
 /**
  * @implements TeqFw_Web_Back_Api_WAPI_IFactory
  */
-export default class Fl32_Teq_User_Back_Service_List {
+export default class Fl32_Teq_User_Back_WAPI_List {
 
     constructor(spec) {
         // EXTRACT DEPS
@@ -17,10 +17,10 @@ export default class Fl32_Teq_User_Back_Service_List {
         const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
         /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
         const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
-        /** @type {Fl32_Teq_User_Shared_Service_Route_List.Factory} */
-        const route = spec['Fl32_Teq_User_Shared_Service_Route_List#Factory$'];
-        /** @type {typeof Fl32_Teq_User_Shared_Service_Dto_User} */
-        const User = spec['Fl32_Teq_User_Shared_Service_Dto_User#'];
+        /** @type {Fl32_Teq_User_Shared_WAPI_List.Factory} */
+        const route = spec['Fl32_Teq_User_Shared_WAPI_List#Factory$'];
+        /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */
+        const User = spec['Fl32_Teq_User_Shared_Dto_User#'];
         /** @type {TeqFw_User_Back_Store_RDb_Schema_User} */
         const metaUser = spec['TeqFw_User_Back_Store_RDb_Schema_User$'];
         /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Profile} */
@@ -55,7 +55,7 @@ export default class Fl32_Teq_User_Back_Service_List {
         this.getService = function () {
             // DEFINE INNER FUNCTIONS
             /**
-             * @param {TeqFw_Web_Back_Api_WAPI_Context} context
+             * @param {TeqFw_Web_Back_Handler_WAPI_Context} context
              * @return Promise<void>
              */
             async function service(context) {
@@ -63,7 +63,7 @@ export default class Fl32_Teq_User_Back_Service_List {
                 /**
                  * Select data for all users w/o conditions.
                  * @param {TeqFw_Db_Back_RDb_ITrans} trx
-                 * @returns {Promise<Object<Number, Fl32_Teq_User_Shared_Service_Dto_User>>}
+                 * @returns {Promise<Object<Number, Fl32_Teq_User_Shared_Dto_User>>}
                  */
                 async function selectUsers(trx) {
                     // DEFINE WORKING VARS / PROPS
@@ -76,7 +76,7 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                     /**
                      * @param {TeqFw_Db_Back_RDb_ITrans} trx
-                     * @param {Object.<number, Fl32_Teq_User_Shared_Service_Dto_User>} users
+                     * @param {Object.<number, Fl32_Teq_User_Shared_Dto_User>} users
                      * @returns {Promise<void>}
                      */
                     async function populateWithEmails(trx, users) {
@@ -94,7 +94,7 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                     /**
                      * @param {TeqFw_Db_Back_RDb_ITrans} trx
-                     * @param {Object.<number, Fl32_Teq_User_Shared_Service_Dto_User>} users
+                     * @param {Object.<number, Fl32_Teq_User_Shared_Dto_User>} users
                      * @returns {Promise<void>}
                      */
                     async function populateWithPhones(trx, users) {
@@ -112,7 +112,7 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                     /**
                      * @param trx
-                     * @returns {Promise<Object.<number, Fl32_Teq_User_Shared_Service_Dto_User>>}
+                     * @returns {Promise<Object.<number, Fl32_Teq_User_Shared_Dto_User>>}
                      */
                     async function getUsers(trx) {
                         const result = {};
@@ -139,7 +139,7 @@ export default class Fl32_Teq_User_Back_Service_List {
 
                         const rows = await query;
                         for (const one of rows) {
-                            /** @type {Fl32_Teq_User_Shared_Service_Dto_User} */
+                            /** @type {Fl32_Teq_User_Shared_Dto_User} */
                             const item = Object.assign(new User(), one);
                             result[item.id] = item;
                         }
@@ -156,9 +156,9 @@ export default class Fl32_Teq_User_Back_Service_List {
                 }
 
                 // MAIN FUNCTIONALITY
-                /** @type {Fl32_Teq_User_Shared_Service_Route_List.Request} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_List.Request} */
                 // const req = context.getInData();
-                /** @type {Fl32_Teq_User_Shared_Service_Route_List.Response} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_List.Response} */
                 const res = context.getOutData();
                 //
                 const trx = await conn.startTransaction();

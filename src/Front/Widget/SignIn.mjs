@@ -43,8 +43,8 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
     const session = spec['Fl32_Teq_User_Front_Model_Session$'];
     /** @type {TeqFw_Web_Front_WAPI_Gate} */
     const gate = spec['TeqFw_Web_Front_WAPI_Gate$'];
-    /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Factory} */
-    const route = spec['Fl32_Teq_User_Shared_Service_Route_Sign_In#Factory$'];
+    /** @type {Fl32_Teq_User_Shared_WAPI_Sign_In.Factory} */
+    const route = spec['Fl32_Teq_User_Shared_WAPI_Sign_In#Factory$'];
     /** @type {Function|Fl32_Bwl_Front_Layout_Centered} */
     const layoutCentered = spec['Fl32_Bwl_Front_Layout_Centered$'];
 
@@ -71,10 +71,10 @@ function Fl32_Teq_User_Front_Widget_SignIn(spec) {
         },
         methods: {
             async actSubmit() {
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Request} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_Sign_In.Request} */
                 const req = route.createReq(this.data);
                 // noinspection JSValidateTypes
-                /** @type {Fl32_Teq_User_Shared_Service_Route_Sign_In.Response} */
+                /** @type {Fl32_Teq_User_Shared_WAPI_Sign_In.Response} */
                 const res = await gate.send(req, route);
                 if (res) {
                     await session.init();
