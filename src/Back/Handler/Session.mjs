@@ -13,7 +13,7 @@ const NS = 'Fl32_Teq_User_Back_Handler_Session';
 /**
  * Factory to setup execution context and to create handler.
  *
- * @implements TeqFw_Web_Back_Api_Request_IHandler
+ * @implements TeqFw_Web_Back_Api_Dispatcher_IHandler
  */
 export default class Fl32_Teq_User_Back_Handler_Session {
     constructor(spec) {
@@ -158,7 +158,7 @@ export default class Fl32_Teq_User_Back_Handler_Session {
          * Process all requests.
          * @return {boolean}
          */
-        this.requestIsMine = function ({}) {
+        this.canProcess = function ({}) {
             return true;
         }
 
