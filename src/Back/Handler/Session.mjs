@@ -26,12 +26,12 @@ export default class Fl32_Teq_User_Back_Handler_Session {
         const cache = spec['Fl32_Teq_User_App_Cache_Session$'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
         const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
-        /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
-        const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+        /** @type {TeqFw_Db_Back_Api_RDb_CrudEngine} */
+        const crud = spec['TeqFw_Db_Back_Api_RDb_CrudEngine$'];
         /** @type {Fl32_Teq_User_Back_Process_User_Load.process|function} */
         const procLoad = spec['Fl32_Teq_User_Back_Process_User_Load$'];
-        /** @type {TeqFw_Web_Back_Model_Address} */
-        const mAddr = spec['TeqFw_Web_Back_Model_Address$'];
+        /** @type {TeqFw_Web_Back_Mod_Address} */
+        const mAddr = spec['TeqFw_Web_Back_Mod_Address$'];
         /** @type {Function|TeqFw_Web_Back_Util.cookieClear} */
         const cookieClear = spec['TeqFw_Web_Back_Util#cookieClear'];
         /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session} */

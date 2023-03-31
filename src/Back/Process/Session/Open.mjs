@@ -8,8 +8,8 @@ export default class Fl32_Teq_User_Back_Process_Session_Open {
     constructor(spec) {
         /** @type {Fl32_Teq_User_Back_Defaults} */
         const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
-        /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
-        const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+        /** @type {TeqFw_Db_Back_Api_RDb_CrudEngine} */
+        const crud = spec['TeqFw_Db_Back_Api_RDb_CrudEngine$'];
         /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session} */
         const metaSess = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Session$'];
 

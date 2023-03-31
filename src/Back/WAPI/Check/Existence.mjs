@@ -15,8 +15,8 @@ export default class Fl32_Teq_User_Back_WAPI_Check_Existence {
         // EXTRACT DEPS
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
         const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
-        /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
-        const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+        /** @type {TeqFw_Db_Back_Api_RDb_CrudEngine} */
+        const crud = spec['TeqFw_Db_Back_Api_RDb_CrudEngine$'];
         /** @type {typeof Fl32_Teq_User_Shared_WAPI_Check_Existence.Request} */
         const Request = spec['Fl32_Teq_User_Shared_WAPI_Check_Existence#Request'];
         /** @type {Fl32_Teq_User_Shared_WAPI_Check_Existence.Factory} */

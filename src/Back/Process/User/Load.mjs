@@ -15,8 +15,8 @@ const NS = 'Fl32_Teq_User_Back_Process_User_Load';
  * @memberOf Fl32_Teq_User_Back_Process_User_Load
  */
 function Factory(spec) {
-    /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
-    const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+    /** @type {TeqFw_Db_Back_Api_RDb_CrudEngine} */
+    const crud = spec['TeqFw_Db_Back_Api_RDb_CrudEngine$'];
     /** @type {Fl32_Teq_User_Back_Store_RDb_Query_GetUsers.queryBuilder|function}*/
     const qbGetUsers = spec['Fl32_Teq_User_Back_Store_RDb_Query_GetUsers$'];
     /** @type {typeof Fl32_Teq_User_Shared_Dto_User} */

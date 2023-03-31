@@ -23,16 +23,16 @@ export default class Fl32_Teq_User_Back_WAPI_Sign_In {
         const logger = spec['TeqFw_Core_Shared_Logger$'];
         /** @type {TeqFw_Db_Back_RDb_IConnect} */
         const conn = spec['TeqFw_Db_Back_RDb_IConnect$'];
-        /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
-        const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+        /** @type {TeqFw_Db_Back_Api_RDb_CrudEngine} */
+        const crud = spec['TeqFw_Db_Back_Api_RDb_CrudEngine$'];
         /** @type {Function|TeqFw_Web_Back_Util.cookieCreate} */
         const cookieCreate = spec['TeqFw_Web_Back_Util#cookieCreate'];
         /** @type {Fl32_Teq_User_Back_Process_Session_Open} */
         const procSessionOpen = spec['Fl32_Teq_User_Back_Process_Session_Open$'];
         /** @type {Fl32_Teq_User_Shared_WAPI_Sign_In.Factory} */
         const route = spec['Fl32_Teq_User_Shared_WAPI_Sign_In#Factory$'];
-        /** @type {TeqFw_Web_Back_Model_Address} */
-        const mAddr = spec['TeqFw_Web_Back_Model_Address$'];
+        /** @type {TeqFw_Web_Back_Mod_Address} */
+        const mAddr = spec['TeqFw_Web_Back_Mod_Address$'];
         /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password} */
         const metaAuthPass = spec['Fl32_Teq_User_Back_Store_RDb_Schema_Auth_Password$'];
 

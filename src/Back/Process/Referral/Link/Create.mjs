@@ -21,8 +21,8 @@ const LIFETIME_DAY = 1;
  */
 function Factory(spec) {
     // PARSE INPUT & DEFINE WORKING VARS
-    /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
-    const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+    /** @type {TeqFw_Db_Back_Api_RDb_CrudEngine} */
+    const crud = spec['TeqFw_Db_Back_Api_RDb_CrudEngine$'];
     /** @type {Fl32_Teq_User_Back_Process_Referral_Link_CleanUp.process|function} */
     const procCleanUp = spec['Fl32_Teq_User_Back_Process_Referral_Link_CleanUp$'];
     /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Ref_Link} */

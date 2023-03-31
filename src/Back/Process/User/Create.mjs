@@ -20,8 +20,8 @@ const NS = 'Fl32_Teq_User_Back_Process_User_Create';
 function Factory(spec) {
     /** @type {Fl32_Teq_User_Back_Defaults} */
     const DEF = spec['Fl32_Teq_User_Back_Defaults$'];
-    /** @type {TeqFw_Db_Back_Api_RDb_ICrudEngine} */
-    const crud = spec['TeqFw_Db_Back_Api_RDb_ICrudEngine$'];
+    /** @type {TeqFw_Db_Back_Api_RDb_CrudEngine} */
+    const crud = spec['TeqFw_Db_Back_Api_RDb_CrudEngine$'];
     /** @type {TeqFw_User_Back_Store_RDb_Schema_User} */
     const metaUser = spec['TeqFw_User_Back_Store_RDb_Schema_User$'];
     /** @type {Fl32_Teq_User_Back_Store_RDb_Schema_Profile} */
